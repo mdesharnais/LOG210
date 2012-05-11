@@ -1,0 +1,20 @@
+Client:
+    Personne qui achète un bien ou un service.
+
+Commis:
+    Employé subalterne dans un commerce.
+
+Réservation:
+    Note précisant qu'un client a l'usage exclusif d'une chambre à un moment donné.
+
+Agenda:
+    Liste de toutes les réservation.
+
+Hôtel:
+    Entité offrant une liste de chambres classées par catégorie.
+
+Chambres:
+    Pièce d'une habitation où l'on dort.
+
+Categorie:
+    Classe dans laquelle ont répartit des éléments ayant des caractéristiques communes.
