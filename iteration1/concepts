@@ -1,0 +1,7 @@
+Client (Rôle)
+Commis (Rôle)
+Réservation (Transaction d'affaire)
+Agenda (Ce avec quoi la transaction est enregistrée & Conteneur)
+Hôtel (Lieu & Catalogue)
+Chambres (Produit d'une transaction)
+Catégorie (Description d'une chose)
