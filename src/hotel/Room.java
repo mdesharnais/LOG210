@@ -31,7 +31,7 @@ public class Room {
 	// --------------------------------------------------	
 	// Inner class
 
-	public class Categorie {
+	public static class Categorie {
 		// --------------------------------------------------
 		// Constructor(s)
 		

@@ -48,6 +48,11 @@ public class Reservation {
 		departure = value;
 	}
 	
+	public void setClerk(User value)
+	{
+		clerk = value;
+	}
+	
 	// --------------------------------------------------
 	// Method(s)
 	
@@ -69,5 +74,5 @@ public class Reservation {
 	private int             confirmationNumber;
 	private Client          client;
 	private User            clerk;
-	private ArrayList<Room> rooms;
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 }
