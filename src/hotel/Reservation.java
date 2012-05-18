@@ -1,7 +1,7 @@
 package hotel;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Reservation {
 	// --------------------------------------------------
@@ -56,23 +56,23 @@ public class Reservation {
 	// --------------------------------------------------
 	// Method(s)
 	
-	public void addRoom(Room value)
+	public void addDetail(ReservationDetail value)
 	{
-		rooms.add(value);
+		details.add(value);
 	}
 	
-	public void removeRoom(Room value)
+	public void removeDetail(ReservationDetail value)
 	{
-		rooms.remove(value);
+		details.remove(value);
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Date            arrival;
-	private Date            departure; 
-	private int             confirmationNumber;
-	private Client          client;
-	private User            clerk;
-	private ArrayList<Room> rooms = new ArrayList<Room>();
+	private Date                         arrival;
+	private Date                         departure; 
+	private int                          confirmationNumber;
+	private Client                       client;
+	private User                         clerk;
+	private ArrayList<ReservationDetail> details;
 }

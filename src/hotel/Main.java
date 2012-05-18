@@ -29,7 +29,6 @@ public class Main {
 		
 		re.setArrival(new Date());
 		re.setDeparture(new Date());
-		re.addRoom(ro);
 		re.setClerk(u);
 		System.out.println(re.getArrival());
 		System.out.println(re.getDeparture());
