@@ -4,10 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -19,15 +19,13 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import hotel.ReservationDetail;
-import hotel.ReservationDetailList;
 import hotel.Room;
 import hotel.Room.Categorie;
-import hotel.util.Observable;
+import hotel.util.ObservableList;
 
 public class TestGui extends JPanel {
 	public TestGui() {
 		super(new BorderLayout());
-		ArrayList<Room.Categorie> v = new ArrayList<Room.Categorie>();
 		
 		comboBox = new JComboBox();
 		comboBox.addItem(new Room.Categorie("Cheap"));
@@ -49,7 +47,7 @@ public class TestGui extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         
         
-        JTable table = new JTable(new MyTableModel(reservationDetails));
+        table = new JTable(new MyTableModel(reservationDetails));
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
 
@@ -59,6 +57,9 @@ public class TestGui extends JPanel {
         //Add the scroll pane to this panel.
         add(scrollPane);
         
+        JPanel buttonsPannel = new JPanel();
+        buttonsPannel.setLayout(new BoxLayout(buttonsPannel, BoxLayout.LINE_AXIS));
+        
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
 			@Override
@@ -67,7 +68,20 @@ public class TestGui extends JPanel {
 			}
         });
         
-        add(addButton, BorderLayout.PAGE_END);
+        buttonsPannel.add(addButton);
+        
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				reservationDetails.remove(table.getSelectedRow());
+			}
+        });
+        
+        buttonsPannel.add(removeButton);
+        
+        add(buttonsPannel, BorderLayout.PAGE_END);
+        
 	}
 	
 	class MyTableModel extends AbstractTableModel {
@@ -78,11 +92,18 @@ public class TestGui extends JPanel {
 		// |           |          |
 		
         private String[] columnNames = {"Categorie", "Quantite"};
-        private ReservationDetailList data; 
+        private ObservableList<ReservationDetail> data; 
         
-        public MyTableModel(ReservationDetailList reservationDetails) {
+        public MyTableModel(ObservableList<ReservationDetail> reservationDetails) {
         	data = reservationDetails;
         	data.AddElementAddedListener(new Observer() {
+				@Override
+				public void update(java.util.Observable arg0, Object arg1) {
+					fireTableDataChanged();
+				}
+        	});
+        	
+        	data.AddElementRemovedListener(new Observer() {
 				@Override
 				public void update(java.util.Observable arg0, Object arg1) {
 					fireTableDataChanged();
@@ -131,18 +152,10 @@ public class TestGui extends JPanel {
             return result;
         }
 
-        /*
-         * Don't need to implement this method unless your table's
-         * editable.
-         */
         public boolean isCellEditable(int row, int col) {
             return true;
         }
 
-        /*
-         * Don't need to implement this method unless your table's
-         * data can change.
-         */
         public void setValueAt(Object value, int row, int col) {
         	ReservationDetail detail = data.get(row);
         	
@@ -156,7 +169,8 @@ public class TestGui extends JPanel {
     }
 	
 	private JComboBox comboBox;
-	private ReservationDetailList reservationDetails = new ReservationDetailList();
+	private JTable    table;
+	private ObservableList<ReservationDetail> reservationDetails = new ObservableList<ReservationDetail>();
 	
 	private static void createAndShowGUI() {
         //Create and set up the window.
