@@ -21,7 +21,7 @@ public class CategoriesList
 
 	@Override
 	public Iterator<Categorie> iterator() {
-		return ;
+		return categories.iterator();
 	}
 	
 	// --------------------------------------------------

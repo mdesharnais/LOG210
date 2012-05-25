@@ -35,12 +35,28 @@ public class Room {
 		// --------------------------------------------------
 		// Constructor(s)
 		
+		public Categorie()
+		{
+			this("");
+		}
+		
+		public Categorie(String categorieName)
+		{
+			setName(categorieName);
+			id = ++s_lastId;
+		}
+		
 		// --------------------------------------------------
 		// Accessor(s)
 		
 		public String getName()
 		{
 			return name;
+		}
+		
+		public int getId()
+		{
+			return id;
 		}
 		
 		// --------------------------------------------------
@@ -54,9 +70,16 @@ public class Room {
 		// --------------------------------------------------
 		// Method(s)
 		
+		public String toString()
+		{
+			return name;
+		}
+		
 		// --------------------------------------------------
 		// Attribute(s)
 		
-		private String name;
+		private String     name;
+		private int        id;
+		private static int s_lastId = 0;
 	}
 }
