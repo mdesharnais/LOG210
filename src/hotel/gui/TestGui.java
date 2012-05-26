@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import hotel.Reservation;
 import hotel.ReservationDetail;
 import hotel.Room;
 import hotel.Room.Categorie;
@@ -80,6 +82,17 @@ public class TestGui extends JPanel {
         
         buttonsPannel.add(removeButton);
         
+        JButton testButton = new JButton("test");
+        testButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (!reservationDetails.isEmpty())
+					reservationDetails.get(0).setQuantity(10);
+			}
+        });
+        
+        buttonsPannel.add(testButton);
+        
         add(buttonsPannel, BorderLayout.PAGE_END);
         
 	}
@@ -92,13 +105,30 @@ public class TestGui extends JPanel {
 		// |           |          |
 		
         private String[] columnNames = {"Categorie", "Quantite"};
-        private ObservableList<ReservationDetail> data; 
+        private ObservableList<ReservationDetail> data;
+        private Observer reservationDetailChanged;
         
         public MyTableModel(ObservableList<ReservationDetail> reservationDetails) {
         	data = reservationDetails;
+        	reservationDetailChanged = new Observer() {
+				@Override
+				public void update(Observable o, Object arg) {
+					ReservationDetail obj = (ReservationDetail)o;
+					
+					for (int i = 0; i < data.size(); ++i) {
+						if (obj.getId() == data.get(i).getId())
+							fireTableRowsUpdated(i,i);
+					}
+				}
+    		};
+        	
         	data.AddElementAddedListener(new Observer() {
 				@Override
 				public void update(java.util.Observable arg0, Object arg1) {
+					for (ReservationDetail detail : data) {
+						detail.deleteObserver(reservationDetailChanged);
+		        		detail.addObserver(reservationDetailChanged);
+					}
 					fireTableDataChanged();
 				}
         	});
@@ -109,6 +139,10 @@ public class TestGui extends JPanel {
 					fireTableDataChanged();
 				}
         	});
+        	
+        	for (ReservationDetail detail : data) {
+        		detail.addObserver(reservationDetailChanged);
+        	}
         }
 
         public int getColumnCount() {
@@ -129,7 +163,7 @@ public class TestGui extends JPanel {
         	
             switch (col) {
             	case 0: result = detail.getCategorie(); break;
-            	case 1: result = detail.getCount(); break;
+            	case 1: result = detail.getQuantity();  break;
             }
             
             return result;
@@ -160,8 +194,8 @@ public class TestGui extends JPanel {
         	ReservationDetail detail = data.get(row);
         	
             switch (col) {
-        		case 0: detail.setCaterorie((Categorie)value); break;
-        		case 1: detail.setCount(((Integer)value).intValue()); break;
+        		case 0: detail.setCaterorie((Categorie)value);           break;
+        		case 1: detail.setQuantity(((Integer)value).intValue()); break;
             }
         	
             fireTableCellUpdated(row, col);
@@ -171,6 +205,7 @@ public class TestGui extends JPanel {
 	private JComboBox comboBox;
 	private JTable    table;
 	private ObservableList<ReservationDetail> reservationDetails = new ObservableList<ReservationDetail>();
+	private Reservation reservation;
 	
 	private static void createAndShowGUI() {
         //Create and set up the window.

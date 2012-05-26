@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Observer;
 
+
+/**
+ * Container adapter informing listeners when a new element is inserted or remove from the list.
+ *
+ * @param <T> Type of the list elements.
+ */
 public class ObservableList<T>
 	implements List<T> {
 	

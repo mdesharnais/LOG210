@@ -1,20 +1,31 @@
 package hotel;
 
-public class ReservationDetail {
+import java.util.Observable;
+
+public class ReservationDetail
+	extends Observable {
 	// --------------------------------------------------
 	// Constructor(s)
 	
+	public ReservationDetail() {
+		id = ++s_previousId;
+	}
+	
 	// --------------------------------------------------
 	// Accessor(s)
+	
+	public int getId() {
+		return id;
+	}
 	
 	public Room.Categorie getCategorie()
 	{
 		return categorie;
 	}
 	
-	public int getCount()
+	public int getQuantity()
 	{
-		return count;
+		return quantity;
 	}
 	
 	// --------------------------------------------------
@@ -23,11 +34,15 @@ public class ReservationDetail {
 	public void setCaterorie(Room.Categorie value)
 	{
 		categorie = value;
+		setChanged();
+		notifyObservers(this);
 	}
 	
-	public void setCount(int value)
+	public void setQuantity(int value)
 	{
-		count = value;
+		quantity = value;
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	// --------------------------------------------------
@@ -37,5 +52,7 @@ public class ReservationDetail {
 	// Attribute(s)
 	
 	private Room.Categorie categorie;
-	private int            count;
+	private int            quantity;
+	private int            id;
+	private static int     s_previousId = 0;
 }

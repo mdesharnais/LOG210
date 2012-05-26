@@ -1,5 +1,7 @@
 package hotel;
 
+import hotel.util.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -35,6 +37,10 @@ public class Reservation {
 		return clerk;
 	}
 	
+	public ObservableList<ReservationDetail> getDetails() {
+		return details;
+	}
+	
 	// --------------------------------------------------
 	// Mutators(s)
 	
@@ -56,23 +62,13 @@ public class Reservation {
 	// --------------------------------------------------
 	// Method(s)
 	
-	public void addDetail(ReservationDetail value)
-	{
-		details.add(value);
-	}
-	
-	public void removeDetail(ReservationDetail value)
-	{
-		details.remove(value);
-	}
-	
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Date                         arrival;
-	private Date                         departure; 
-	private int                          confirmationNumber;
-	private Client                       client;
-	private User                         clerk;
-	private ArrayList<ReservationDetail> details;
+	private Date                              arrival;
+	private Date                              departure;
+	private int                               confirmationNumber;
+	private Client                            client;
+	private User                              clerk;
+	private ObservableList<ReservationDetail> details = new ObservableList<ReservationDetail>();
 }
