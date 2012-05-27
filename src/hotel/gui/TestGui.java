@@ -97,6 +97,16 @@ public class TestGui extends JPanel {
         
         buttonsPannel.add(testButton);
         
+        LinkLabel testLinkLabel = new LinkLabel("test");
+        testLinkLabel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(TestGui.this, "test", "test", JOptionPane.INFORMATION_MESSAGE);
+			}
+        });
+        
+        buttonsPannel.add(testLinkLabel);
+        
         add(buttonsPannel, BorderLayout.PAGE_END);
         
 	}
