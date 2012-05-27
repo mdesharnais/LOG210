@@ -27,12 +27,14 @@ import hotel.util.ObservableList;
 
 public class TestGui extends JPanel {
 	public TestGui() {
-		super(new BorderLayout());
+		super(new BorderLayout()); 
 		
-		comboBox = new JComboBox();
-		comboBox.addItem(new Room.Categorie("Cheap"));
-		comboBox.addItem(new Room.Categorie("Normal"));
-		comboBox.addItem(new Room.Categorie("Deluxe"));
+		comboBox = new ComboBox<Room.Categorie>(roomCategories);
+		
+		roomCategories.add(new Room.Categorie("Cheap"));
+		roomCategories.add(new Room.Categorie("Normal"));
+		roomCategories.add(new Room.Categorie("Deluxe"));
+		
 
 		//comboBox.setSelectedIndex(4);
 		comboBox.addActionListener(new ActionListener() {
@@ -88,6 +90,9 @@ public class TestGui extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!reservationDetails.isEmpty())
 					reservationDetails.get(0).setQuantity(10);
+				
+				if (!roomCategories.isEmpty())
+					roomCategories.get(0).setName("test");
 			}
         });
         
@@ -202,10 +207,10 @@ public class TestGui extends JPanel {
         }
     }
 	
-	private JComboBox comboBox;
-	private JTable    table;
+	private JTable                            table;
+	private ComboBox<Room.Categorie>          comboBox;
+	private ObservableList<Room.Categorie>    roomCategories = new ObservableList<Room.Categorie>();
 	private ObservableList<ReservationDetail> reservationDetails = new ObservableList<ReservationDetail>();
-	private Reservation reservation;
 	
 	private static void createAndShowGUI() {
         //Create and set up the window.

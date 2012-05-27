@@ -83,34 +83,48 @@ public class ObservableList<T>
 	@Override
 	public boolean add(T element) {
 		boolean result = data.add(element);
-		elementAdded.notifyObservers(this);
+		elementAdded.notifyObservers(element);
 		return result;
 	}
 	
 	@Override
 	public void add(int index, T element) {
 		data.add(index, element);
-		elementAdded.notifyObservers(this);
+		elementAdded.notifyObservers(element);
 	}
 	
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
-		boolean result = data.addAll(c);
-		elementAdded.notifyObservers(this);
-		return result;
+		if (c.isEmpty())
+			return false;
+		
+		for (T t : c) {
+			data.add(t);
+			elementAdded.notifyObservers(t);
+		}
+		
+		return true;
 	}
 	
 	@Override
 	public boolean addAll(int index, Collection<? extends T> c) {
-		boolean result = data.addAll(index, c);
-		elementAdded.notifyObservers(this);
-		return result;
+		if (c.isEmpty())
+			return false;
+		
+		for (T t : c) {
+			data.add(index++, t);
+			elementAdded.notifyObservers(t);
+		}
+		
+		return true;
 	}
 	
 	@Override
 	public void clear() {
-		data.clear();
-		elementRemoved.notifyObservers(this);
+		for (T t : data) {
+			data.remove(t);
+			elementRemoved.notifyObservers(t);
+		}
 	}
 	
 	@Override
@@ -129,31 +143,47 @@ public class ObservableList<T>
 	}
 	
 	@Override
-	public boolean remove(Object o) {
-		boolean result = data.remove(o);
-		elementRemoved.notifyObservers(this);
+	public boolean remove(Object element) {
+		boolean result = data.remove(element);
+		elementRemoved.notifyObservers(element);
 		return result;
 	}
 	
 	@Override
 	public T remove(int index) {
-		T result = data.remove(index);
-		elementRemoved.notifyObservers(this);
-		return result;
+		T element = data.remove(index);
+		elementRemoved.notifyObservers(element);
+		return element;
 	}
 	
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		boolean result = data.removeAll(c);
-		elementRemoved.notifyObservers(this);
-		return result;
+		boolean listChanged = false;
+		
+		for (Object o : c) {
+			if (data.contains(o)) {
+				data.remove(o);
+				elementRemoved.notifyObservers(o);
+				listChanged = true;
+			}
+		}
+		
+		return listChanged;
 	}
 	
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		boolean result = data.retainAll(c);
-		elementRemoved.notifyObservers(this);
-		return result;
+		boolean listChanged = false;
+		
+		for (Object o : data) {
+			if (!c.contains(o)) {
+				data.remove(o);
+				elementRemoved.notifyObservers(o);
+				listChanged = true;
+			}
+		}
+		
+		return listChanged;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package hotel;
 
+import java.util.Observable;
+
 public class Room {
 	// --------------------------------------------------
 	// Constructor(s)
@@ -31,7 +33,9 @@ public class Room {
 	// --------------------------------------------------	
 	// Inner class
 
-	public static class Categorie {
+	public static class Categorie
+		extends Observable {
+		
 		// --------------------------------------------------
 		// Constructor(s)
 		
@@ -65,6 +69,8 @@ public class Room {
 		public void setName(String value)
 		{
 			name = value;
+			setChanged();
+			notifyObservers(this);
 		}
 		
 		// --------------------------------------------------
