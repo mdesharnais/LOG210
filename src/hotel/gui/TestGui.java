@@ -20,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import hotel.Reservation;
-import hotel.ReservationDetail;
 import hotel.Room;
 import hotel.Room.Categorie;
 import hotel.util.ObservableList;
@@ -68,7 +67,7 @@ public class TestGui extends JPanel {
         addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				reservationDetails.add(new ReservationDetail());
+				reservationDetails.add(new Reservation.Detail());
 			}
         });
         
@@ -110,15 +109,15 @@ public class TestGui extends JPanel {
 		// |           |          |
 		
         private String[] columnNames = {"Categorie", "Quantite"};
-        private ObservableList<ReservationDetail> data;
+        private ObservableList<Reservation.Detail> data;
         private Observer reservationDetailChanged;
         
-        public MyTableModel(ObservableList<ReservationDetail> reservationDetails) {
+        public MyTableModel(ObservableList<Reservation.Detail> reservationDetails) {
         	data = reservationDetails;
         	reservationDetailChanged = new Observer() {
 				@Override
 				public void update(Observable o, Object arg) {
-					ReservationDetail obj = (ReservationDetail)o;
+					Reservation.Detail obj = (Reservation.Detail)o;
 					
 					for (int i = 0; i < data.size(); ++i) {
 						if (obj.getId() == data.get(i).getId())
@@ -130,7 +129,7 @@ public class TestGui extends JPanel {
         	data.AddElementAddedListener(new Observer() {
 				@Override
 				public void update(java.util.Observable arg0, Object arg1) {
-					for (ReservationDetail detail : data) {
+					for (Reservation.Detail detail : data) {
 						detail.deleteObserver(reservationDetailChanged);
 		        		detail.addObserver(reservationDetailChanged);
 					}
@@ -145,7 +144,7 @@ public class TestGui extends JPanel {
 				}
         	});
         	
-        	for (ReservationDetail detail : data) {
+        	for (Reservation.Detail detail : data) {
         		detail.addObserver(reservationDetailChanged);
         	}
         }
@@ -164,7 +163,7 @@ public class TestGui extends JPanel {
 
         public Object getValueAt(int row, int col) {
         	Object result = null;
-        	ReservationDetail detail = data.get(row);
+        	Reservation.Detail detail = data.get(row);
         	
             switch (col) {
             	case 0: result = detail.getCategorie(); break;
@@ -196,7 +195,7 @@ public class TestGui extends JPanel {
         }
 
         public void setValueAt(Object value, int row, int col) {
-        	ReservationDetail detail = data.get(row);
+        	Reservation.Detail detail = data.get(row);
         	
             switch (col) {
         		case 0: detail.setCaterorie((Categorie)value);           break;
@@ -210,7 +209,7 @@ public class TestGui extends JPanel {
 	private JTable                            table;
 	private ComboBox<Room.Categorie>          comboBox;
 	private ObservableList<Room.Categorie>    roomCategories = new ObservableList<Room.Categorie>();
-	private ObservableList<ReservationDetail> reservationDetails = new ObservableList<ReservationDetail>();
+	private ObservableList<Reservation.Detail> reservationDetails = new ObservableList<Reservation.Detail>();
 	
 	private static void createAndShowGUI() {
         //Create and set up the window.
