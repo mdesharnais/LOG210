@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -34,14 +35,15 @@ public class TestGui extends JPanel {
 		roomCategories.add(new Room.Categorie("Normal"));
 		roomCategories.add(new Room.Categorie("Deluxe"));
 		
-
-		//comboBox.setSelectedIndex(4);
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				System.out.println("comboBox actionPerformed");
+				/*
 				JComboBox comboBox = (JComboBox)event.getSource();
 				Room.Categorie categorie = (Room.Categorie)comboBox.getSelectedItem();
 				JOptionPane.showMessageDialog(null, "Room categorie with id " + categorie.getId() + " selected.", "title", JOptionPane.INFORMATION_MESSAGE);
+				*/
 			}
 		});
 
@@ -53,6 +55,7 @@ public class TestGui extends JPanel {
         table = new JTable(new MyTableModel(reservationDetails));
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new ComboBox<Room.Categorie>(roomCategories)));
 
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
@@ -216,9 +219,9 @@ public class TestGui extends JPanel {
         }
     }
 	
-	private JTable                            table;
-	private ComboBox<Room.Categorie>          comboBox;
-	private ObservableList<Room.Categorie>    roomCategories = new ObservableList<Room.Categorie>();
+	private JTable                             table;
+	private ComboBox<Room.Categorie>           comboBox;
+	private ObservableList<Room.Categorie>     roomCategories = new ObservableList<Room.Categorie>();
 	private ObservableList<Reservation.Detail> reservationDetails = new ObservableList<Reservation.Detail>();
 	
 	private static void createAndShowGUI() {
