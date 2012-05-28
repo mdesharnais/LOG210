@@ -5,7 +5,7 @@ package hotel.util;
  * 
  * @see hotel.util.Validator
  */
-public enum Error {
+public enum ValidationError {
 	INVALID_TELEPHONE_NUMBER,
 	STRING_TO_LONG,
 	STRING_TO_SHORT

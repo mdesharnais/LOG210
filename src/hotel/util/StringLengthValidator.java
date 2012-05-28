@@ -1,6 +1,6 @@
 package hotel.util;
 
-public class TelephoneNumberValidator
+public class StringLengthValidator
 	implements Validator {
 
 	// --------------------------------------------------
@@ -17,8 +17,18 @@ public class TelephoneNumberValidator
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public TelephoneNumberValidator value(String str) {
+	public StringLengthValidator value(String str) {
 		value = str;
+		return this;
+	}
+	
+	public StringLengthValidator min(int n) {
+		minLength = n;
+		return this;
+	}
+	
+	public StringLengthValidator max(int n) {
+		maxLength = n;
 		return this;
 	}
 	
@@ -28,5 +38,7 @@ public class TelephoneNumberValidator
 	// --------------------------------------------------
 	// Attribute(s)
 
-	public String value;
+	private String value;
+	private int minLength = 0;
+	private int maxLength = 0;
 }
