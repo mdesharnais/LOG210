@@ -5,6 +5,6 @@ package hotel.util;
  */
 public interface Validator {
 	
-	public Error validate();
+	public ValidationError validate();
 	
 }

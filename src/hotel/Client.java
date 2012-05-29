@@ -1,5 +1,14 @@
 package hotel;
 
+import hotel.util.ErrorIterator;
+import hotel.util.StringLengthValidator;
+import hotel.util.TelephoneNumberValidator;
+import hotel.util.ValidationError;
+import hotel.util.Validator;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Client {
 	// --------------------------------------------------
 	// Constructor(s)
@@ -15,6 +24,14 @@ public class Client {
 	public String getTelephoneNumber()
 	{
 		return telephoneNumber;
+	}
+	
+	public Iterator<ValidationError> errorIterator() {
+		ArrayList<Validator> validators = new ArrayList<Validator>();
+		validators.add(telephoneNumberValidator.value(telephoneNumber));
+		validators.add(nameValidator.value(name));
+		
+		return new ErrorIterator(validators.iterator());
 	}
 	
 	// --------------------------------------------------
@@ -35,17 +52,25 @@ public class Client {
 	// --------------------------------------------------
 	// Method(s)
 	
+<<<<<<< HEAD
 	private boolean validateName(String value) {
 		return true;
 	}
 	
 	private boolean validateTelephoneNumber(String value) {
 		return true;
+=======
+	public void save() {
+		
+>>>>>>> a5ef122b55a6ed4603ccf5141acc1dd60a6a8440
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 	
 	private String name;
-	private String telephoneNumber; 
+	private String telephoneNumber;
+	
+	private TelephoneNumberValidator telephoneNumberValidator = new TelephoneNumberValidator(); 
+	private StringLengthValidator    nameValidator = new StringLengthValidator().max(50);
 }

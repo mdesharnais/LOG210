@@ -1,0 +1,14 @@
+Ce que nous voulons:
+- Une fenêtre doit permettre de modifier un objet.
+- La modification ne doit se propager au reste du système qu'à la demande de l'utilisateur (bouton « enregistrer »).
+- D'autres sections du système doivent permettre d'utiliser cet objet tant que la modification sur celui-ci n'a pas été propagée.
+- Les autres sections du système doivent être prévenus lorsque l'objet est modifié, soit instantannément, soit lors d'une opération nécessitant des données correctes.
+- Les autres sections du système doivent disposer d'un moyen de mettre cet objet à jour.
+
+Solutions envisagées:
+- Copier l'objet, travailler sur cette copie et synchroniser à la sauvegarde.
+- Travailler directement sur l'objet et lui inclure un mécanisme permettant de faire/défaire les différentes modifications.
+- Travailler directement sur l'objet mais inclure dans celui-ci un mécanisme de buffer temporaire.
+- Utiliser une classe proxie ne se synchronisant avec l'objet que lors de la sauvegarde.
+- Travailler en dehors de l'objet et synchroniser à la sauvegarde.
+- Faire passer chaque lecture/écriture de données sur l'objet par un synchronisateur centralisé.
