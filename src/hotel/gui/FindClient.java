@@ -19,7 +19,7 @@ public class FindClient extends javax.swing.JFrame {
 
     /** Creates new form FindClient */
     public FindClient() {
-        Login.initLookAndFeel();
+    	GUI.initLookAndFeel();
         initComponents();
     }
 
@@ -116,13 +116,13 @@ public class FindClient extends javax.swing.JFrame {
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        Login.rf.setVisible(true);
+        GUI.rf.setVisible(true);
     }//GEN-LAST:event_ButtonCancelActionPerformed
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        Login.rf.setVisible(true);
+        GUI.rf.setVisible(true);
     }//GEN-LAST:event_ButtonOkActionPerformed
 
     /**

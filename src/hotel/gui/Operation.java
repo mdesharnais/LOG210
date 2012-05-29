@@ -19,7 +19,7 @@ public class Operation extends javax.swing.JFrame {
 
     /** Creates new form Operation */
     public Operation() {
-        Login.initLookAndFeel();
+        GUI.initLookAndFeel();
         initComponents();
     }
 
@@ -90,7 +90,7 @@ public class Operation extends javax.swing.JFrame {
 
     private void ButtonReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReservationActionPerformed
         // TODO add your handling code here:
-        Login.rl.setVisible(true);
+    	GUI.rl.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_ButtonReservationActionPerformed
 

@@ -22,16 +22,26 @@ public class Client {
 	
 	public void setName(String value)
 	{
-		name = value;
+		if (validateName(value))
+			name = value;
 	}
 	
 	public void setTelephoneNumber(String value)
 	{
-		telephoneNumber = value;
+		if (validateTelephoneNumber(value))
+			telephoneNumber = value;
 	}
 	
 	// --------------------------------------------------
 	// Method(s)
+	
+	private boolean validateName(String value) {
+		return true;
+	}
+	
+	private boolean validateTelephoneNumber(String value) {
+		return true;
+	}
 	
 	// --------------------------------------------------
 	// Attribute(s)

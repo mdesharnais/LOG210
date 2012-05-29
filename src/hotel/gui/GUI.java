@@ -92,5 +92,5 @@ public class GUI {
     public static ReservationList rl = new ReservationList();
     public static Operation o = new Operation();
     public static FindClient fc = new FindClient();
-    public static Client c = new Client();
+    public static ClientForm c = new ClientForm();
 }
