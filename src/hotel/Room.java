@@ -9,7 +9,7 @@ public class Room {
 	// --------------------------------------------------
 	// Accessor(s)
 	
-	public Categorie getCategorie()
+	public Category getCategorie()
 	{
 		return categorie;
 	}
@@ -17,7 +17,7 @@ public class Room {
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public void setCategorie(Categorie value)
+	public void setCategorie(Category value)
 	{
 		categorie = value;
 	}
@@ -28,23 +28,23 @@ public class Room {
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Categorie categorie;
+	private Category categorie;
 	
 	// --------------------------------------------------	
 	// Inner class
 
-	public static class Categorie
+	public static class Category
 		extends Observable {
 		
 		// --------------------------------------------------
 		// Constructor(s)
 		
-		public Categorie()
+		public Category()
 		{
 			this("");
 		}
 		
-		public Categorie(String categorieName)
+		public Category(String categorieName)
 		{
 			setName(categorieName);
 			id = ++s_lastId;

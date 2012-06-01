@@ -22,18 +22,18 @@ import javax.swing.table.AbstractTableModel;
 
 import hotel.Reservation;
 import hotel.Room;
-import hotel.Room.Categorie;
+import hotel.Room.Category;
 import hotel.util.ObservableList;
 
 public class TestGui extends JPanel {
 	public TestGui() {
 		super(new BorderLayout()); 
 		
-		comboBox = new ComboBox<Room.Categorie>(roomCategories);
+		comboBox = new ComboBox<Room.Category>(roomCategories);
 		
-		roomCategories.add(new Room.Categorie("Cheap"));
-		roomCategories.add(new Room.Categorie("Normal"));
-		roomCategories.add(new Room.Categorie("Deluxe"));
+		roomCategories.add(new Room.Category("Cheap"));
+		roomCategories.add(new Room.Category("Normal"));
+		roomCategories.add(new Room.Category("Deluxe"));
 		
 		comboBox.addActionListener(new ActionListener() {
 			@Override
@@ -55,7 +55,7 @@ public class TestGui extends JPanel {
         table = new JTable(new MyTableModel(reservationDetails));
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
-        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new ComboBox<Room.Categorie>(roomCategories)));
+        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new ComboBox<Room.Category>(roomCategories)));
 
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
@@ -196,7 +196,7 @@ public class TestGui extends JPanel {
         	Class result = null;
         	
             switch (col) {
-            	case 0: result = Room.Categorie.class; break;
+            	case 0: result = Room.Category.class; break;
             	case 1: result = Integer.class;        break;
             }
             
@@ -211,7 +211,7 @@ public class TestGui extends JPanel {
         	Reservation.Detail detail = data.get(row);
         	
             switch (col) {
-        		case 0: detail.setCaterorie((Categorie)value);           break;
+        		case 0: detail.setCaterorie((Category)value);           break;
         		case 1: detail.setQuantity(((Integer)value).intValue()); break;
             }
         	
@@ -220,8 +220,8 @@ public class TestGui extends JPanel {
     }
 	
 	private JTable                             table;
-	private ComboBox<Room.Categorie>           comboBox;
-	private ObservableList<Room.Categorie>     roomCategories = new ObservableList<Room.Categorie>();
+	private ComboBox<Room.Category>           comboBox;
+	private ObservableList<Room.Category>     roomCategories = new ObservableList<Room.Category>();
 	private ObservableList<Reservation.Detail> reservationDetails = new ObservableList<Reservation.Detail>();
 	
 	private static void createAndShowGUI() {

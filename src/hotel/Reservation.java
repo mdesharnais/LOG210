@@ -2,7 +2,6 @@ package hotel;
 
 import hotel.util.ObservableList;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 
@@ -12,16 +11,6 @@ public class Reservation {
 	
 	// --------------------------------------------------
 	// Accessor(s)
-	
-	public Date getArrival()
-	{
-		return arrival;
-	}
-	
-	public Date getDeparture()
-	{
-		return departure;
-	}
 	
 	public int getConfirmationNumber()
 	{
@@ -33,11 +22,6 @@ public class Reservation {
 		return client;
 	}
 	
-	public User getClerk()
-	{
-		return clerk;
-	}
-	
 	public ObservableList<Detail> getDetails() {
 		return details;
 	}
@@ -45,19 +29,8 @@ public class Reservation {
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public void setArrival(Date value)
-	{
-		arrival = value;
-	}
-	
-	public void setDeparture(Date value)
-	{
-		departure = value;
-	}
-	
-	public void setClerk(User value)
-	{
-		clerk = value;
+	public void setClient(Client value) {
+		client = value;
 	}
 	
 	// --------------------------------------------------
@@ -66,11 +39,8 @@ public class Reservation {
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Date                   arrival;
-	private Date                   departure;
 	private int                    confirmationNumber;
 	private Client                 client;
-	private User                   clerk;
 	private ObservableList<Detail> details = new ObservableList<Detail>();
 	
 	// --------------------------------------------------
@@ -82,18 +52,10 @@ public class Reservation {
 		// --------------------------------------------------
 		// Constructor(s)
 		
-		public Detail() {
-			id = ++s_previousId;
-		}
-		
 		// --------------------------------------------------
 		// Accessor(s)
 		
-		public int getId() {
-			return id;
-		}
-		
-		public Room.Categorie getCategorie()
+		public Room.Category getCategorie()
 		{
 			return categorie;
 		}
@@ -102,11 +64,21 @@ public class Reservation {
 		{
 			return quantity;
 		}
+	
+		public Date getArrival()
+		{
+			return arrival;
+		}
+		
+		public Date getDeparture()
+		{
+			return departure;
+		}
 		
 		// --------------------------------------------------
 		// Mutators(s)
 		
-		public void setCaterorie(Room.Categorie value)
+		public void setCaterorie(Room.Category value)
 		{
 			categorie = value;
 			setChanged();
@@ -120,15 +92,25 @@ public class Reservation {
 			notifyObservers(this);
 		}
 		
+		public void setArrival(Date value)
+		{
+			arrival = value;
+		}
+		
+		public void setDeparture(Date value)
+		{
+			departure = value;
+		}
+		
 		// --------------------------------------------------
 		// Method(s)
 		
 		// --------------------------------------------------
 		// Attribute(s)
 		
-		private Room.Categorie categorie;
+		private Room.Category categorie;
 		private int            quantity;
-		private int            id;
-		private static int     s_previousId = 0;
+		private Date           arrival;
+		private Date           departure;
 	}
 }

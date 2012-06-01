@@ -1,12 +1,12 @@
 package hotel;
 
-import hotel.Room.Categorie;
+import hotel.Room.Category;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CategoriesList
-	implements Iterable<Room.Categorie> {
+	implements Iterable<Room.Category> {
 	// --------------------------------------------------
 	// Constructor(s)
 	
@@ -20,12 +20,12 @@ public class CategoriesList
 	// Method(s)
 
 	@Override
-	public Iterator<Categorie> iterator() {
+	public Iterator<Category> iterator() {
 		return categories.iterator();
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private ArrayList<Room.Categorie> categories;
+	private ArrayList<Room.Category> categories;
 }

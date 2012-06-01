@@ -2,11 +2,16 @@ package hotel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Agenda
 	implements Iterable<Reservation> {
+	
 	// --------------------------------------------------
 	// Constructor(s)
+	
+	private Agenda() {
+	}
 	
 	// --------------------------------------------------
 	// Accessor(s)
@@ -17,6 +22,10 @@ public class Agenda
 	// --------------------------------------------------
 	// Method(s)
 
+	public static Agenda getInstance() {
+		return instance;
+	}
+	
 	public void save(Reservation value)
 	{
 		reservations.add(value);
@@ -34,6 +43,7 @@ public class Agenda
 	
 	// --------------------------------------------------
 	// Attribute(s)
-	
-	private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+
+	private static Agenda     instance = new Agenda();
+	private List<Reservation> reservations = new ArrayList<Reservation>();
 }

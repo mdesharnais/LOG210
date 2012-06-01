@@ -9,7 +9,7 @@ public class Main {
 		User u = new User();
 		Client c = new Client();
 		Room ro = new Room();
-		Room.Categorie ca = new Room.Categorie();
+		Room.Category ca = new Room.Category();
 		Reservation re = new Reservation();
 		
 		u.setUsername("bob");
