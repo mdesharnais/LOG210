@@ -4,6 +4,11 @@
  */
 package hotel.gui;
 
+import hotel.Reservation;
+import hotel.Reservation.Detail;
+import hotel.Room;
+import hotel.util.ObservableList;
+
 /**
  *
  * @author Marc-Andre
@@ -16,6 +21,57 @@ public class ReservationList extends javax.swing.JFrame {
     public ReservationList() {
     	GUI.initLookAndFeel();
         initComponents();
+
+        /* TEST DATA */
+        Reservation r = new Reservation();
+        Reservation.Detail rd = new Reservation.Detail();
+        Room.Category rc = new Room.Category("Test");
+        
+        r.setClient(new hotel.Client("Gilles", "111 111-1111"));
+        r.setConfirmationNumber(8132437);
+        rd.setArrival(new java.util.Date());
+        rd.setDeparture(new java.util.Date());
+        rd.setQuantity(1);
+        rd.setCaterorie(rc);
+        
+        ObservableList<Reservation.Detail> lrd = r.getDetails();
+        lrd.add(rd);
+        
+        /*java.util.Vector<Object> a = new java.util.Vector<Object>();
+        a.add(r.getConfirmationNumber());
+        a.add(r.getClient().getName() + " - " + r.getClient().getTelephoneNumber());
+        a.add(rd.getArrival());
+        a.add(rd.getDeparture());
+        
+        // to add a row use the model and add a row
+        defaultModel.addRow(a);
+        defaultModel.addRow(a);
+        defaultModel.removeRow(0);*/
+    }
+    
+    public ReservationList(ObservableList<Reservation> reservations) {
+    	for(int i = 0; i < reservations.size(); i++) {
+    		int confirmationNumber;
+    		String client;
+    		java.util.Vector<Object> vector;
+    		
+    		hotel.Reservation currentReservation = reservations.get(i);
+    		ObservableList<Reservation.Detail> lrd = currentReservation.getDetails();
+            
+    		confirmationNumber = currentReservation.getConfirmationNumber();
+            client = currentReservation.getClient().getName() + " - " + currentReservation.getClient().getTelephoneNumber();
+            
+            for(int j = 0; j < lrd.size(); j++) {
+            	vector = new java.util.Vector<Object>();
+            	hotel.Reservation.Detail reservationDetail = lrd.get(j);
+            	
+            	vector.add(confirmationNumber);
+            	vector.add(client);
+            	vector.add(reservationDetail.getArrival());
+            	vector.add(reservationDetail.getDeparture());
+            	defaultModel.addRow(vector);
+            }
+    	}
     }
 
     /**
@@ -28,36 +84,14 @@ public class ReservationList extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableReservationList = new javax.swing.JTable();
         ButtonClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Réservations");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "No confirmation", "Client", "Date d'arrivé", "Date de départ"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        TableReservationList.setModel(defaultModel);
+        jScrollPane1.setViewportView(TableReservationList);
 
         ButtonClose.setText("Fermer");
         ButtonClose.addActionListener(new java.awt.event.ActionListener() {
@@ -101,33 +135,6 @@ public class ReservationList extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReservationList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReservationList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReservationList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReservationList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -140,6 +147,29 @@ public class ReservationList extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonClose;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable TableReservationList;
+    private javax.swing.table.DefaultTableModel defaultModel = new javax.swing.table.DefaultTableModel(
+    		new Object [][] {
+
+            },
+            new String [] {
+                "No confirmation", "Client", "Date d'arrivé", "Date de départ"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
     // End of variables declaration//GEN-END:variables
 }
