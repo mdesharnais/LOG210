@@ -33,6 +33,10 @@ public class Reservation {
 		client = value;
 	}
 	
+	public void setConfirmationNumber(int value) {
+		confirmationNumber = value;
+	}
+	
 	// --------------------------------------------------
 	// Method(s)
 	
