@@ -1,6 +1,7 @@
 package hotel;
 
 import java.util.Date;
+import java.util.Observer;
 
 public class ReservationSystem {
 	
@@ -11,18 +12,26 @@ public class ReservationSystem {
 	// Method(s)
 	
 	public void startNewReservation() {
-		reservation = new Reservation();
 	}
 	
 	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) {
 		Reservation.Detail newLine = new Reservation.Detail();
 		
-		newLine.setCaterorie(Hotel.getInstance().getRoomCategory(categoryID));
+		newLine.setCategory(Hotel.getInstance().getRoomCategory(categoryID));
 		newLine.setQuantity(quantity);
 		newLine.setArrival(arrivalDate);
 		newLine.setDeparture(departureDate);
 		
 		reservation.getDetails().add(newLine);
+	}
+	
+	public void removeLine(int id) {
+		for( Reservation.Detail d : reservation.getDetails()) {
+			if (d.getId() == id) {
+				reservation.getDetails().remove(d);
+				break;
+			}
+		}
 	}
 	
 	public void confirm(String clientName, String clientTelephoneNumber) {
@@ -48,9 +57,21 @@ public class ReservationSystem {
 		}
 	}
 	
+	public void addReservationListener(Observer o) {
+		reservation.addObserver(o);
+	}
+	
+	public void addReservationDetailAddedListener(Observer o) {
+		reservation.getDetails().AddElementAddedListener(o);
+	}
+	
+	public void addReservationDetailRemovedListener(Observer o) {
+		reservation.getDetails().AddElementRemovedListener(o);
+	}
+
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	Reservation reservation;
+	Reservation reservation = new Reservation();
 	boolean     saved;
 }

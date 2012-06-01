@@ -11,6 +11,7 @@ public class Hotel {
 	// Constructor(s)
 	
 	private Hotel() {
+		generateRoomCategories();
 		generateClients();
 	}
 	
@@ -44,18 +45,24 @@ public class Hotel {
 	// --------------------------------------------------
 	// Method(s)
 	
+	private void generateRoomCategories() {
+		roomCategories.add(new Room.Category("Cheap"));
+		roomCategories.add(new Room.Category("Normal"));
+		roomCategories.add(new Room.Category("Deluxe"));
+	}
+	
 	private void generateClients() {
 		clients.add(new Client("Gilles",     "111 111-1111"));
 		clients.add(new Client("Paul",       "222 222-2222"));
 		clients.add(new Client("Robert",     "333 333-3333"));
 		clients.add(new Client("Abraham",    "444 444-4444"));
-		clients.add(new Client("Erménégile", "555 555-5555"));
+		clients.add(new Client("ErmÃ©nÃ©gile", "555 555-5555"));
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private static Hotel        instance = new Hotel();
-	private List<Room.Category> roomCategories = new ArrayList<Room.Category>();
-	private ObservableList<Client>        clients = new ObservableList<Client>();
+	private static Hotel           instance = new Hotel();
+	private List<Room.Category>    roomCategories = new ArrayList<Room.Category>();
+	private ObservableList<Client> clients = new ObservableList<Client>();
 }

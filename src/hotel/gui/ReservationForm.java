@@ -4,15 +4,23 @@
  */
 package hotel.gui;
 
+import hotel.Client;
 import hotel.Reservation;
+import hotel.ReservationSystem;
 import hotel.Room;
 import hotel.Room.Category;
 import hotel.util.ObservableList;
 
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -68,21 +76,46 @@ public class ReservationForm extends javax.swing.JFrame {
         });
 
         TableReservation.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Catégorie", "Quantité", "Date d'arrivé", "Date de départ"
-            }
-        ) {
+            new Object [][] { },
+            new String [] { "ID", "Catégorie", "Quantité", "Date d'arrivé", "Date de départ"}) {
+        	
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                Integer.class, Room.Category.class, String.class, Object.class, Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
+        
+        TableColumn column = TableReservation.getColumnModel().getColumn(0);
+        TableReservation.getColumnModel().removeColumn(column);
+        
+        reservationSystem.addReservationDetailAddedListener(new Observer() {
+			@Override
+			public void update(Observable o, Object arg) {
+				Reservation.Detail detail = (Reservation.Detail) arg;
+				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+				
+				model.addRow(new Object[] {detail.getId(), detail.getCategory(), detail.getQuantity(), detail.getArrival(), detail.getDeparture()});
+			}
+        });
+        
+        reservationSystem.addReservationDetailRemovedListener(new Observer() {
+			@Override
+			public void update(Observable o, Object arg) {
+				Reservation.Detail detail = (Reservation.Detail) arg;
+				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+				
+				for (int i = 0; i < model.getRowCount(); ++i) {
+					if (detail.getId() == (Integer) model.getValueAt(i, 0)) {
+						model.removeRow(i);
+						break;
+					}
+				}
+			}
+        });
+
         jScrollPane1.setViewportView(TableReservation);
 
         ButtonAdd.setText("+");
@@ -107,6 +140,11 @@ public class ReservationForm extends javax.swing.JFrame {
         });
 
         ButtonSave.setText("Enregistrer");
+        ButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,13 +195,27 @@ public class ReservationForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboBoxClientActionPerformed
 
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-        // TODO add your handling code here:
+    	// TODO: Replace with a custom form.
+    	int categoryID = 2;
+    	int quantity = 1;
+    	java.util.Date arrivalDate = new java.util.Date();
+    	java.util.Date departureDate = new java.util.Date();
+    	
+    	reservationSystem.addLine(categoryID, quantity, arrivalDate, departureDate);
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-        // TODO add your handling code here:
+    	javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    	int id = (Integer) model.getValueAt(TableReservation.getSelectedRow(), 0);
+    	
+    	reservationSystem.removeLine(id);
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
+    private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
+    	Client client = ComboBoxClient.getSelectedItem();
+        reservationSystem.confirm(client.getName(), client.getTelephoneNumber());
+    }//GEN-LAST:event_ButtonCloseActionPerformed
+    
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonCloseActionPerformed
@@ -178,33 +230,6 @@ public class ReservationForm extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReservationForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReservationForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReservationForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReservationForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -214,6 +239,8 @@ public class ReservationForm extends javax.swing.JFrame {
             }
         });
     }
+    private hotel.ReservationSystem reservationSystem = new hotel.ReservationSystem();
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAdd;
     private javax.swing.JButton ButtonClose;
