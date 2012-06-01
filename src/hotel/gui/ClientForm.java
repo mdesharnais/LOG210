@@ -124,7 +124,7 @@ public class ClientForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonCloseActionPerformed
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveActionPerformed
-    	java.util.Iterator<ValidationError> errorIterator = client.errorIterator();
+    	java.util.Iterator<hotel.util.ValidationError> errorIterator = client.errorIterator();
     	String errorList = "";
     	
     	while (errorIterator.hasNext()) {

@@ -27,11 +27,11 @@ public class Main {
 		
 		ro.setCategorie(ca);
 		
-		re.setArrival(new Date());
+		/*re.setArrival(new Date());
 		re.setDeparture(new Date());
 		re.setClerk(u);
 		System.out.println(re.getArrival());
-		System.out.println(re.getDeparture());
+		System.out.println(re.getDeparture());*/
 	}
 
 }

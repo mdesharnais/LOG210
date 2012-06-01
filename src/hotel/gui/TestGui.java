@@ -133,8 +133,8 @@ public class TestGui extends JPanel {
 					Reservation.Detail obj = (Reservation.Detail)o;
 					
 					for (int i = 0; i < data.size(); ++i) {
-						if (obj.getId() == data.get(i).getId())
-							fireTableRowsUpdated(i,i);
+						//if (obj.getId() == data.get(i).getId())
+							//fireTableRowsUpdated(i,i);
 					}
 				}
     		};

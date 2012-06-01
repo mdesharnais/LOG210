@@ -52,17 +52,16 @@ public class Client {
 	// --------------------------------------------------
 	// Method(s)
 	
-<<<<<<< HEAD
 	private boolean validateName(String value) {
 		return true;
 	}
 	
 	private boolean validateTelephoneNumber(String value) {
 		return true;
-=======
+	}
+		
 	public void save() {
 		
->>>>>>> a5ef122b55a6ed4603ccf5141acc1dd60a6a8440
 	}
 	
 	// --------------------------------------------------
