@@ -21,7 +21,7 @@ public class Hotel {
 		return instance;
 	}
 	
-	public List<Room.Category> getRoomCategories() {
+	public ObservableList<Room.Category> getRoomCategories() {
 		return roomCategories;
 	}
 	
@@ -56,6 +56,6 @@ public class Hotel {
 	// Attribute(s)
 	
 	private static Hotel        instance = new Hotel();
-	private List<Room.Category> roomCategories = new ArrayList<Room.Category>();
+	private ObservableList<Room.Category> roomCategories = new ObservableList<Room.Category>();
 	private ObservableList<Client>        clients = new ObservableList<Client>();
 }
