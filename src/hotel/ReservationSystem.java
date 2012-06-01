@@ -44,6 +44,7 @@ public class ReservationSystem {
 			
 			reservation.setClient(client);
 			Agenda.getInstance().save(reservation);
+			saved = true;
 		}
 	}
 	

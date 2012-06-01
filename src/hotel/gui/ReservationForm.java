@@ -4,6 +4,16 @@
  */
 package hotel.gui;
 
+import hotel.Reservation;
+import hotel.Room;
+import hotel.Room.Category;
+import hotel.util.ObservableList;
+
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author Marc-Andre
@@ -28,7 +38,8 @@ public class ReservationForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        ComboBoxClient = new javax.swing.JComboBox();
+        //ComboBoxClient = new javax.swing.JComboBox();
+        ComboBoxClient = new hotel.gui.ComboBox<hotel.Client>(hotel.Hotel.getInstance().getClients());
         jScrollPane1 = new javax.swing.JScrollPane();
         TableReservation = new javax.swing.JTable();
         ButtonAdd = new javax.swing.JButton();
@@ -49,7 +60,7 @@ public class ReservationForm extends javax.swing.JFrame {
             }
         });
 
-        ComboBoxClient.setModel(new javax.swing.DefaultComboBoxModel(new String[] { }));
+        //ComboBoxClient.setModel(new javax.swing.DefaultComboBoxModel(new String[] { }));
         ComboBoxClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxClientActionPerformed(evt);
@@ -58,7 +69,7 @@ public class ReservationForm extends javax.swing.JFrame {
 
         TableReservation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-            		{"", "", null, null}
+
             },
             new String [] {
                 "Catégorie", "Quantité", "Date d'arrivé", "Date de départ"
@@ -208,7 +219,7 @@ public class ReservationForm extends javax.swing.JFrame {
     private javax.swing.JButton ButtonClose;
     private javax.swing.JButton ButtonDelete;
     private javax.swing.JButton ButtonSave;
-    private javax.swing.JComboBox ComboBoxClient;
+    private hotel.gui.ComboBox<hotel.Client> ComboBoxClient;
     private com.toedter.calendar.JDateChooser DateChooserArrival;
     private com.toedter.calendar.JDateChooser DateChooserDeparture;
     private javax.swing.JTable TableReservation;

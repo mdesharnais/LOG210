@@ -8,10 +8,20 @@ import hotel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
-public class Client {
+public class Client extends Observable {
 	// --------------------------------------------------
 	// Constructor(s)
+	
+	public Client() {
+		this("", "");
+	}
+	
+	public Client(String name, String telephoneNumber) {
+		this.setName(name);
+		this.setTelephoneNumber(telephoneNumber);
+	}
 	
 	// --------------------------------------------------
 	// Accessor(s)
@@ -62,6 +72,10 @@ public class Client {
 		
 	public void save() {
 		
+	}
+	
+	public String toString() {
+		return getName();
 	}
 	
 	// --------------------------------------------------
