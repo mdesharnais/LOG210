@@ -44,6 +44,7 @@ public class ReservationList extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableReservationList = new javax.swing.JTable();
         ButtonClose = new javax.swing.JButton();
+        ButtonAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Réservations");
@@ -107,6 +108,13 @@ public class ReservationList extends javax.swing.JFrame {
                 ButtonCloseActionPerformed(evt);
             }
         });
+        
+        ButtonAdd.setText("Ajouter");
+        ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAddActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,7 +125,8 @@ public class ReservationList extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ButtonAdd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ButtonClose)))
                 .addContainerGap())
         );
@@ -127,7 +136,9 @@ public class ReservationList extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButtonClose)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonClose)
+                    .addComponent(ButtonAdd))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -135,9 +146,12 @@ public class ReservationList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-        ReservationForm form = new ReservationForm();
-        form.setVisible(true);
     }//GEN-LAST:event_ButtonCloseActionPerformed
+    
+    private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
+    	ReservationForm form = new ReservationForm();
+        form.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -155,6 +169,7 @@ public class ReservationList extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonClose;
+    private javax.swing.JButton ButtonAdd;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable TableReservationList;
     // End of variables declaration//GEN-END:variables
