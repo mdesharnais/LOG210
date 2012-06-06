@@ -90,7 +90,7 @@ public class Operation extends javax.swing.JFrame {
 
     private void ButtonReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReservationActionPerformed
         // TODO add your handling code here:
-    	GUI.rl.setVisible(true);
+    	//GUI.rl.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_ButtonReservationActionPerformed
 

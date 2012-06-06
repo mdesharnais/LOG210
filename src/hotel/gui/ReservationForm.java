@@ -16,6 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -83,11 +84,18 @@ public class ReservationForm extends javax.swing.JFrame {
                 Integer.class, Room.Category.class, String.class, Object.class, Object.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
+            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            	return false;
+            }
         });
-        
+
+        TableReservation.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableColumn column = TableReservation.getColumnModel().getColumn(0);
         TableReservation.getColumnModel().removeColumn(column);
         
@@ -195,29 +203,26 @@ public class ReservationForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboBoxClientActionPerformed
 
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-    	// TODO: Replace with a custom form.
-    	int categoryID = 2;
-    	int quantity = 1;
-    	java.util.Date arrivalDate = new java.util.Date();
-    	java.util.Date departureDate = new java.util.Date();
-    	
-    	reservationSystem.addLine(categoryID, quantity, arrivalDate, departureDate);
+    	ReservationDetailForm.showDialog(this, this, reservationSystem);
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-    	javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-    	int id = (Integer) model.getValueAt(TableReservation.getSelectedRow(), 0);
-    	
-    	reservationSystem.removeLine(id);
+    	int rowIndex = TableReservation.getSelectedRow();
+    	if (rowIndex != -1) {
+    		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    		int id = (Integer) model.getValueAt(rowIndex, 0);
+    		reservationSystem.removeLine(id);
+    	}
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
     	Client client = ComboBoxClient.getSelectedItem();
         reservationSystem.confirm(client.getName(), client.getTelephoneNumber());
+        dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-        // TODO add your handling code here:
+    	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {

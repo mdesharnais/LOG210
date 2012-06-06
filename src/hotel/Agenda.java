@@ -1,11 +1,12 @@
 package hotel;
 
+import hotel.util.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Agenda
-	implements Iterable<Reservation> {
+public class Agenda extends ObservableList<Reservation> {
 	
 	// --------------------------------------------------
 	// Constructor(s)
@@ -28,22 +29,16 @@ public class Agenda
 	
 	public void save(Reservation value)
 	{
-		reservations.add(value);
+		add(value);
 	}
 	
 	public void delete(Reservation value)
 	{
-		reservations.remove(value);
-	}
-	
-	@Override 
-	public Iterator<Reservation> iterator() {
-		return reservations.iterator();
+		remove(value);
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 
-	private static Agenda     instance = new Agenda();
-	private List<Reservation> reservations = new ArrayList<Reservation>();
+	private static Agenda               instance = new Agenda();
 }

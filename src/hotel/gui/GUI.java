@@ -89,7 +89,6 @@ public class GUI {
     final static String LOOKANDFEEL = "System";
     
     public static ReservationForm rf = new ReservationForm();
-    public static ReservationList rl = new ReservationList();
     public static Operation o = new Operation();
     public static FindClient fc = new FindClient();
     public static ClientForm c = new ClientForm();
