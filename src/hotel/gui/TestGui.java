@@ -179,7 +179,7 @@ public class TestGui extends JPanel {
         	Reservation.Detail detail = data.get(row);
         	
             switch (col) {
-            	case 0: result = detail.getCategorie(); break;
+            	case 0: result = detail.getCategory(); break;
             	case 1: result = detail.getQuantity();  break;
             }
             
@@ -211,7 +211,7 @@ public class TestGui extends JPanel {
         	Reservation.Detail detail = data.get(row);
         	
             switch (col) {
-        		case 0: detail.setCaterorie((Category)value);           break;
+        		case 0: detail.setCategory((Category)value);           break;
         		case 1: detail.setQuantity(((Integer)value).intValue()); break;
             }
         	
