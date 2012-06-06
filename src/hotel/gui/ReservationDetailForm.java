@@ -4,18 +4,41 @@
  */
 package hotel.gui;
 
+import hotel.ReservationSystem;
+import hotel.Room;
+
+import java.awt.Component;
+import java.awt.Frame;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marc-Andre
  */
-public class ReservationDetailForm extends javax.swing.JFrame {
+public class ReservationDetailForm extends JDialog {
 
+	private static ReservationDetailForm dialog;
+	private boolean saved = false;
+	private ReservationSystem reservationSystem;
+	
+	public static boolean showDialog(Component frameComponent, Component locationComponent, ReservationSystem system) {
+		Frame frame = JOptionPane.getFrameForComponent(frameComponent);
+		dialog = new ReservationDetailForm(frame, locationComponent, system);
+		dialog.setVisible(true);
+		return dialog.saved;
+	}
+	
     /**
      * Creates new form ReservationDetailForm
      */
-    public ReservationDetailForm() {
+    private ReservationDetailForm(Frame frame, Component locationComponent, ReservationSystem system) {
+    	super(frame, "Détail de réservation", true);
+    	reservationSystem = system;
     	GUI.initLookAndFeel();
         initComponents();
+        setLocationRelativeTo(locationComponent);
     }
 
     /**
@@ -31,7 +54,7 @@ public class ReservationDetailForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        ComboBoxCategorie = new hotel.gui.ComboBox(hotel.Hotel.getInstance().getRoomCategories());
+        ComboBoxCategorie = new hotel.gui.ComboBox<Room.Category>(hotel.Hotel.getInstance().getRoomCategories());
         SpinnerQuantity = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(0, 0, 9999, 1));
         DateArrival = new com.toedter.calendar.JDateChooser();
         DateDeparture = new com.toedter.calendar.JDateChooser();
@@ -50,7 +73,7 @@ public class ReservationDetailForm extends javax.swing.JFrame {
 
         jLabel4.setText("Date de départ:");
 
-        ButtonCancel.setText("Cancel");
+        ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonCancelActionPerformed(evt);
@@ -119,33 +142,19 @@ public class ReservationDetailForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    	javax.swing.JOptionPane.showMessageDialog(this, "test");
+    	reservationSystem.addLine(ComboBoxCategorie.getSelectedItem().getId(), ((Number)SpinnerQuantity.getValue()).intValue(), DateArrival.getDate(), DateDeparture.getDate());
+        saved = true;
+        dispose();
     }
     
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    	this.dispose();
+    	dispose();
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new ReservationDetailForm().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCancel;
     private javax.swing.JButton ButtonOk;
-    private hotel.gui.ComboBox ComboBoxCategorie;
+    private hotel.gui.ComboBox<Room.Category> ComboBoxCategorie;
     private com.toedter.calendar.JDateChooser DateArrival;
     private com.toedter.calendar.JDateChooser DateDeparture;
     private javax.swing.JSpinner SpinnerQuantity;

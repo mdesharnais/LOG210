@@ -28,11 +28,11 @@ public class ReservationList extends javax.swing.JFrame {
         Room.Category rc = new Room.Category("Test");
         
         r.setClient(new hotel.Client("Gilles", "111 111-1111"));
-        r.setConfirmationNumber(8132437);
+        //r.setConfirmationNumber(8132437);
         rd.setArrival(new java.util.Date());
         rd.setDeparture(new java.util.Date());
         rd.setQuantity(1);
-        rd.setCaterorie(rc);
+        rd.setCategory(rc);
         
         ObservableList<Reservation.Detail> lrd = r.getDetails();
         lrd.add(rd);
