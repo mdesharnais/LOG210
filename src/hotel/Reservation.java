@@ -6,14 +6,23 @@ import hotel.util.ObservableList;
 import java.util.Date;
 import java.util.Observable;
 
-public class Reservation extends Observable {
+public class Reservation extends Observable implements Identifiable {
 
 	// --------------------------------------------------
 	// Constructor(s)
 
+	public Reservation() {
+		id = ++s_lastId;
+	}
+	
 	// --------------------------------------------------
 	// Accessor(s)
 
+	@Override
+	public int getId() {
+		return id;
+	}
+	
 	public int getConfirmationNumber() {
 		return confirmationNumber;
 	}
@@ -40,9 +49,11 @@ public class Reservation extends Observable {
 	// --------------------------------------------------
 	// Attribute(s)
 
-	private int confirmationNumber;
+	private int confirmationNumber = 1123581321;
 	private Client client;
 	private ObservableList<Detail> details = new ObservableList<Detail>();
+	private int id;
+	private static int s_lastId = 0;
 
 	// --------------------------------------------------
 	// Attribute(s)

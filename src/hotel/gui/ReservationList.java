@@ -4,6 +4,14 @@
  */
 package hotel.gui;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import hotel.Agenda;
 import hotel.Reservation;
 import hotel.Reservation.Detail;
 import hotel.Room;
@@ -18,60 +26,10 @@ public class ReservationList extends javax.swing.JFrame {
     /**
      * Creates new form ReservationList
      */
-    public ReservationList() {
-    	GUI.initLookAndFeel();
-        initComponents();
-
-        /* TEST DATA */
-        Reservation r = new Reservation();
-        Reservation.Detail rd = new Reservation.Detail();
-        Room.Category rc = new Room.Category("Test");
-        
-        r.setClient(new hotel.Client("Gilles", "111 111-1111"));
-        //r.setConfirmationNumber(8132437);
-        rd.setArrival(new java.util.Date());
-        rd.setDeparture(new java.util.Date());
-        rd.setQuantity(1);
-        rd.setCategory(rc);
-        
-        ObservableList<Reservation.Detail> lrd = r.getDetails();
-        lrd.add(rd);
-        
-        /*java.util.Vector<Object> a = new java.util.Vector<Object>();
-        a.add(r.getConfirmationNumber());
-        a.add(r.getClient().getName() + " - " + r.getClient().getTelephoneNumber());
-        a.add(rd.getArrival());
-        a.add(rd.getDeparture());
-        
-        // to add a row use the model and add a row
-        defaultModel.addRow(a);
-        defaultModel.addRow(a);
-        defaultModel.removeRow(0);*/
-    }
     
     public ReservationList(ObservableList<Reservation> reservations) {
-    	for(int i = 0; i < reservations.size(); i++) {
-    		int confirmationNumber;
-    		String client;
-    		java.util.Vector<Object> vector;
-    		
-    		hotel.Reservation currentReservation = reservations.get(i);
-    		ObservableList<Reservation.Detail> lrd = currentReservation.getDetails();
-            
-    		confirmationNumber = currentReservation.getConfirmationNumber();
-            client = currentReservation.getClient().getName() + " - " + currentReservation.getClient().getTelephoneNumber();
-            
-            for(int j = 0; j < lrd.size(); j++) {
-            	vector = new java.util.Vector<Object>();
-            	hotel.Reservation.Detail reservationDetail = lrd.get(j);
-            	
-            	vector.add(confirmationNumber);
-            	vector.add(client);
-            	vector.add(reservationDetail.getArrival());
-            	vector.add(reservationDetail.getDeparture());
-            	defaultModel.addRow(vector);
-            }
-    	}
+    	GUI.initLookAndFeel();
+    	initComponents(reservations);
     }
 
     /**
@@ -81,7 +39,7 @@ public class ReservationList extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(ObservableList<Reservation> reservations) {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         TableReservationList = new javax.swing.JTable();
@@ -90,7 +48,57 @@ public class ReservationList extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Réservations");
 
-        TableReservationList.setModel(defaultModel);
+        TableReservationList.setModel(new DefaultTableModel(
+            new Object [][] { },
+            new String [] {"ID", "No de confirmation", "Client"}) {
+    	
+			Class[] types = new Class [] {Integer.class, Integer.class, Room.Category.class};
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            	return false;
+            }
+        });
+
+        TableReservationList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumn column = TableReservationList.getColumnModel().getColumn(0);
+        TableReservationList.getColumnModel().removeColumn(column);
+        
+        for (Reservation r : reservations) {
+        	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+        	model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
+        }
+        
+        reservations.AddElementAddedListener(new Observer() {
+    			@Override
+    			public void update(Observable o, Object arg) {
+    				Reservation reservation = (Reservation) arg;
+    				DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+    				
+    				model.addRow(new Object[] {reservation.getId(), reservation.getConfirmationNumber(), reservation.getClient()});
+    			}
+            });
+            
+        reservations.AddElementRemovedListener(new Observer() {
+    			@Override
+    			public void update(Observable o, Object arg) {
+    				Reservation reservation = (Reservation) arg;
+    				DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+    				
+    				for (int i = 0; i < model.getRowCount(); ++i) {
+    					if (reservation.getId() == (Integer) model.getValueAt(i, 0)) {
+    						model.removeRow(i);
+    						break;
+    					}
+    				}
+    			}
+            });
+        
         jScrollPane1.setViewportView(TableReservationList);
 
         ButtonClose.setText("Fermer");
@@ -127,7 +135,8 @@ public class ReservationList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-        // TODO add your handling code here:
+        ReservationForm form = new ReservationForm();
+        form.setVisible(true);
     }//GEN-LAST:event_ButtonCloseActionPerformed
 
     /**
@@ -140,7 +149,7 @@ public class ReservationList extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new ReservationList().setVisible(true);
+                new ReservationList(Agenda.getInstance()).setVisible(true);
             }
         });
     }
@@ -148,28 +157,5 @@ public class ReservationList extends javax.swing.JFrame {
     private javax.swing.JButton ButtonClose;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable TableReservationList;
-    private javax.swing.table.DefaultTableModel defaultModel = new javax.swing.table.DefaultTableModel(
-    		new Object [][] {
-
-            },
-            new String [] {
-                "No confirmation", "Client", "Date d'arrivé", "Date de départ"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        };
     // End of variables declaration//GEN-END:variables
 }

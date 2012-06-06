@@ -218,10 +218,10 @@ public class ReservationForm extends javax.swing.JFrame {
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
     	Client client = ComboBoxClient.getSelectedItem();
         reservationSystem.confirm(client.getName(), client.getTelephoneNumber());
+        dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-        // TODO add your handling code here:
     	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
