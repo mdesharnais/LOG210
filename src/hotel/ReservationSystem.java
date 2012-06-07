@@ -18,6 +18,10 @@ public class ReservationSystem {
 	}
 	
 	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) throws ValidationException {
+		// On valide
+		
+		
+		// On ajoute
 		Reservation.Detail newLine = new Reservation.Detail();
 		
 		newLine.setCategory(Hotel.getInstance().getRoomCategory(categoryID));
@@ -36,8 +40,11 @@ public class ReservationSystem {
 		}
 	}
 	
-	public void confirm(String clientName, String clientTelephoneNumber) {
+	public int confirm(String clientName, String clientTelephoneNumber) throws ValidationException {
 		if (!saved) {
+			if (reservation.getDetails().isEmpty())
+				throw new ValidationException();
+			
 			Client client = null;
 			
 			for (Client c : Hotel.getInstance().getClients()) {
@@ -47,16 +54,16 @@ public class ReservationSystem {
 				}
 			}
 			
-			if (client == null) {
-				client = new Client();
-				client.setName(clientName);
-				client.setTelephoneNumber(clientTelephoneNumber);
-			}
+			if (client == null)
+				client = new Client(clientName, clientTelephoneNumber);
 			
 			reservation.setClient(client);
+			reservation.generateConfirmationNumber();
 			Agenda.getInstance().save(reservation);
 			saved = true;
 		}
+		
+		return reservation.getConfirmationNumber();
 	}
 	
 	public void addReservationListener(Observer o) {

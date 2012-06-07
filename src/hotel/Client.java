@@ -4,6 +4,7 @@ import hotel.util.ErrorIterator;
 import hotel.util.StringLengthValidator;
 import hotel.util.TelephoneNumberValidator;
 import hotel.util.ValidationError;
+import hotel.util.ValidationException;
 import hotel.util.Validator;
 
 import java.util.ArrayList;
@@ -14,13 +15,9 @@ public class Client extends Observable {
 	// --------------------------------------------------
 	// Constructor(s)
 	
-	public Client() {
-		this("", "");
-	}
-	
-	public Client(String name, String telephoneNumber) {
-		this.setName(name);
-		this.setTelephoneNumber(telephoneNumber);
+	public Client(String name, String telephoneNumber) throws ValidationException {
+		setName(name);
+		setTelephoneNumber(telephoneNumber);
 	}
 	
 	// --------------------------------------------------
@@ -47,32 +44,22 @@ public class Client extends Observable {
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public void setName(String value)
+	public void setName(String value) throws ValidationException
 	{
-		if (validateName(value))
+		if (value.isEmpty())
+			throw new ValidationException();
+		
 			name = value;
 	}
 	
-	public void setTelephoneNumber(String value)
+	public void setTelephoneNumber(String value) throws ValidationException
 	{
-		if (validateTelephoneNumber(value))
-			telephoneNumber = value;
+		// Should validate telephone number.
+		telephoneNumber = value;
 	}
 	
 	// --------------------------------------------------
 	// Method(s)
-	
-	private boolean validateName(String value) {
-		return true;
-	}
-	
-	private boolean validateTelephoneNumber(String value) {
-		return true;
-	}
-		
-	public void save() {
-		
-	}
 	
 	public String toString() {
 		return getName();

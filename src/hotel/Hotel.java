@@ -1,9 +1,12 @@
 package hotel;
 
 import hotel.util.ObservableList;
+import hotel.util.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Hotel {
 	
@@ -35,6 +38,16 @@ public class Hotel {
 		return null;
 	}
 	
+	public Map<Room.Category, Integer> getTotalRoomCategories() {
+		Map<Room.Category, Integer> categoriesOccurences = new TreeMap<Room.Category, Integer>();
+		
+		for (Room.Category c : roomCategories) {
+			categoriesOccurences.put(c, 5);
+		}
+		
+		return categoriesOccurences;
+	}
+	
 	public ObservableList<Client> getClients() {
 		return clients;
 	}
@@ -52,11 +65,15 @@ public class Hotel {
 	}
 	
 	private void generateClients() {
-		clients.add(new Client("Gilles",     "111 111-1111"));
-		clients.add(new Client("Paul",       "222 222-2222"));
-		clients.add(new Client("Robert",     "333 333-3333"));
-		clients.add(new Client("Abraham",    "444 444-4444"));
-		clients.add(new Client("Erménégile", "555 555-5555"));
+		try {
+			clients.add(new Client("Gilles",     "111 111-1111"));
+			clients.add(new Client("Paul",       "222 222-2222"));
+			clients.add(new Client("Robert",     "333 333-3333"));
+			clients.add(new Client("Abraham",    "444 444-4444"));
+			clients.add(new Client("Erménégile", "555 555-5555"));
+		} catch (ValidationException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// --------------------------------------------------

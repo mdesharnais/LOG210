@@ -13,6 +13,7 @@ import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
 import hotel.Reservation;
+import hotel.ReservationSystem;
 import hotel.Room;
 import hotel.util.ObservableList;
 
@@ -137,6 +138,7 @@ public class ReservationList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
+    	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {

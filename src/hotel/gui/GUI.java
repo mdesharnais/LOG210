@@ -87,9 +87,4 @@ public class GUI {
     // Valid values are: null (use the default), "Metal", "System", "Motif",
     // and "GTK"
     final static String LOOKANDFEEL = "System";
-    
-    public static ReservationForm rf = new ReservationForm();
-    public static Operation o = new Operation();
-    public static FindClient fc = new FindClient();
-    public static ClientForm c = new ClientForm();
 }

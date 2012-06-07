@@ -10,6 +10,7 @@ import hotel.ReservationSystem;
 import hotel.Room;
 import hotel.Room.Category;
 import hotel.util.ObservableList;
+import hotel.util.ValidationException;
 
 import java.util.Date;
 import java.util.Observable;
@@ -252,9 +253,13 @@ public class ReservationForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-    	//Client client = ComboBoxClient.getSelectedItem();
-        //reservationSystem.confirm(client.getName(), client.getTelephoneNumber());
-        dispose();
+		try {
+			int reservationNumber = reservationSystem.confirm(TextName.getText(), TextTelephone.getText());
+	        JOptionPane.showMessageDialog(this, "Votre numéro de confirmation:\n" + reservationNumber);
+	        dispose();
+		} catch (ValidationException e) {
+			JOptionPane.showMessageDialog(this, "Une erreur est survenue.");
+		}
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed

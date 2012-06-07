@@ -43,6 +43,10 @@ public class Reservation extends Observable implements Identifiable {
 		client = value;
 		notifyObservers();
 	}
+	
+	public void generateConfirmationNumber() {
+		confirmationNumber = id*id*2*3*4*5*6*7;
+	}
 
 	// --------------------------------------------------
 	// Method(s)
@@ -50,7 +54,7 @@ public class Reservation extends Observable implements Identifiable {
 	// --------------------------------------------------
 	// Attribute(s)
 
-	private int confirmationNumber = 1123581321;
+	private int confirmationNumber;
 	private Client client;
 	private ObservableList<Detail> details = new ObservableList<Detail>();
 	private int id;

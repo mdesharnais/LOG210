@@ -110,7 +110,6 @@ public class Login extends javax.swing.JFrame {
     private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
     	if (TextUsername.getText().equalsIgnoreCase("a")) {
         this.dispose();
-        GUI.o.setVisible(true);
     	}
     }//GEN-LAST:event_ButtonLoginActionPerformed
 
