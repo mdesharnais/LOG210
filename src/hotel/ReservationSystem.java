@@ -14,6 +14,7 @@ public class ReservationSystem {
 	// Method(s)
 	
 	public void startNewReservation() {
+		reservation = new Reservation();
 	}
 	
 	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) throws ValidationException {

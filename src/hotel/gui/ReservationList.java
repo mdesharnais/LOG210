@@ -13,20 +13,11 @@ import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
 import hotel.Reservation;
-import hotel.Reservation.Detail;
 import hotel.Room;
 import hotel.util.ObservableList;
 
-/**
- *
- * @author Marc-Andre
- */
 public class ReservationList extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ReservationList
-     */
-    
     public ReservationList(ObservableList<Reservation> reservations) {
     	GUI.initLookAndFeel();
     	initComponents(reservations);

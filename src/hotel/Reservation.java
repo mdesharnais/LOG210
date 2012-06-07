@@ -122,7 +122,7 @@ public class Reservation extends Observable implements Identifiable {
 
 		// --------------------------------------------------
 		// Method(s)
-
+		
 		// --------------------------------------------------
 		// Attribute(s)
 
@@ -134,6 +134,6 @@ public class Reservation extends Observable implements Identifiable {
 		private static int s_lastId = 0;
 		
 		public static final int QUANTITY_MIN_VALUE = 1;
-		public static final int QUANTITY_MAX_VALUE = 999; 
+		public static final int QUANTITY_MAX_VALUE = 999;
 	}
 }

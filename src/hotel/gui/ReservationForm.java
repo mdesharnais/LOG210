@@ -34,6 +34,7 @@ public class ReservationForm extends javax.swing.JFrame {
      */
     public ReservationForm() {
     	GUI.initLookAndFeel();
+    	reservationSystem.startNewReservation();
         initComponents();
     }
 
