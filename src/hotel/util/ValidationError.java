@@ -7,6 +7,7 @@ package hotel.util;
  */
 public enum ValidationError {
 	INVALID_TELEPHONE_NUMBER,
+	INVALID_DATE_RANGE,
 	STRING_TO_LONG,
 	STRING_TO_SHORT
 }

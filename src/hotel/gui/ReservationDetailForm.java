@@ -7,6 +7,7 @@ package hotel.gui;
 import hotel.Reservation;
 import hotel.ReservationSystem;
 import hotel.Room;
+import hotel.util.ValidationException;
 
 import java.awt.Component;
 import java.awt.Frame;
@@ -76,7 +77,7 @@ public class ReservationDetailForm extends JDialog {
         jLabel4 = new JLabel("Date de départ :");
         
         ComboBoxCategorie = new hotel.gui.ComboBox<Room.Category>(hotel.Hotel.getInstance().getRoomCategories());
-        SpinnerQuantity = new JSpinner(new SpinnerNumberModel(Reservation.Detail.QUANTITY_MIN_VALUE, Reservation.Detail.QUANTITY_MIN_VALUE, Reservation.Detail.QUANTITY_MAX_VALUE, 1));
+        SpinnerQuantity = new JSpinner(new SpinnerNumberModel(Reservation.Detail.QUANTITY_MIN_VALUE, Reservation.Detail.QUANTITY_MIN_VALUE - 10, Reservation.Detail.QUANTITY_MAX_VALUE, 1));
         DateArrival = new com.toedter.calendar.JDateChooser(new Date(), ISO_8601_EXTENDED);
         Calendar cal = GregorianCalendar.getInstance();
         cal.add(Calendar.DATE, 1);
@@ -152,9 +153,13 @@ public class ReservationDetailForm extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {
-    	reservationSystem.addLine(ComboBoxCategorie.getSelectedItem().getId(), ((Number)SpinnerQuantity.getValue()).intValue(), DateArrival.getDate(), DateDeparture.getDate());
-        saved = true;
-        dispose();
+    	try {
+			reservationSystem.addLine(ComboBoxCategorie.getSelectedItem().getId(), ((Number)SpinnerQuantity.getValue()).intValue(), DateArrival.getDate(), DateDeparture.getDate());
+			saved = true;
+			dispose();
+		} catch (ValidationException e) {
+			JOptionPane.showMessageDialog(null, "Les données entrées sont incorrectes.");
+		}
     }
     
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {

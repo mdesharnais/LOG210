@@ -69,7 +69,6 @@ public class ReservationForm extends javax.swing.JFrame {
             }
         });
 
-        //ComboBoxClient.setModel(new javax.swing.DefaultComboBoxModel(new String[] { }));
         ComboBoxClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxClientActionPerformed(evt);
