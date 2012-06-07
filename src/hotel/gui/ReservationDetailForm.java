@@ -60,7 +60,7 @@ public class ReservationDetailForm extends JDialog {
         DateDeparture = new com.toedter.calendar.JDateChooser();
         ButtonCancel = new javax.swing.JButton();
         ButtonOk = new javax.swing.JButton();
-
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ajouter une chambre");
         setResizable(false);
