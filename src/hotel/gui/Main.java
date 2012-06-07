@@ -1,7 +1,5 @@
 package hotel.gui;
 
-import javax.swing.JOptionPane;
-
 import hotel.Agenda;
 import hotel.LoginSystem;
 

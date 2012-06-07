@@ -1,7 +1,6 @@
 package hotel.gui;
 
 import hotel.LoginSystem;
-import hotel.ReservationSystem;
 import hotel.util.ValidationException;
 
 import java.awt.Component;

@@ -49,6 +49,7 @@ public class ComboBox<T extends Observable> extends JComboBox {
 	// --------------------------------------------------
 	// Accessor(s)
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getSelectedItem() {
 		return (T)super.getSelectedItem();
