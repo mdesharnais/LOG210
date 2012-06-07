@@ -6,6 +6,7 @@ package hotel.gui;
 
 import hotel.Reservation;
 import hotel.Room;
+import hotel.util.Lang;
 import hotel.util.ValidationException;
 
 import java.util.Observable;
@@ -19,6 +20,10 @@ import javax.swing.table.TableColumn;
 public class ReservationForm extends javax.swing.JFrame {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form Reservation
      */
     public ReservationForm() {
@@ -62,18 +67,22 @@ public class ReservationForm extends javax.swing.JFrame {
         }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Réservation");
+        setTitle(Lang.RESERVATION_FORM_TITLE.toString());
         setResizable(false);
 
         TableReservation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] { },
-            new String [] { "ID", "Catégorie", "Quantité", "Date d'arrivé", "Date de départ"}) {
+            new String [] { Lang.RESERVATION_FORM_ID.toString(), Lang.RESERVATION_FORM_CATEGORY.toString(), Lang.RESERVATION_FORM_QUANTITY.toString(), Lang.RESERVATION_FORM_DATE_ARRIVAL.toString(), Lang.RESERVATION_FORM_DATE_DEPARTURE.toString()}) {
         	
-            Class[] types = new Class [] {
+
+				private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
                 Integer.class, Room.Category.class, String.class, Object.class, Object.class
             };
 
-            @Override
+            @SuppressWarnings("rawtypes")
+			@Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
@@ -115,41 +124,41 @@ public class ReservationForm extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(TableReservation);
 
-        ButtonAdd.setText("+");
+        ButtonAdd.setText(Lang.RESERVATION_FORM_ADD.toString());
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonAddActionPerformed(evt);
             }
         });
 
-        ButtonDelete.setText("-");
+        ButtonDelete.setText(Lang.RESERVATION_FORM_DELETE.toString());
         ButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonDeleteActionPerformed(evt);
             }
         });
 
-        ButtonClose.setText("Fermer");
+        ButtonClose.setText(Lang.RESERVATION_FORM_CLOSE.toString());
         ButtonClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonCloseActionPerformed(evt);
             }
         });
 
-        ButtonSave.setText("Enregistrer");
+        ButtonSave.setText(Lang.RESERVATION_FORM_SAVE.toString());
         ButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonSaveActionPerformed(evt);
             }
         });
         
-        jLabel1.setText("Détails de la réservation");
+        jLabel1.setText(Lang.RESERVATION_FORM_DETAIL.toString());
         
-        jLabel2.setText("Nom:");
+        jLabel2.setText(Lang.RESERVATION_FORM_NAME.toString());
 
-        jLabel3.setText("Telephone:");
+        jLabel3.setText(Lang.RESERVATION_FORM_TELEPHONE.toString());
 
-        jLabel4.setText("Client");
+        jLabel4.setText(Lang.RESERVATION_FORM_CLIENT.toString());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -251,10 +260,10 @@ public class ReservationForm extends javax.swing.JFrame {
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
 		try {
 			int reservationNumber = reservationSystem.confirm(TextName.getText(), TextTelephone.getText());
-	        JOptionPane.showMessageDialog(this, "Votre numéro de confirmation:\n" + reservationNumber);
+	        JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_CONFIRMATION.toString() + reservationNumber);
 	        dispose();
 		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(this, "Une erreur est survenue.");
+			JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_ERROR.toString());
 		}
     }//GEN-LAST:event_ButtonCloseActionPerformed
     

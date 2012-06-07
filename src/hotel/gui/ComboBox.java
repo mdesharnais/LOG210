@@ -11,6 +11,11 @@ public class ComboBox<T extends Observable> extends JComboBox {
 	// --------------------------------------------------
 	// Constructor(s)
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ComboBox(ObservableList<T> l) {
 		data = l;
 		

@@ -8,6 +8,7 @@ import hotel.Agenda;
 import hotel.Reservation;
 import hotel.ReservationSystem;
 import hotel.Room;
+import hotel.util.Lang;
 import hotel.util.NotEnoughRooms;
 import hotel.util.ValidationException;
 
@@ -26,6 +27,10 @@ import javax.swing.SpinnerNumberModel;
 
 public class ReservationDetailForm extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static ReservationDetailForm dialog;
 	private boolean saved = false;
 	private ReservationSystem reservationSystem;
@@ -67,13 +72,13 @@ public class ReservationDetailForm extends JDialog {
         ButtonOk = new javax.swing.JButton();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Ajouter une chambre");
+        setTitle(Lang.RESERVATION_DETAIL_TITLE.toString());
         setResizable(false);
         
-        jLabel1 = new JLabel("Catégorie :");
-        jLabel2 = new JLabel("Quantité :");
-        jLabel3 = new JLabel("Date d'arrivée :");
-        jLabel4 = new JLabel("Date de départ :");
+        jLabel1 = new JLabel(Lang.RESERVATION_DETAIL_CATEGORY.toString());
+        jLabel2 = new JLabel(Lang.RESERVATION_DETAIL_QUANTITY.toString());
+        jLabel3 = new JLabel(Lang.RESERVATION_DETAIL_DATE_ARRIVAL.toString());
+        jLabel4 = new JLabel(Lang.RESERVATION_DETAIL_DATE_DEPARTURE.toString());
         
         ComboBoxCategorie = new hotel.gui.ComboBox<Room.Category>(hotel.Hotel.getInstance().getRoomCategories());
         SpinnerQuantity = new JSpinner(new SpinnerNumberModel(Reservation.Detail.QUANTITY_MIN_VALUE, Reservation.Detail.QUANTITY_MIN_VALUE - 10, Reservation.Detail.QUANTITY_MAX_VALUE, 1));
@@ -82,8 +87,8 @@ public class ReservationDetailForm extends JDialog {
         cal.add(Calendar.DATE, 1);
         DateDeparture = new com.toedter.calendar.JDateChooser(cal.getTime(), ISO_8601_EXTENDED);
         
-        ButtonCancel = new javax.swing.JButton("Annuler");
-        ButtonOk = new javax.swing.JButton("Ok");
+        ButtonCancel = new javax.swing.JButton(Lang.RESERVATION_DETAIL_CANCEL.toString());
+        ButtonOk = new javax.swing.JButton(Lang.RESERVATION_DETAIL_OK.toString());
 
         ButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,9 +171,9 @@ public class ReservationDetailForm extends JDialog {
     		for (Map.Entry<Room.Category, Integer> entry : freeRooms.entrySet())
     			result += entry.getKey().toString() + " (" + entry.getValue().toString() + ")\n";
     		
-    		JOptionPane.showMessageDialog(this, "Il n'y a pas suffisament de chambres de cette catégorie dans l'interval de dates sélectionné.\nLes chambres restantes sont:\n" + result);
+    		JOptionPane.showMessageDialog(this, Lang.RESERVATION_DETAIL_REMAINING_ROOMS.toString() + result);
 		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(this, "Les données entrées sont incorrectes.");
+			JOptionPane.showMessageDialog(this, Lang.RESERVATION_DETAIL_ERROR_DATA_INPUT.toString());
 		}
     }
     

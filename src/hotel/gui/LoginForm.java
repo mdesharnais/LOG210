@@ -12,6 +12,10 @@ import javax.swing.JOptionPane;
 
 public class LoginForm extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static LoginForm dialog;
 	private LoginSystem loginSystem;
 	
@@ -23,7 +27,7 @@ public class LoginForm extends JDialog {
 	
     /** Creates new form Login */
     private LoginForm(Frame frame, Component locationComponent, LoginSystem system) {
-    	super(frame, Lang.getDialogTitleText(Lang.Tag.CONNECTION_SCREEN_TITLE), true);
+    	super(frame, Lang.LOGIN_CONNECTION_SCREEN_TITLE.toString(), true);
     	loginSystem = system;
         GUI.initLookAndFeel();
         initComponents();
@@ -37,8 +41,8 @@ public class LoginForm extends JDialog {
      */
     private void initComponents() {
 
-        LabelUsername = new javax.swing.JLabel(Lang.getLabelText(Lang.Tag.USERNAME));
-        LabelPassword = new javax.swing.JLabel(Lang.getLabelText(Lang.Tag.PASSWORD));
+        LabelUsername = new javax.swing.JLabel(Lang.LOGIN_USERNAME.toString());
+        LabelPassword = new javax.swing.JLabel(Lang.LOGIN_PASSWORD.toString());
         TextUsername = new javax.swing.JTextField();
         TextPassword = new javax.swing.JPasswordField();
         ButtonLogin = new javax.swing.JButton();
@@ -46,14 +50,15 @@ public class LoginForm extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        ButtonLogin.setText(Lang.getButtonText(Lang.Tag.CONNECT));
+        ButtonLogin.setText(Lang.LOGIN_CONNECT.toString());
         ButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonLoginActionPerformed(evt);
             }
         });
         
-        //ButtonCancel.setText(Lang.getButtonText(Lang.Tag.CANCEL));
+        TextUsername.setText("Username");
+        TextPassword.setText("Password");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,12 +103,13 @@ public class LoginForm extends JDialog {
      * Code qui permet la gestion du bouton ok
      * @param evt
      */
-    private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
+    @SuppressWarnings("deprecation")
+	private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
     	try {
-			loginSystem.login(TextUsername.getText(), TextPassword.getText());
+			loginSystem.login(TextUsername.getText(), TextPassword.getText()); // TODO replace getText()
 			this.dispose();
 		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(null, Lang.Tag.CONNECTION_FAILED_MESSAGE, Lang.getDialogTitleText(Lang.Tag.ERROR_MESSAGE_TITLE), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Lang.LOGIN_CONNECTION_FAILED_MESSAGE.toString(), Lang.LOGIN_CONNECTION_FAILED_MESSAGE.toString(), JOptionPane.ERROR_MESSAGE);
 		}
     }//GEN-LAST:event_ButtonLoginActionPerformed
 

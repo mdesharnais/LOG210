@@ -14,11 +14,13 @@ import javax.swing.table.TableColumn;
 import hotel.Agenda;
 import hotel.Reservation;
 import hotel.Room;
+import hotel.util.Lang;
 import hotel.util.ObservableList;
 
 public class ReservationList extends javax.swing.JFrame {
 
-    public ReservationList(ObservableList<Reservation> reservations) {
+	private static final long serialVersionUID = 1L;
+	public ReservationList(ObservableList<Reservation> reservations) {
     	GUI.initLookAndFeel();
     	initComponents(reservations);
     }
@@ -38,15 +40,18 @@ public class ReservationList extends javax.swing.JFrame {
         ButtonAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Réservations");
+        setTitle(Lang.RESERVATION_LIST_TITLE.toString());
 
         TableReservationList.setModel(new DefaultTableModel(
             new Object [][] { },
-            new String [] {"ID", "No de confirmation", "Client"}) {
+            new String [] {Lang.RESERVATION_LIST_ID.toString(), Lang.RESERVATION_LIST_CONFIRMATION.toString(), Lang.RESERVATION_LIST_CLIENT.toString()}) {
     	
+				private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
 			Class[] types = new Class [] {Integer.class, Integer.class, Room.Category.class};
 
-            @Override
+            @SuppressWarnings("rawtypes")
+			@Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
@@ -93,14 +98,14 @@ public class ReservationList extends javax.swing.JFrame {
         
         jScrollPane1.setViewportView(TableReservationList);
 
-        ButtonClose.setText("Fermer");
+        ButtonClose.setText(Lang.RESERVATION_LIST_CLOSE.toString());
         ButtonClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonCloseActionPerformed(evt);
             }
         });
         
-        ButtonAdd.setText("Ajouter");
+        ButtonAdd.setText(Lang.RESERVATION_LIST_ADD.toString());
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonAddActionPerformed(evt);
