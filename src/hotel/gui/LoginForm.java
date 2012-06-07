@@ -22,7 +22,7 @@ public class LoginForm extends JDialog {
 	
     /** Creates new form Login */
     private LoginForm(Frame frame, Component locationComponent, LoginSystem system) {
-    	super(frame, "Détail de réservation", true);
+    	super(frame, "Connexion", true);
     	loginSystem = system;
         GUI.initLookAndFeel();
         initComponents();
