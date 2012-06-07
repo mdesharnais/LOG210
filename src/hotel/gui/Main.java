@@ -3,12 +3,14 @@ package hotel.gui;
 import javax.swing.JOptionPane;
 
 import hotel.Agenda;
+import hotel.LoginSystem;
 
 public class Main {
 	public static void main(String[] args) {
-		boolean connected = false /* LoginForm.showDialog() */;
+		LoginSystem loginSystem = new LoginSystem();
+		LoginForm.showDialog(null, null, loginSystem);
 		
-		if (connected) {
+		if (loginSystem.isConnected()) {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 
 	            public void run() {

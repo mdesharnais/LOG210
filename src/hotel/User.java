@@ -1,8 +1,19 @@
 package hotel;
 
+import hotel.util.ValidationException;
+
 public class User {
 	// --------------------------------------------------
 	// Constructor(s)
+	
+	public User() throws ValidationException {
+		this("", "");
+	}
+	
+	public User(String username, String password) throws ValidationException {
+		setUsername(username);
+		setPassword(password);
+	}
 	
 	// --------------------------------------------------
 	// Accessor(s)
@@ -15,12 +26,12 @@ public class User {
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public void setUsername(String value)
+	public void setUsername(String value) throws ValidationException
 	{
 		username = value;
 	}
 	
-	public void setPassword(String value)
+	public void setPassword(String value) throws ValidationException
 	{
 		password = value;
 	}

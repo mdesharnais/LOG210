@@ -14,6 +14,7 @@ public class Hotel {
 	private Hotel() {
 		generateRoomCategories();
 		generateClients();
+		generateUsers();
 	}
 	
 	// --------------------------------------------------
@@ -50,6 +51,10 @@ public class Hotel {
 		return clients;
 	}
 	
+	public ObservableList<User> getUsers() {
+		return users;
+	}
+	
 	// --------------------------------------------------
 	// Mutators(s)
 	
@@ -74,10 +79,19 @@ public class Hotel {
 		}
 	}
 	
+	private void generateUsers() {
+		try {
+			users.add(new User("admin", ""));
+		} catch (ValidationException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 	
 	private static Hotel                  instance = new Hotel();
 	private ObservableList<Room.Category> roomCategories = new ObservableList<Room.Category>();
 	private ObservableList<Client>        clients = new ObservableList<Client>();
+	private ObservableList<User>          users = new ObservableList<User>();
 }
