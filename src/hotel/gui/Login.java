@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * Login.java
- *
- * Created on May 25, 2012, 9:02:15 AM
- */
-
 package hotel.gui;
 
 public class Login extends javax.swing.JFrame {

@@ -1,8 +1,10 @@
 package hotel;
 
+import hotel.util.NotEnoughRooms;
 import hotel.util.ValidationException;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Observer;
 
 public class ReservationSystem {
@@ -29,10 +31,17 @@ public class ReservationSystem {
 	 * @throws ValidationException
 	 */
 	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) throws ValidationException {
-		// On valide
+		Map<Room.Category, Integer> freeCategories = Agenda.getInstance().getFreeRoomCategoriesBetween(arrivalDate, departureDate);
+		Room.Category category = Hotel.getInstance().getRoomCategory(categoryID);
+		Integer freeRooms = freeCategories.get(category);
+		freeRooms = (freeRooms != null ? freeRooms : 0);
 		
+		// TODO: Ne pas oublier de prendre en compte les détails de la réservations.
+		// Finalement, on va le mettre dans les "known issues".
 		
-		// On ajoute
+		if (quantity > freeRooms)
+			throw new NotEnoughRooms();
+		
 		Reservation.Detail newLine = new Reservation.Detail();
 		
 		newLine.setCategory(Hotel.getInstance().getRoomCategory(categoryID));
@@ -115,6 +124,6 @@ public class ReservationSystem {
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	Reservation reservation = new Reservation();
+	Reservation reservation;
 	boolean     saved;
 }

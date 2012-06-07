@@ -34,7 +34,8 @@ public class Room {
 	// Inner class
 
 	public static class Category
-		extends Observable {
+		extends Observable
+		implements Comparable<Category>{
 		
 		// --------------------------------------------------
 		// Constructor(s)
@@ -79,6 +80,11 @@ public class Room {
 		public String toString()
 		{
 			return name;
+		}
+		
+		@Override
+		public int compareTo(Category other) {
+			return name.compareTo(other.name);
 		}
 		
 		// --------------------------------------------------
