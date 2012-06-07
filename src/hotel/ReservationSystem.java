@@ -1,5 +1,7 @@
 package hotel;
 
+import hotel.util.ValidationException;
+
 import java.util.Date;
 import java.util.Observer;
 
@@ -14,7 +16,7 @@ public class ReservationSystem {
 	public void startNewReservation() {
 	}
 	
-	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) {
+	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) throws ValidationException {
 		Reservation.Detail newLine = new Reservation.Detail();
 		
 		newLine.setCategory(Hotel.getInstance().getRoomCategory(categoryID));

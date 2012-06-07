@@ -2,6 +2,7 @@ package hotel;
 
 import hotel.util.Identifiable;
 import hotel.util.ObservableList;
+import hotel.util.ValidationException;
 
 import java.util.Date;
 import java.util.Observable;
@@ -100,18 +101,20 @@ public class Reservation extends Observable implements Identifiable {
 			notifyObservers();
 		}
 
-		public void setQuantity(int value) {
+		public void setQuantity(int value) throws ValidationException {
+			if (value < QUANTITY_MIN_VALUE || QUANTITY_MAX_VALUE < value)
+				throw new ValidationException();
+			
 			quantity = value;
 			setChanged();
 			notifyObservers();
 		}
 
-		public void setArrival(Date value) {
-			arrival = value;
-		}
-
-		public void setDeparture(Date value) {
-			departure = value;
+		public void setArrivalAndDepartureDates(Date arrival, Date departure) {
+			this.arrival = arrival;
+			this.departure = departure;
+			setChanged();
+			notifyObservers();
 		}
 
 		// --------------------------------------------------
@@ -126,5 +129,8 @@ public class Reservation extends Observable implements Identifiable {
 		private Date departure;
 		private int id;
 		private static int s_lastId = 0;
+		
+		public static final int QUANTITY_MIN_VALUE = 1;
+		public static final int QUANTITY_MAX_VALUE = 999; 
 	}
 }

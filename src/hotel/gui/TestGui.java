@@ -89,13 +89,13 @@ public class TestGui extends JPanel {
         JButton testButton = new JButton("test");
         testButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {/*
 				if (!reservationDetails.isEmpty())
 					reservationDetails.get(0).setQuantity(10);
 				
 				if (!roomCategories.isEmpty())
 					roomCategories.get(0).setName("test");
-			}
+			*/}
         });
         
         buttonsPannel.add(testButton);
@@ -209,12 +209,12 @@ public class TestGui extends JPanel {
 
         public void setValueAt(Object value, int row, int col) {
         	Reservation.Detail detail = data.get(row);
-        	
+        	/*
             switch (col) {
         		case 0: detail.setCategory((Category)value);           break;
         		case 1: detail.setQuantity(((Integer)value).intValue()); break;
             }
-        	
+        	*/
             fireTableCellUpdated(row, col);
         }
     }
