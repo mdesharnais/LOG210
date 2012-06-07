@@ -3,8 +3,6 @@ package hotel;
 import hotel.util.ObservableList;
 import hotel.util.ValidationException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 

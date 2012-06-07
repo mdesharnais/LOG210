@@ -4,9 +4,11 @@
  */
 package hotel.gui;
 
+import hotel.Agenda;
 import hotel.Reservation;
 import hotel.ReservationSystem;
 import hotel.Room;
+import hotel.util.NotEnoughRooms;
 import hotel.util.ValidationException;
 
 import java.awt.Component;
@@ -14,6 +16,7 @@ import java.awt.Frame;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -157,8 +160,15 @@ public class ReservationDetailForm extends JDialog {
 			reservationSystem.addLine(ComboBoxCategorie.getSelectedItem().getId(), ((Number)SpinnerQuantity.getValue()).intValue(), DateArrival.getDate(), DateDeparture.getDate());
 			saved = true;
 			dispose();
+    	} catch (NotEnoughRooms e) {
+    		Map<Room.Category, Integer> freeRooms = Agenda.getInstance().getFreeRoomCategoriesBetween(DateArrival.getDate(), DateDeparture.getDate());
+    		String result = "";
+    		for (Map.Entry<Room.Category, Integer> entry : freeRooms.entrySet())
+    			result += entry.getKey().toString() + " (" + entry.getValue().toString() + ")\n";
+    		
+    		JOptionPane.showMessageDialog(this, "Il n'y a pas suffisament de chambres de cette catégorie dans l'interval de dates sélectionné.\nLes chambres restantes sont:\n" + result);
 		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(null, "Les données entrées sont incorrectes.");
+			JOptionPane.showMessageDialog(this, "Les données entrées sont incorrectes.");
 		}
     }
     

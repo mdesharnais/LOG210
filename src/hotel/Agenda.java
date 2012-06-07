@@ -2,10 +2,7 @@ package hotel;
 
 import hotel.util.ObservableList;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -66,7 +63,7 @@ public class Agenda extends ObservableList<Reservation> {
 					Integer count = categoriesOccurences.get(d.getCategory());
 					if (count == null)
 						count = 0;
-					categoriesOccurences.put(d.getCategory(), count + 1);
+					categoriesOccurences.put(d.getCategory(), count + d.getQuantity());
 				}	
 			}
 		}
@@ -82,7 +79,7 @@ public class Agenda extends ObservableList<Reservation> {
 			Room.Category category = entry.getKey();
 			Integer quantity = entry.getValue();
 			Integer used = categoriesUsed.get(category);
-			used = (used == null ? used : 0);
+			used = (used != null ? used : 0);
 			results.put(category, quantity - used);
 		}
 		
