@@ -19,6 +19,9 @@ public class CategoriesList
 	// --------------------------------------------------
 	// Method(s)
 
+	/**
+	 * Retourne l'iterateur de l'arraylist
+	 */
 	@Override
 	public Iterator<Category> iterator() {
 		return categories.iterator();

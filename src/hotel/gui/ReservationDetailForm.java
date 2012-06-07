@@ -24,10 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-/**
- *
- * @author Marc-Andre
- */
 public class ReservationDetailForm extends JDialog {
 
 	private static ReservationDetailForm dialog;
@@ -155,6 +151,10 @@ public class ReservationDetailForm extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Code qui permet la gestion du bouton ok
+     * @param evt
+     */
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {
     	try {
 			reservationSystem.addLine(ComboBoxCategorie.getSelectedItem().getId(), ((Number)SpinnerQuantity.getValue()).intValue(), DateArrival.getDate(), DateDeparture.getDate());
@@ -172,6 +172,10 @@ public class ReservationDetailForm extends JDialog {
 		}
     }
     
+    /**
+     * Code qui permet la gestion du bouton cancel
+     * @param evt
+     */
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
     	dispose();
     }

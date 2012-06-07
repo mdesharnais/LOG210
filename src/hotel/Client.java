@@ -61,6 +61,9 @@ public class Client extends Observable {
 	// --------------------------------------------------
 	// Method(s)
 	
+	/**
+	 * Retourne le nom du client (format String)
+	 */
 	public String toString() {
 		return getName();
 	}

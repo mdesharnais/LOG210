@@ -4,30 +4,18 @@
  */
 package hotel.gui;
 
-import hotel.Client;
 import hotel.Reservation;
-import hotel.ReservationSystem;
 import hotel.Room;
-import hotel.Room.Category;
-import hotel.util.ObservableList;
 import hotel.util.ValidationException;
 
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-/**
- *
- * @author Marc-Andre
- */
 public class ReservationForm extends javax.swing.JFrame {
 
     /**
@@ -235,14 +223,18 @@ public class ReservationForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void ComboBoxClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxClientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboBoxClientActionPerformed
-
+    /**
+     * Code qui permet la gestion du bouton ajouter
+     * @param evt
+     */
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
     	ReservationDetailForm.showDialog(this, this, reservationSystem);
     }//GEN-LAST:event_ButtonAddActionPerformed
 
+    /**
+     * Code qui permet la gestion du bouton supprimer
+     * @param evt
+     */
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
     	int rowIndex = TableReservation.getSelectedRow();
     	if (rowIndex != -1) {
@@ -252,6 +244,10 @@ public class ReservationForm extends javax.swing.JFrame {
     	}
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
+    /**
+     * Code qui permet la gestion du bouton enregistrer
+     * @param evt
+     */
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
 		try {
 			int reservationNumber = reservationSystem.confirm(TextName.getText(), TextTelephone.getText());
@@ -262,14 +258,13 @@ public class ReservationForm extends javax.swing.JFrame {
 		}
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
+    /**
+     * Code qui permet la gestion du bouton fermer
+     * @param evt
+     */
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
     	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
-    
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-        javax.swing.JOptionPane.showMessageDialog(null, "test");
-    }
 
     /**
      * @param args the command line arguments
@@ -294,8 +289,6 @@ public class ReservationForm extends javax.swing.JFrame {
     private javax.swing.JButton ButtonSave;
     private javax.swing.JTextField TextName;
     private javax.swing.JFormattedTextField TextTelephone;
-    private com.toedter.calendar.JDateChooser DateChooserArrival;
-    private com.toedter.calendar.JDateChooser DateChooserDeparture;
     private javax.swing.JTable TableReservation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

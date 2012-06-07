@@ -27,11 +27,19 @@ public class Agenda extends ObservableList<Reservation> {
 		return instance;
 	}
 	
+	/**
+	 * Ajoute une reservation
+	 * @param value
+	 */
 	public void save(Reservation value)
 	{
 		add(value);
 	}
 	
+	/**
+	 * Enleve une reservation
+	 * @param value
+	 */
 	public void delete(Reservation value)
 	{
 		remove(value);
@@ -47,6 +55,12 @@ public class Agenda extends ObservableList<Reservation> {
 	//                   | arrival departure |
 	//                   |           arrival | departure
 	//                   |                   | arrival departure
+	/**
+	 * Cette fonction retourne la liste, par categorie, du nombre de chambres utilisee dans l'interval de dates donnees
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
 	public Map<Room.Category, Integer> getUsedRoomCategoriesBetween(Date begin, Date end) {
 		Map<Room.Category, Integer> categoriesOccurences = new TreeMap<Room.Category, Integer>();
 		
@@ -71,6 +85,12 @@ public class Agenda extends ObservableList<Reservation> {
 		return categoriesOccurences;
 	}
 	
+	/**
+	 * Cette fonction retourne la liste, par categorie, du nombre de chambres libre dans l'interval de dates donnees
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
 	public Map<Room.Category, Integer> getFreeRoomCategoriesBetween(Date begin, Date end) {
 		Map<Room.Category, Integer> categoriesUsed = getUsedRoomCategoriesBetween(begin, end);
 		Map<Room.Category, Integer> results = new TreeMap<Room.Category, Integer>();

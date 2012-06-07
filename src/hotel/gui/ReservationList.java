@@ -13,7 +13,6 @@ import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
 import hotel.Reservation;
-import hotel.ReservationSystem;
 import hotel.Room;
 import hotel.util.ObservableList;
 
@@ -137,10 +136,18 @@ public class ReservationList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Code qui permet la gestion du bouton fermer
+     * @param evt
+     */
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
     	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
+    /**
+     * Code qui permet la gestion du bouton ajouter 
+     * @param evt
+     */
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
     	ReservationForm form = new ReservationForm();
         form.setVisible(true);

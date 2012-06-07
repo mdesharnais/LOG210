@@ -94,6 +94,10 @@ public class LoginForm extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Code qui permet la gestion du bouton ok
+     * @param evt
+     */
     private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
     	try {
 			loginSystem.login(TextUsername.getText(), TextPassword.getText());

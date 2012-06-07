@@ -61,12 +61,18 @@ public class Hotel {
 	// --------------------------------------------------
 	// Method(s)
 	
+	/**
+	 * Genere une liste de chambre
+	 */
 	private void generateRoomCategories() {
 		roomCategories.add(new Room.Category("Cheap"));
 		roomCategories.add(new Room.Category("Normal"));
 		roomCategories.add(new Room.Category("Deluxe"));
 	}
-	
+
+	/**
+	 * Genere une liste de client
+	 */
 	private void generateClients() {
 		try {
 			clients.add(new Client("Gilles",     "111 111-1111"));
