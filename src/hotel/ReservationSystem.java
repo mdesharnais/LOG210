@@ -13,10 +13,21 @@ public class ReservationSystem {
 	// --------------------------------------------------
 	// Method(s)
 	
+	/**
+	 * Cree une nouvelle instance du systeme de reservation
+	 */
 	public void startNewReservation() {
 		reservation = new Reservation();
 	}
 	
+	/**
+	 * Ajoute une ligne a la reservation en cours
+	 * @param categoryID
+	 * @param quantity
+	 * @param arrivalDate
+	 * @param departureDate
+	 * @throws ValidationException
+	 */
 	public void addLine(int categoryID, int quantity, Date arrivalDate, Date departureDate) throws ValidationException {
 		// On valide
 		
@@ -31,6 +42,10 @@ public class ReservationSystem {
 		reservation.getDetails().add(newLine);
 	}
 	
+	/**
+	 * Supprime une ligne a la reservation en cours
+	 * @param id
+	 */
 	public void removeLine(int id) {
 		for( Reservation.Detail d : reservation.getDetails()) {
 			if (d.getId() == id) {
@@ -40,6 +55,13 @@ public class ReservationSystem {
 		}
 	}
 	
+	/**
+	 * Permet de sauvegarder la reservation en cours
+	 * @param clientName
+	 * @param clientTelephoneNumber
+	 * @return
+	 * @throws ValidationException
+	 */
 	public int confirm(String clientName, String clientTelephoneNumber) throws ValidationException {
 		if (!saved) {
 			if (reservation.getDetails().isEmpty())
@@ -66,14 +88,26 @@ public class ReservationSystem {
 		return reservation.getConfirmationNumber();
 	}
 	
+	/**
+	 * Ajoute un observer a la reservation
+	 * @param o
+	 */
 	public void addReservationListener(Observer o) {
 		reservation.addObserver(o);
 	}
 	
+	/**
+	 * Ajoute un observer au detail de la reservation 
+	 * @param o
+	 */
 	public void addReservationDetailAddedListener(Observer o) {
 		reservation.getDetails().AddElementAddedListener(o);
 	}
 	
+	/**
+	 * Supprime un observer au detail de la reservation
+	 * @param o
+	 */
 	public void addReservationDetailRemovedListener(Observer o) {
 		reservation.getDetails().AddElementRemovedListener(o);
 	}

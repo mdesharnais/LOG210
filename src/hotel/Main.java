@@ -1,6 +1,10 @@
 package hotel;
 
-import java.util.Date;
+/**
+ * TODO comments, constantes, validation, login
+ * @author Marc-Andre
+ *
+ */
 
 public class Main {
 

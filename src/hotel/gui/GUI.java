@@ -20,6 +20,9 @@ public class GUI {
 	// --------------------------------------------------
 	// Method(s)
 	
+	/**
+	 * Permet d'initialiser l'apparence des fenetres
+	 */
 	public static void initLookAndFeel() {
         String lookAndFeel = null;
 
@@ -54,8 +57,6 @@ public class GUI {
                      MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
                   else if (THEME.equals("Ocean"))
                      MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-                  //else
-                     //MetalLookAndFeel.setCurrentTheme(new TestTheme());
                   UIManager.setLookAndFeel(new MetalLookAndFeel());
                 }
             }

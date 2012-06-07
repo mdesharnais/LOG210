@@ -28,6 +28,11 @@ public class User {
 	// --------------------------------------------------
 	// Method(s)
 	
+	/**
+	 * Determine si le mot de passe entree est valide
+	 * @param value
+	 * @return
+	 */
 	public boolean isValidPassword(String value)
 	{
 		return password.equals(value);

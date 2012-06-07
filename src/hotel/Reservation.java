@@ -44,6 +44,9 @@ public class Reservation extends Observable implements Identifiable {
 		notifyObservers();
 	}
 	
+	/**
+	 * genere un numero de confirmation
+	 */
 	public void generateConfirmationNumber() {
 		confirmationNumber = id*id*2*3*4*5*6*7;
 	}
