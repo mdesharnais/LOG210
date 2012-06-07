@@ -21,8 +21,7 @@ public class ReservationSystem {
 		
 		newLine.setCategory(Hotel.getInstance().getRoomCategory(categoryID));
 		newLine.setQuantity(quantity);
-		newLine.setArrival(arrivalDate);
-		newLine.setDeparture(departureDate);
+		newLine.setArrivalAndDepartureDates(arrivalDate, departureDate);
 		
 		reservation.getDetails().add(newLine);
 	}

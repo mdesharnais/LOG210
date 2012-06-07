@@ -110,7 +110,10 @@ public class Reservation extends Observable implements Identifiable {
 			notifyObservers();
 		}
 
-		public void setArrivalAndDepartureDates(Date arrival, Date departure) {
+		public void setArrivalAndDepartureDates(Date arrival, Date departure) throws ValidationException {
+			if (arrival.after(departure))
+				throw new ValidationException();
+			
 			this.arrival = arrival;
 			this.departure = departure;
 			setChanged();
