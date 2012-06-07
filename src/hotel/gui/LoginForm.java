@@ -1,6 +1,7 @@
 package hotel.gui;
 
 import hotel.LoginSystem;
+import hotel.util.Lang;
 import hotel.util.ValidationException;
 
 import java.awt.Component;
@@ -22,7 +23,7 @@ public class LoginForm extends JDialog {
 	
     /** Creates new form Login */
     private LoginForm(Frame frame, Component locationComponent, LoginSystem system) {
-    	super(frame, "Connexion", true);
+    	super(frame, Lang.getDialogTitleText(Lang.Tag.CONNECTION_SCREEN_TITLE), true);
     	loginSystem = system;
         GUI.initLookAndFeel();
         initComponents();
@@ -36,8 +37,8 @@ public class LoginForm extends JDialog {
      */
     private void initComponents() {
 
-        LabelUsername = new javax.swing.JLabel("Identifiant :");
-        LabelPassword = new javax.swing.JLabel("Mot de passe :");
+        LabelUsername = new javax.swing.JLabel(Lang.getLabelText(Lang.Tag.USERNAME));
+        LabelPassword = new javax.swing.JLabel(Lang.getLabelText(Lang.Tag.PASSWORD));
         TextUsername = new javax.swing.JTextField();
         TextPassword = new javax.swing.JPasswordField();
         ButtonLogin = new javax.swing.JButton();
@@ -45,12 +46,14 @@ public class LoginForm extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        ButtonLogin.setText("Login");
+        ButtonLogin.setText(Lang.getButtonText(Lang.Tag.CONNECT));
         ButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonLoginActionPerformed(evt);
             }
         });
+        
+        //ButtonCancel.setText(Lang.getButtonText(Lang.Tag.CANCEL));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,8 +91,6 @@ public class LoginForm extends JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ButtonLogin.getAccessibleContext().setAccessibleName("buttonOk");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -102,7 +103,7 @@ public class LoginForm extends JDialog {
 			loginSystem.login(TextUsername.getText(), TextPassword.getText());
 			this.dispose();
 		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(null, "Échec d'authentification.");
+			JOptionPane.showMessageDialog(null, Lang.Tag.CONNECTION_FAILED_MESSAGE, Lang.getDialogTitleText(Lang.Tag.ERROR_MESSAGE_TITLE), JOptionPane.ERROR_MESSAGE);
 		}
     }//GEN-LAST:event_ButtonLoginActionPerformed
 
