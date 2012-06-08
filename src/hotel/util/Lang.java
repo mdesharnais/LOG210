@@ -7,6 +7,7 @@ public enum Lang {
 	LOGIN_CONNECTION_SCREEN_TITLE       {public String toString() {return "Login";}},
 	LOGIN_CONNECT                       {public String toString() {return "Login";}},
 	LOGIN_CONNECTION_FAILED_MESSAGE     {public String toString() {return "Connection failed.";}},
+	LOGIN_CANCEL                        {public String toString() {return "Cancel";}},
 	
 	//-- ReservationList --
 	RESERVATION_LIST_CLOSE              {public String toString() {return "Fermer";}},
