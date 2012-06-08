@@ -7,6 +7,9 @@ Commis:
 Réservation:
     Note précisant qu'un client a l'usage exclusif d'une chambre à un moment donné.
 
+Detail de réservation:
+	Description détaillée d'une portion d'une réservation.
+
 Agenda:
     Liste de toutes les réservation.
 
@@ -18,3 +21,21 @@ Chambres:
 
 Categorie:
     Classe dans laquelle ont répartit des éléments ayant des caractéristiques communes.
+
+Séjour:
+	Service que l'hôtel vend à ces clients. Il est constitué de la période durant laquelle un client à l'usage exclusif d'une chambre donnée.
+
+Saison:
+	Période de temps durant laquelle ? ont un prix donné.
+
+Facture:
+	Relevé indiquant la somme qu'un client doit acquitter afin de payer les services dont il a bénéficié.
+
+Détail de facture:
+	Description détaillée d'une portion d'une facture.
+
+Paiement:
+	Somme que l'on paie avec un moyen de paiement donnée.
+
+Système de taxes:
+	Système responsable de calculer les taxes pour une transaction donnée, à une date donnée, pour une juridiction donnée.
