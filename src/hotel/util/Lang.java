@@ -2,12 +2,12 @@ package hotel.util;
 
 public enum Lang {
 	//-- LoginForm --
-	LOGIN_USERNAME                      {public String toString() {return "Username :";}},
-	LOGIN_PASSWORD                      {public String toString() {return "Password :";}},
-	LOGIN_CONNECTION_SCREEN_TITLE       {public String toString() {return "Login";}},
-	LOGIN_CONNECT                       {public String toString() {return "Login";}},
-	LOGIN_CONNECTION_FAILED_MESSAGE     {public String toString() {return "Connection failed.";}},
-	LOGIN_CANCEL                        {public String toString() {return "Cancel";}},
+	LOGIN_USERNAME                      {public String toString() {return "Identifiant :";}},
+	LOGIN_PASSWORD                      {public String toString() {return "Mot de passe :";}},
+	LOGIN_CONNECTION_SCREEN_TITLE       {public String toString() {return "Connection";}},
+	LOGIN_CONNECT                       {public String toString() {return "Se connecter";}},
+	LOGIN_CONNECTION_FAILED_MESSAGE     {public String toString() {return "Échec d'authentification";}},
+	LOGIN_CANCEL                        {public String toString() {return "Annuler";}},
 	
 	//-- ReservationList --
 	RESERVATION_LIST_CLOSE              {public String toString() {return "Fermer";}},
