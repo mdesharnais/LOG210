@@ -6,12 +6,20 @@ public class Room {
 	// --------------------------------------------------
 	// Constructor(s)
 	
+	public Room (int roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+	
 	// --------------------------------------------------
 	// Accessor(s)
 	
 	public Category getCategorie()
 	{
 		return categorie;
+	}
+	
+	public int getRoomNumber() {
+		return roomNumber;
 	}
 	
 	// --------------------------------------------------
@@ -29,6 +37,7 @@ public class Room {
 	// Attribute(s)
 	
 	private Category categorie;
+	private int roomNumber;
 	
 	// --------------------------------------------------	
 	// Inner class
