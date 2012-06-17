@@ -1,13 +1,13 @@
 package hotel;
 
 import hotel.util.Identifiable;
+import hotel.util.Observable;
 import hotel.util.ObservableList;
 import hotel.util.ValidationException;
 
 import java.util.Date;
-import java.util.Observable;
 
-public class Reservation extends Observable implements Identifiable {
+public class Reservation extends Observable<Reservation> implements Identifiable {
 
 	// --------------------------------------------------
 	// Constructor(s)
@@ -66,7 +66,7 @@ public class Reservation extends Observable implements Identifiable {
 	// --------------------------------------------------
 	// Attribute(s)
 
-	public static class Detail extends Observable implements Identifiable {
+	public static class Detail extends Observable<Detail> implements Identifiable {
 
 		// --------------------------------------------------
 		// Constructor(s)
@@ -104,7 +104,6 @@ public class Reservation extends Observable implements Identifiable {
 
 		public void setCategory(Room.Category value) {
 			categorie = value;
-			setChanged();
 			notifyObservers();
 		}
 
@@ -113,7 +112,6 @@ public class Reservation extends Observable implements Identifiable {
 				throw new ValidationException();
 			
 			quantity = value;
-			setChanged();
 			notifyObservers();
 		}
 
@@ -123,7 +121,6 @@ public class Reservation extends Observable implements Identifiable {
 			
 			this.arrival = arrival;
 			this.departure = departure;
-			setChanged();
 			notifyObservers();
 		}
 

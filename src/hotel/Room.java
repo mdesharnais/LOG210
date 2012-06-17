@@ -1,6 +1,6 @@
 package hotel;
 
-import java.util.Observable;
+import hotel.util.Observable;
 
 public class Room {
 	// --------------------------------------------------
@@ -34,7 +34,7 @@ public class Room {
 	// Inner class
 
 	public static class Category
-		extends Observable
+		extends Observable<Category>
 		implements Comparable<Category>{
 		
 		// --------------------------------------------------
@@ -70,8 +70,7 @@ public class Room {
 		public void setName(String value)
 		{
 			name = value;
-			setChanged();
-			notifyObservers(this);
+			notifyObservers();
 		}
 		
 		// --------------------------------------------------

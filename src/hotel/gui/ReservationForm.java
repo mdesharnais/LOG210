@@ -7,10 +7,8 @@ package hotel.gui;
 import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;
+import hotel.util.Observer;
 import hotel.util.ValidationException;
-
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -75,13 +73,11 @@ public class ReservationForm extends javax.swing.JFrame {
             new String [] { Lang.RESERVATION_FORM_ID.toString(), Lang.RESERVATION_FORM_CATEGORY.toString(), Lang.RESERVATION_FORM_QUANTITY.toString(), Lang.RESERVATION_FORM_DATE_ARRIVAL.toString(), Lang.RESERVATION_FORM_DATE_DEPARTURE.toString()}) {
         	
 
-				private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
+			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {
                 Integer.class, Room.Category.class, String.class, Object.class, Object.class
             };
 
-            @SuppressWarnings("rawtypes")
 			@Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
@@ -97,20 +93,18 @@ public class ReservationForm extends javax.swing.JFrame {
         TableColumn column = TableReservation.getColumnModel().getColumn(0);
         TableReservation.getColumnModel().removeColumn(column);
         
-        reservationSystem.addReservationDetailAddedListener(new Observer() {
+        reservationSystem.addReservationDetailAddedListener(new Observer<Reservation.Detail>() {
 			@Override
-			public void update(Observable o, Object arg) {
-				Reservation.Detail detail = (Reservation.Detail) arg;
+			public void update(Reservation.Detail detail) {
 				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
 				
 				model.addRow(new Object[] {detail.getId(), detail.getCategory(), detail.getQuantity(), detail.getArrival(), detail.getDeparture()});
 			}
         });
         
-        reservationSystem.addReservationDetailRemovedListener(new Observer() {
+        reservationSystem.addReservationDetailRemovedListener(new Observer<Reservation.Detail>() {
 			@Override
-			public void update(Observable o, Object arg) {
-				Reservation.Detail detail = (Reservation.Detail) arg;
+			public void update(Reservation.Detail detail) {
 				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
 				
 				for (int i = 0; i < model.getRowCount(); ++i) {

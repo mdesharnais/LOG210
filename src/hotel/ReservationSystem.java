@@ -1,11 +1,11 @@
 package hotel;
 
 import hotel.util.NotEnoughRooms;
+import hotel.util.Observer;
 import hotel.util.ValidationException;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.Observer;
 
 public class ReservationSystem {
 	
@@ -101,7 +101,7 @@ public class ReservationSystem {
 	 * Ajoute un observer a la reservation
 	 * @param o
 	 */
-	public void addReservationListener(Observer o) {
+	public void addReservationListener(Observer<Reservation> o) {
 		reservation.addObserver(o);
 	}
 	
@@ -109,7 +109,7 @@ public class ReservationSystem {
 	 * Ajoute un observer au detail de la reservation 
 	 * @param o
 	 */
-	public void addReservationDetailAddedListener(Observer o) {
+	public void addReservationDetailAddedListener(Observer<Reservation.Detail> o) {
 		reservation.getDetails().AddElementAddedListener(o);
 	}
 	
@@ -117,7 +117,7 @@ public class ReservationSystem {
 	 * Supprime un observer au detail de la reservation
 	 * @param o
 	 */
-	public void addReservationDetailRemovedListener(Observer o) {
+	public void addReservationDetailRemovedListener(Observer<Reservation.Detail> o) {
 		reservation.getDetails().AddElementRemovedListener(o);
 	}
 

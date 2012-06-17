@@ -4,9 +4,6 @@
  */
 package hotel.gui;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -16,6 +13,7 @@ import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;
 import hotel.util.ObservableList;
+import hotel.util.Observer;
 
 public class ReservationList extends javax.swing.JFrame {
 
@@ -46,11 +44,9 @@ public class ReservationList extends javax.swing.JFrame {
             new Object [][] { },
             new String [] {Lang.RESERVATION_LIST_ID.toString(), Lang.RESERVATION_LIST_CONFIRMATION.toString(), Lang.RESERVATION_LIST_CLIENT.toString()}) {
     	
-				private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
+			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {Integer.class, Integer.class, Room.Category.class};
 
-            @SuppressWarnings("rawtypes")
 			@Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
@@ -71,20 +67,18 @@ public class ReservationList extends javax.swing.JFrame {
         	model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
         }
         
-        reservations.AddElementAddedListener(new Observer() {
+        reservations.AddElementAddedListener(new Observer<Reservation>() {
     			@Override
-    			public void update(Observable o, Object arg) {
-    				Reservation reservation = (Reservation) arg;
+    			public void update(Reservation reservation) {
     				DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
     				
     				model.addRow(new Object[] {reservation.getId(), reservation.getConfirmationNumber(), reservation.getClient()});
     			}
             });
             
-        reservations.AddElementRemovedListener(new Observer() {
+        reservations.AddElementRemovedListener(new Observer<Reservation>() {
     			@Override
-    			public void update(Observable o, Object arg) {
-    				Reservation reservation = (Reservation) arg;
+    			public void update(Reservation reservation) {
     				DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
     				
     				for (int i = 0; i < model.getRowCount(); ++i) {

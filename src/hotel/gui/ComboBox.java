@@ -1,13 +1,12 @@
 package hotel.gui;
 
-import java.util.Observable;
-import java.util.Observer;
-
+import hotel.util.Observable;
 import hotel.util.ObservableList;
+import hotel.util.Observer;
 
 import javax.swing.JComboBox;
 
-public class ComboBox<T extends Observable> extends JComboBox {
+public class ComboBox<T extends Observable<T>> extends JComboBox {
 	// --------------------------------------------------
 	// Constructor(s)
 	
@@ -21,9 +20,9 @@ public class ComboBox<T extends Observable> extends JComboBox {
 		
 		for (T t : data) {
 			addItem(t);
-			t.addObserver(new Observer() {
+			t.addObserver(new Observer<T>() {
 				@Override
-				public void update(Observable o, Object arg) {
+				public void update(T arg) {
 					T item = getSelectedItem();
 					
 					removeAll();
@@ -36,16 +35,16 @@ public class ComboBox<T extends Observable> extends JComboBox {
 			});
 		}
 		
-		data.AddElementAddedListener(new Observer() {
+		data.AddElementAddedListener(new Observer<T>() {
 			@Override
-			public void update(Observable o, Object arg) {
-				addItem(arg);
+			public void update(T obj) {
+				addItem(obj);
 			}
 		});
 		
-		data.AddElementRemovedListener(new Observer() {
+		data.AddElementRemovedListener(new Observer<T>() {
 			@Override
-			public void update(Observable o, Object arg) {
+			public void update(T arg) {
 				removeItem(arg);
 			}
 		});
