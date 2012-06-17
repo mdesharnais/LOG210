@@ -1,10 +1,9 @@
 package hotel;
 
+import hotel.util.Observable;
 import hotel.util.ValidationException;
 
-import java.util.Observable;
-
-public class Client extends Observable {
+public class Client extends Observable<Client> {
 	// --------------------------------------------------
 	// Constructor(s)
 	
