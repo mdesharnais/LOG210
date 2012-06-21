@@ -1,0 +1,12 @@
+Contrat d'operation CO01 - confirmerSéjour(numéroChambre : entier)
+
+Référence :
+ - Cas d'utilisation « CU02 - Démarrer un séjour »
+
+Préconditions :
+ - Un séjour doit être en cours de création.
+ - Une catégorie doit être sélectionnée. (Vraiment?, un numéro de chambre seul est parfaitement capable d'identifier la chambre à louer)
+
+Postconditions :
+ - Le séjour est associé à l'agenda.
+ - L'état de la chambre choisi passe à « Occupé ».
