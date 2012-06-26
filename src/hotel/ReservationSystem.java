@@ -90,6 +90,7 @@ public class ReservationSystem {
 			
 			reservation.setClient(client);
 			reservation.generateConfirmationNumber();
+			client.addReservation(reservation.getConfirmationNumber());
 			Agenda.getInstance().save(reservation);
 			saved = true;
 		}

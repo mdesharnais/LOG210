@@ -1,5 +1,7 @@
 package hotel;
 
+import java.util.List;
+
 import hotel.util.Observable;
 import hotel.util.ValidationException;
 
@@ -23,6 +25,11 @@ public class Client extends Observable<Client> {
 	public String getTelephoneNumber()
 	{
 		return telephoneNumber;
+	}
+	
+	public List<Integer> getReservationList()
+	{
+		return reservationList;
 	}
 	
 	// --------------------------------------------------
@@ -52,9 +59,18 @@ public class Client extends Observable<Client> {
 		return getName();
 	}
 	
+	public void addReservation(int noConfirmation) {
+		reservationList.add(noConfirmation);
+	}
+	
+	public void deleteReservation(int noConfirmation) {
+		reservationList.remove(noConfirmation);
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 	
 	private String name;
 	private String telephoneNumber;
+	private List<Integer> reservationList;
 }

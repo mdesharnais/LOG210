@@ -106,6 +106,13 @@ public class Agenda extends ObservableList<Reservation> {
 		return results;
 	}
 	
+	public Reservation getReservation(int noConfirmation) {
+		Reservation r = null;
+		for(int i = 0; i < size(); i++)
+			r = get(i);
+		return r;
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 
