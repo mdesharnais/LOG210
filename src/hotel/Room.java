@@ -1,8 +1,10 @@
 package hotel;
 
+import hotel.util.Identifiable;
 import hotel.util.Observable;
 
 public class Room {
+	
 	// --------------------------------------------------
 	// Constructor(s)
 	
@@ -44,7 +46,7 @@ public class Room {
 
 	public static class Category
 		extends Observable<Category>
-		implements Comparable<Category>{
+		implements Comparable<Category>, Identifiable {
 		
 		// --------------------------------------------------
 		// Constructor(s)
@@ -68,6 +70,7 @@ public class Room {
 			return name;
 		}
 		
+		@Override
 		public int getId()
 		{
 			return id;
@@ -85,6 +88,7 @@ public class Room {
 		// --------------------------------------------------
 		// Method(s)
 		
+		@Override
 		public String toString()
 		{
 			return name;

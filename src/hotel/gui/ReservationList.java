@@ -4,11 +4,16 @@
  */
 package hotel.gui;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
+import hotel.Hotel;
 import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;
@@ -91,6 +96,21 @@ public class ReservationList extends javax.swing.JFrame {
             });
         
         jScrollPane1.setViewportView(TableReservationList);
+        TableReservationList.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent event) {
+                if (event.getButton() == MouseEvent.BUTTON1 && event.getClickCount() == 2) {
+                	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+                	int rowIndex = TableReservationList.rowAtPoint(event.getPoint());
+                	Reservation r = Agenda.getInstance().getReservation((Integer) model.getValueAt(rowIndex, 1));
+                	
+                	ReservationForm form = new ReservationForm();
+                	form.update(r);
+                	
+                    form.setVisible(true);
+                }
+            }
+        });
 
         ButtonClose.setText(Lang.RESERVATION_LIST_CLOSE.toString());
         ButtonClose.addActionListener(new java.awt.event.ActionListener() {
@@ -148,8 +168,25 @@ public class ReservationList extends javax.swing.JFrame {
      * @param evt
      */
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
+    	/*
     	ReservationForm form = new ReservationForm();
         form.setVisible(true);
+        */
+    	
+    	String query = JOptionPane.showInputDialog("Entrer vos paramètres de recherche");
+    	JOptionPane.showMessageDialog(null, query);
+    	search(query, Agenda.getInstance());
+    }
+    
+    private void search(String query, ObservableList<Reservation> reservations) {
+    	String[] operands = query.split("=");
+    	if (operands[0].equals("confirmationNumber")) {
+    		for (Reservation r : reservations) {
+    			if (r.getConfirmationNumber().equals(operands[1])) {
+    				
+    			}
+    		}
+    	}
     }
 
     /**
@@ -163,6 +200,7 @@ public class ReservationList extends javax.swing.JFrame {
 
             public void run() {
                 new ReservationList(Agenda.getInstance()).setVisible(true);
+                Agenda.getInstance().init();
             }
         });
     }

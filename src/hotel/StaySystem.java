@@ -30,7 +30,11 @@ public class StaySystem {
 		
 	}
 	
-	public void confirm() {
+	public void enterRoomCategory(int roomCategoryId) {
+		
+	}
+	
+	public void confirmStay(int roomId) {
 		
 	}
 

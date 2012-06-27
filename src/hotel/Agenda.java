@@ -1,8 +1,11 @@
 package hotel;
 
 import hotel.util.ObservableList;
+import hotel.util.ValidationException;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,6 +22,23 @@ public class Agenda extends ObservableList<Reservation> {
 	
 	// --------------------------------------------------
 	// Mutators(s)
+	
+	public void init() {
+		try {
+			ReservationSystem reservationSystem = new ReservationSystem();
+			reservationSystem.startNewReservation();
+			
+			Calendar calendar = new GregorianCalendar(2012, 10, 1);
+			Date arrivalDate = calendar.getTime();
+			calendar.set(2012, 10, 5);
+			Date departureDate = calendar.getTime();
+			
+			reservationSystem.addLine(1, 2, arrivalDate, departureDate);
+			reservationSystem.confirm("Bilbon Saquet", "555 555-5555");
+		} catch (ValidationException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// --------------------------------------------------
 	// Method(s)

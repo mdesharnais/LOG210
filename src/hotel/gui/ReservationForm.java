@@ -4,22 +4,30 @@
  */
 package hotel.gui;
 
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;
 import hotel.util.Observer;
 import hotel.util.ValidationException;
 
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class ReservationForm extends javax.swing.JFrame {
+public class ReservationForm
+	extends javax.swing.JFrame
+	implements Observer<Reservation> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	/**
      * Creates new form Reservation
@@ -117,6 +125,42 @@ public class ReservationForm extends javax.swing.JFrame {
         });
 
         jScrollPane1.setViewportView(TableReservation);
+        
+        popupMenu = new JPopupMenu();
+        JMenuItem createLinkedStay = new JMenuItem("Créer un séjour lié");
+        createLinkedStay.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Test");
+			}
+        });
+        popupMenu.add(createLinkedStay);
+        
+        
+        TableReservation.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mousePressed(MouseEvent e) {
+                maybeShowPopup(e);
+            }
+
+        	@Override
+            public void mouseReleased(MouseEvent e) {
+                maybeShowPopup(e);
+            }
+            
+			public void maybeShowPopup(MouseEvent event) {
+				
+				if (event.isPopupTrigger())
+				{
+					// Select the row under the cursor
+					int rowIndex = TableReservation.rowAtPoint(event.getPoint());
+					TableReservation.setRowSelectionInterval(rowIndex, rowIndex);
+					
+					// Show the popup menu
+					popupMenu.show(event.getComponent(), event.getX(), event.getY());
+				}
+			}
+        });
 
         ButtonAdd.setText(Lang.RESERVATION_FORM_ADD.toString());
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -268,10 +312,26 @@ public class ReservationForm extends javax.swing.JFrame {
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
     	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
+    
+	@Override
+	public void update(Reservation obj) {
+		TextName.setText(obj.getClient().getName());
+		TextName.setEnabled(false);
+		TextTelephone.setText(obj.getClient().getTelephoneNumber());
+		TextTelephone.setEnabled(false);
+		
+		DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+		
+		for (Reservation.Detail detail : obj.getDetails())
+			model.addRow(new Object[] {detail.getId(), detail.getCategory(), detail.getQuantity(), detail.getArrival(), detail.getDeparture()});
+		
+		ButtonAdd.setEnabled(false);
+		ButtonDelete.setEnabled(false);
+		ButtonSave.setEnabled(false);
+		
+		TableReservation.setEnabled(false);
+	}
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /*
          * Create and display the form
@@ -302,5 +362,6 @@ public class ReservationForm extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu popupMenu;
     // End of variables declaration//GEN-END:variables
 }

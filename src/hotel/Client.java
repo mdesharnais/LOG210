@@ -1,5 +1,6 @@
 package hotel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hotel.util.Observable;
@@ -72,5 +73,5 @@ public class Client extends Observable<Client> {
 	
 	private String name;
 	private String telephoneNumber;
-	private List<Integer> reservationList;
+	private List<Integer> reservationList = new ArrayList<Integer>();
 }
