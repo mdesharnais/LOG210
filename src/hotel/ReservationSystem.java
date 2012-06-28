@@ -20,6 +20,7 @@ public class ReservationSystem {
 	 */
 	public void startNewReservation() {
 		reservation = new Reservation();
+		saved = false;
 	}
 	
 	/**

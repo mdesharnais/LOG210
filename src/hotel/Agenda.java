@@ -25,16 +25,32 @@ public class Agenda extends ObservableList<Reservation> {
 	
 	public void init() {
 		try {
+            Calendar calendar = new GregorianCalendar();
 			ReservationSystem reservationSystem = new ReservationSystem();
-			reservationSystem.startNewReservation();
 			
-			Calendar calendar = new GregorianCalendar(2012, 10, 1);
-			Date arrivalDate = calendar.getTime();
-			calendar.set(2012, 10, 5);
-			Date departureDate = calendar.getTime();
+			{
+    			reservationSystem.startNewReservation();
+    			
+    			calendar.set(2012, 10, 1);
+    			Date arrivalDate = calendar.getTime();
+    			calendar.set(2012, 10, 5);
+    			Date departureDate = calendar.getTime();
+    			
+    			reservationSystem.addLine(1, 2, arrivalDate, departureDate);
+    			reservationSystem.confirm("Bilbon Saquet", "555 555-5555");
+			}
 			
-			reservationSystem.addLine(1, 2, arrivalDate, departureDate);
-			reservationSystem.confirm("Bilbon Saquet", "555 555-5555");
+			{
+    	        reservationSystem.startNewReservation();
+    	        
+    	        calendar.set(2013, 2, 12);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2013, 2, 14);
+                Date departureDate = calendar.getTime();
+                
+                reservationSystem.addLine(3, 1, arrivalDate, departureDate);
+                reservationSystem.confirm("Frodon Saquet", "555 666-7777");
+			}
 		} catch (ValidationException e) {
 			e.printStackTrace();
 		}
