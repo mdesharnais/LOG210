@@ -38,6 +38,7 @@ public class ReservationList extends javax.swing.JFrame {
     private void initComponents(ObservableList<Reservation> reservations) {
 
         jScrollPane1 = new javax.swing.JScrollPane();
+        TextFind = new javax.swing.JTextField();
         TableReservationList = new javax.swing.JTable();
         ButtonClose = new javax.swing.JButton();
         ButtonAdd = new javax.swing.JButton();
@@ -132,8 +133,12 @@ public class ReservationList extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFind, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(ButtonAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,7 +149,9 @@ public class ReservationList extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonClose)
@@ -182,9 +189,9 @@ public class ReservationList extends javax.swing.JFrame {
     	String[] operands = query.split("=");
     	if (operands[0].equals("confirmationNumber")) {
     		for (Reservation r : reservations) {
-    			if (r.getConfirmationNumber().equals(operands[1])) {
+    			/*if (r.getConfirmationNumber().equals(operands[1])) {
     				
-    			}
+    			}*/
     		}
     	}
     }
@@ -209,5 +216,6 @@ public class ReservationList extends javax.swing.JFrame {
     private javax.swing.JButton ButtonAdd;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable TableReservationList;
+    private javax.swing.JTextField TextFind;
     // End of variables declaration//GEN-END:variables
 }
