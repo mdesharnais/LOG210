@@ -6,6 +6,7 @@ package hotel.gui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -48,7 +49,7 @@ public class ReservationList extends javax.swing.JFrame {
 
         TableReservationList.setModel(new DefaultTableModel(
             new Object [][] { },
-            new String [] {Lang.RESERVATION_LIST_ID.toString(), Lang.RESERVATION_LIST_CONFIRMATION.toString(), Lang.RESERVATION_LIST_CLIENT.toString()}) {
+            new String [] {Lang.RESERVATION_LIST_ID.toString(), Lang.RESERVATION_LIST_CONFIRMATION.toString(), Lang.RESERVATION_LIST_CLIENT_NAME.toString()}) {
     	
 			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {Integer.class, Integer.class, Room.Category.class};
@@ -68,10 +69,7 @@ public class ReservationList extends javax.swing.JFrame {
         TableColumn column = TableReservationList.getColumnModel().getColumn(0);
         TableReservationList.getColumnModel().removeColumn(column);
         
-        for (Reservation r : reservations) {
-        	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
-        	model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
-        }
+        show(reservations);
         
         reservations.AddElementAddedListener(new Observer<Reservation>() {
     			@Override
@@ -181,19 +179,59 @@ public class ReservationList extends javax.swing.JFrame {
         */
     	
     	String query = JOptionPane.showInputDialog("Entrer vos paramètres de recherche");
-    	JOptionPane.showMessageDialog(null, query);
-    	search(query, Agenda.getInstance());
+    	if (query != null) {
+        	if (query.isEmpty())
+        	    show(Agenda.getInstance());
+        	else
+        	    search(query, Agenda.getInstance());
+        }
     }
     
     private void search(String query, ObservableList<Reservation> reservations) {
     	String[] operands = query.split("=");
+    	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+    	clearTable();
+    	
+    	switch (operands.length) {
+    	case 1:
+    	    for (Reservation r : reservations) {
+                if (Integer.toString(r.getConfirmationNumber()).contains(operands[0])
+                        || r.getClient().getName().contains(operands[0])) {
+                    model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
+                }
+            }
+    	    break;
+    	}
+	    
+    	if (operands[0].isEmpty()) {
+    	    for (Reservation r : reservations) {
+    	        model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
+            }
+    	}
     	if (operands[0].equals("confirmationNumber")) {
+    	        
     		for (Reservation r : reservations) {
-    			/*if (r.getConfirmationNumber().equals(operands[1])) {
-    				
-    			}*/
+    			if (r.getConfirmationNumber() == Integer.parseInt(operands[1])) {
+    	        	    model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
+    			}
     		}
     	}
+    }
+    
+    private void show(List<Reservation> reservations) {
+        clearTable();
+        
+        for (Reservation r : reservations) {
+            DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+            model.addRow(new Object[] {r.getId(), r.getConfirmationNumber(), r.getClient()});
+        }
+    }
+    
+    private void clearTable() {
+        DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+        
+        for (int i = model.getRowCount() - 1; i >= 0 ; --i)
+            model.removeRow(i);
     }
 
     /**
