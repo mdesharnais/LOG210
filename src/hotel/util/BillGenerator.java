@@ -28,7 +28,7 @@ public class BillGenerator {
 	
 	public static void main(String[] args) {
         try {
-            OutputStream file = new FileOutputStream(new File("C:\\Test.pdf"));
+            OutputStream file = new FileOutputStream(new File("..\\Test.pdf"));
  
             Document document = new Document();
             PdfWriter.getInstance(document, file);
