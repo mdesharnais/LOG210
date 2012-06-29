@@ -11,6 +11,22 @@
 
 package hotel.gui;
 
+import hotel.Agenda;
+import hotel.Hotel;
+import hotel.Room;
+import hotel.Stay;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -22,6 +38,8 @@ public class FactureForm extends javax.swing.JFrame {
     public FactureForm() {
     	GUI.initLookAndFeel();
         initComponents();
+        stay = Agenda.getInstance().getStay(); // TODO get stay from client
+        //diffInDays = (int)(stay.getDepartureDate().getTime() - stay.getArrivalDate().getTime()) / (1000 * 60 * 60 * 24);
     }
 
     /** This method is called from within the constructor to
@@ -66,6 +84,7 @@ public class FactureForm extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        
         jScrollPane1.setViewportView(TableChamberList);
         TableChamberList.getColumnModel().getColumn(0).setResizable(false);
         TableChamberList.getColumnModel().getColumn(1).setResizable(false);
@@ -75,7 +94,11 @@ public class FactureForm extends javax.swing.JFrame {
         ButtonAdd.setText("+");
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonAddActionPerformed(evt);
+                try {
+					ButtonAddActionPerformed(evt);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Cette chambre n'existe pas.");
+				}
             }
         });
 
@@ -192,24 +215,58 @@ public class FactureForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-        // TODO add your handling code here:
-    	this.dispose();
+    
+	private void updateRoomList(Room r) {
+		DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
+		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, 0});
+		rooms.add(r);
+	}
+	
+	private void updateRoomList(Room r, int diffInDays) {
+		DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
+		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, 0});
+		rooms.add(r);
+	}
+	
+	private int diffDate(Date older, Date newer) {
+		return (int)(newer.getTime() - older.getTime()) / (1000 * 60 * 60 * 24);
+	}
+    
+    private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) throws Exception {//GEN-FIRST:event_ButtonAddActionPerformed
+    	JTextField roomNo = new JTextField();
+    	com.toedter.calendar.JDateChooser arrivalDate = new com.toedter.calendar.JDateChooser();
+    	final JComponent[] inputs = new JComponent[] {
+    	                new JLabel("Numéro de la chambre"),
+    	                roomNo,
+    	                new JLabel("Date d'arrivée"),
+    	                arrivalDate
+    	};
+    	JOptionPane.showMessageDialog(null, inputs, "Ajout de chambre", JOptionPane.PLAIN_MESSAGE);
+    	int no = Integer.parseInt(roomNo.getText());
+    	boolean found = false;
+    	for (Room room : Hotel.getInstance().getRooms())
+    		if (room.getRoomNumber() == no) {
+    			updateRoomList(room, diffDate(arrivalDate.getDate(), new Date()));
+    			found = true;
+    			break;
+    		}
+    	if (!found)
+    		throw new Exception();
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-        // TODO add your handling code here:
-    	this.dispose();
+    	/*int rowIndex = TableChamberList.getSelectedRow();
+    	if (rowIndex != -1) {
+    		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
+    		int id = (Integer) model.getValueAt(rowIndex, 0);
+    	}*/
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
-        // TODO add your handling code here:
     	this.dispose();
     }//GEN-LAST:event_ButtonOkActionPerformed
 
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCancelActionPerformed
-        // TODO add your handling code here:
     	this.dispose();
     }//GEN-LAST:event_ButtonCancelActionPerformed
 
@@ -240,5 +297,9 @@ public class FactureForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    
+    private List<Room> rooms = new ArrayList<Room>();
+    private Stay stay = new Stay();
+    int diffInDays = 0;
 
 }

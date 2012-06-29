@@ -8,12 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import hotel.Hotel;
 import hotel.Reservation;
 import hotel.Room;
-import hotel.StaySystem;
 import hotel.util.Lang;
 import hotel.util.Observer;
 import hotel.util.ValidationException;

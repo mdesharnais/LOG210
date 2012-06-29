@@ -4,8 +4,6 @@
  */
 package hotel.gui;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -18,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
-import hotel.Hotel;
 import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;

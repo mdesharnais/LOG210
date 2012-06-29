@@ -7,6 +7,17 @@ public class Stay {
 	// --------------------------------------------------
 	// Constructor(s)
 	
+	public Stay() {
+		
+	}
+	
+	public Stay(Date arrival, Date departure, Room room, Client client) {
+		this.arrival = arrival;
+		this.departure = departure;
+		this.room = room;
+		this.client = client;
+	}
+	
 	// --------------------------------------------------
 	// Accessor(s)
 	

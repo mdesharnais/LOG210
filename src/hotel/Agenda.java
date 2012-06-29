@@ -200,6 +200,10 @@ public class Agenda extends ObservableList<Reservation> {
 		return null;
 	}
 	
+	public Stay getStay() {
+		return new Stay();
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 
