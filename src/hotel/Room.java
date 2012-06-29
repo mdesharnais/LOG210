@@ -8,16 +8,16 @@ public class Room {
 	// --------------------------------------------------
 	// Constructor(s)
 	
-	public Room (int roomNumber) {
+	public Room (int roomNumber, Category category) {
 		this.roomNumber = roomNumber;
+		this.category = category;
 	}
 	
 	// --------------------------------------------------
 	// Accessor(s)
 	
-	public Category getCategorie()
-	{
-		return categorie;
+	public Category getCategorie() {
+		return category;
 	}
 	
 	public int getRoomNumber() {
@@ -27,9 +27,8 @@ public class Room {
 	// --------------------------------------------------
 	// Mutators(s)
 	
-	public void setCategorie(Category value)
-	{
-		categorie = value;
+	public void setCategorie(Category value) {
+		category = value;
 	}
 	
 	// --------------------------------------------------
@@ -38,7 +37,7 @@ public class Room {
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Category categorie;
+	private Category category;
 	private int roomNumber;
 	
 	// --------------------------------------------------	

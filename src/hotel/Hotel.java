@@ -13,6 +13,7 @@ public class Hotel {
 	
 	private Hotel() {
 		generateRoomCategories();
+		generateRooms();
 		generateClients();
 		generateUsers();
 	}
@@ -47,6 +48,10 @@ public class Hotel {
 		return categoriesOccurences;
 	}
 	
+	public ObservableList<Room> getRooms() {
+	    return rooms;
+	}
+	
 	public ObservableList<Client> getClients() {
 		return clients;
 	}
@@ -62,13 +67,40 @@ public class Hotel {
 	// Method(s)
 	
 	/**
-	 * Genere une liste de chambre
+	 * Genere une liste de catégories de chambre
 	 */
 	private void generateRoomCategories() {
 		roomCategories.add(new Room.Category("Cheap"));
 		roomCategories.add(new Room.Category("Normal"));
 		roomCategories.add(new Room.Category("Deluxe"));
 	}
+	
+	 /**
+     * Genere une liste de chambres
+     */
+    private void generateRooms() {
+        rooms.add(new Room(1001, roomCategories.get(0)));
+        rooms.add(new Room(1002, roomCategories.get(0)));
+        rooms.add(new Room(1105, roomCategories.get(0)));
+        rooms.add(new Room(1110, roomCategories.get(0)));
+        rooms.add(new Room(1120, roomCategories.get(0)));
+        rooms.add(new Room(1210, roomCategories.get(0)));
+        rooms.add(new Room(1235, roomCategories.get(0)));
+        rooms.add(new Room(2005, roomCategories.get(1)));
+        rooms.add(new Room(2010, roomCategories.get(1)));
+        rooms.add(new Room(2015, roomCategories.get(1)));
+        rooms.add(new Room(2205, roomCategories.get(1)));
+        rooms.add(new Room(2235, roomCategories.get(1)));
+        rooms.add(new Room(2315, roomCategories.get(1)));
+        rooms.add(new Room(2320, roomCategories.get(1)));
+        rooms.add(new Room(3045, roomCategories.get(2)));
+        rooms.add(new Room(3050, roomCategories.get(2)));
+        rooms.add(new Room(3055, roomCategories.get(2)));
+        rooms.add(new Room(3060, roomCategories.get(2)));
+        rooms.add(new Room(3135, roomCategories.get(2)));
+        rooms.add(new Room(3250, roomCategories.get(2)));
+        rooms.add(new Room(3255, roomCategories.get(2)));
+    }
 
 	/**
 	 * Genere une liste de client
@@ -98,6 +130,7 @@ public class Hotel {
 	
 	private static Hotel                  instance = new Hotel();
 	private ObservableList<Room.Category> roomCategories = new ObservableList<Room.Category>();
+	private ObservableList<Room>          rooms = new ObservableList<Room>();
 	private ObservableList<Client>        clients = new ObservableList<Client>();
 	private ObservableList<User>          users = new ObservableList<User>();
 }
