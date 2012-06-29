@@ -51,6 +51,54 @@ public class Agenda extends ObservableList<Reservation> {
                 reservationSystem.addLine(3, 1, arrivalDate, departureDate);
                 reservationSystem.confirm("Frodon Saquet", "555 666-7777");
 			}
+			
+			{
+    	        reservationSystem.startNewReservation();
+    	        
+    	        calendar.set(2013, 2, 16);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2013, 2, 18);
+                Date departureDate = calendar.getTime();
+                
+                reservationSystem.addLine(3, 1, arrivalDate, departureDate);
+                reservationSystem.confirm("Gandalf the Grey", "555 777-8888");
+			}
+			
+			{
+    	        reservationSystem.startNewReservation();
+    	        
+    	        calendar.set(2013, 2, 20);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2013, 2, 22);
+                Date departureDate = calendar.getTime();
+                
+                reservationSystem.addLine(3, 1, arrivalDate, departureDate);
+                reservationSystem.confirm("Gimli fils de Gloin", "555 888-9999");
+			}
+			
+			{
+    	        reservationSystem.startNewReservation();
+    	        
+    	        calendar.set(2013, 2, 24);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2013, 2, 26);
+                Date departureDate = calendar.getTime();
+                
+                reservationSystem.addLine(3, 1, arrivalDate, departureDate);
+                reservationSystem.confirm("Boromir fils de Denethor", "555 999-0000");
+			}
+			
+			{
+    	        reservationSystem.startNewReservation();
+    	        
+    	        calendar.set(2013, 2, 28);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2013, 2, 30);
+                Date departureDate = calendar.getTime();
+                
+                reservationSystem.addLine(3, 1, arrivalDate, departureDate);
+                reservationSystem.confirm("Aragorn fils d'Arathorn", "555 111-2222");
+			}
 		} catch (ValidationException e) {
 			e.printStackTrace();
 		}
@@ -144,9 +192,12 @@ public class Agenda extends ObservableList<Reservation> {
 	
 	public Reservation getReservation(int noConfirmation) {
 		Reservation r = null;
-		for(int i = 0; i < size(); i++)
+		for(int i = 0; i < size(); i++) {
 			r = get(i);
-		return r;
+			if (r.getConfirmationNumber() == noConfirmation)
+				return r;
+		}
+		return null;
 	}
 	
 	// --------------------------------------------------
