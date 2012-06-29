@@ -5,7 +5,7 @@ Référence :
 
 Préconditions :
  - Un séjour doit être en cours de création.
- - Une catégorie doit être sélectionnée. (Vraiment?, un numéro de chambre seul est parfaitement capable d'identifier la chambre à louer)
+ - Il y a au moins une chambre de disponible dans le système.
 
 Postconditions :
  - Le séjour est associé à l'agenda.

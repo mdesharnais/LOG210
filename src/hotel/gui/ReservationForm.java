@@ -4,15 +4,16 @@
  */
 package hotel.gui;
 
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
+import hotel.Hotel;
 import hotel.Reservation;
 import hotel.Room;
+import hotel.StaySystem;
 import hotel.util.Lang;
 import hotel.util.Observer;
 import hotel.util.ValidationException;
@@ -131,7 +132,8 @@ public class ReservationForm
         createLinkedStay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Test");
+				SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
+				form.setVisible(true);
 			}
         });
         popupMenu.add(createLinkedStay);
@@ -191,11 +193,8 @@ public class ReservationForm
         });
         
         jLabel1.setText(Lang.RESERVATION_FORM_DETAIL.toString());
-        
         jLabel2.setText(Lang.RESERVATION_FORM_NAME.toString());
-
         jLabel3.setText(Lang.RESERVATION_FORM_TELEPHONE.toString());
-
         jLabel4.setText(Lang.RESERVATION_FORM_CLIENT.toString());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

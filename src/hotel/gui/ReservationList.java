@@ -4,10 +4,14 @@
  */
 package hotel.gui;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +50,41 @@ public class ReservationList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Lang.RESERVATION_LIST_TITLE.toString());
+        
+        TextFind.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (TextFind.getText().isEmpty())
+                    show(Agenda.getInstance());
+                else
+                    search(TextFind.getText(), Agenda.getInstance());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                search(TextFind.getText(), Agenda.getInstance());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (TextFind.getText().isEmpty())
+                    show(Agenda.getInstance());
+                else
+                    search(TextFind.getText(), Agenda.getInstance());
+            }
+        });
+        
+        /*
+        .addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent event) {
+                if (TextFind.getText().isEmpty())
+                    show(Agenda.getInstance());
+                else
+                    search(TextFind.getText(), Agenda.getInstance());
+            }
+        });
+        */
 
         TableReservationList.setModel(new DefaultTableModel(
             new Object [][] { },
