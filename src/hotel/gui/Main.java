@@ -12,7 +12,7 @@ public class Main {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 
 	            public void run() {
-	                new ReservationList(Agenda.getInstance()).setVisible(true);
+	                new ReservationList(Agenda.getInstance().getReservations()).setVisible(true);
 	            }
 	        });
 		}

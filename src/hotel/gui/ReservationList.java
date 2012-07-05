@@ -4,23 +4,21 @@
  */
 package hotel.gui;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import hotel.Agenda;
-import hotel.Hotel;
 import hotel.Reservation;
+import hotel.ReservationSystem;
 import hotel.Room;
+import hotel.StaySystem;
 import hotel.util.Lang;
 import hotel.util.ObservableList;
 import hotel.util.Observer;
@@ -55,36 +53,24 @@ public class ReservationList extends javax.swing.JFrame {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 if (TextFind.getText().isEmpty())
-                    show(Agenda.getInstance());
+                    show(Agenda.getInstance().getReservations());
                 else
-                    search(TextFind.getText(), Agenda.getInstance());
+                    search(TextFind.getText(), Agenda.getInstance().getReservations());
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                search(TextFind.getText(), Agenda.getInstance());
+                search(TextFind.getText(), Agenda.getInstance().getReservations());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 if (TextFind.getText().isEmpty())
-                    show(Agenda.getInstance());
+                    show(Agenda.getInstance().getReservations());
                 else
-                    search(TextFind.getText(), Agenda.getInstance());
+                    search(TextFind.getText(), Agenda.getInstance().getReservations());
             }
         });
-        
-        /*
-        .addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent event) {
-                if (TextFind.getText().isEmpty())
-                    show(Agenda.getInstance());
-                else
-                    search(TextFind.getText(), Agenda.getInstance());
-            }
-        });
-        */
 
         TableReservationList.setModel(new DefaultTableModel(
             new Object [][] { },
@@ -137,15 +123,20 @@ public class ReservationList extends javax.swing.JFrame {
         TableReservationList.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent event) {
-                if (event.getButton() == MouseEvent.BUTTON1 && event.getClickCount() == 2) {
-                	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
-                	int rowIndex = TableReservationList.rowAtPoint(event.getPoint());
-                	Reservation r = Agenda.getInstance().getReservation((Integer) model.getValueAt(rowIndex, 1));
-                	
-                	ReservationForm form = new ReservationForm();
-                	form.update(r);
-                	
-                    form.setVisible(true);
+        	    try {
+                    if (event.getButton() == MouseEvent.BUTTON1 && event.getClickCount() == 2) {
+                    	DefaultTableModel model = (DefaultTableModel) TableReservationList.getModel();
+                    	int rowIndex = TableReservationList.rowAtPoint(event.getPoint());
+                    	Reservation r;
+                            r = Agenda.getInstance().getReservation((Integer) model.getValueAt(rowIndex, 1));
+                    	
+                    	ReservationForm form = new ReservationForm(null, new StaySystem());
+                    	form.update(r);
+                    	
+                        form.setVisible(true);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -212,18 +203,8 @@ public class ReservationList extends javax.swing.JFrame {
      * @param evt
      */
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
-    	/*
-    	ReservationForm form = new ReservationForm();
+    	ReservationForm form = new ReservationForm(new ReservationSystem(), null);
         form.setVisible(true);
-        */
-    	
-    	String query = JOptionPane.showInputDialog("Entrer vos paramètres de recherche");
-    	if (query != null) {
-        	if (query.isEmpty())
-        	    show(Agenda.getInstance());
-        	else
-        	    search(query, Agenda.getInstance());
-        }
     }
     
     private void search(String query, ObservableList<Reservation> reservations) {
@@ -283,7 +264,7 @@ public class ReservationList extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new ReservationList(Agenda.getInstance()).setVisible(true);
+                new ReservationList(Agenda.getInstance().getReservations()).setVisible(true);
                 Agenda.getInstance().init();
             }
         });

@@ -3,13 +3,15 @@ package hotel;
 import hotel.util.ObservableList;
 import hotel.util.ValidationException;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Agenda extends ObservableList<Reservation> {
+public class Agenda {
 	
 	// --------------------------------------------------
 	// Constructor(s)
@@ -111,13 +113,17 @@ public class Agenda extends ObservableList<Reservation> {
 		return instance;
 	}
 	
+	public ObservableList<Reservation> getReservations() {
+	    return reservations;
+	}
+	
 	/**
 	 * Ajoute une reservation
 	 * @param value
 	 */
 	public void save(Reservation value)
 	{
-		add(value);
+		reservations.add(value);
 	}
 	
 	/**
@@ -126,7 +132,7 @@ public class Agenda extends ObservableList<Reservation> {
 	 */
 	public void delete(Reservation value)
 	{
-		remove(value);
+	    reservations.remove(value);
 	}
 	
 	
@@ -148,7 +154,7 @@ public class Agenda extends ObservableList<Reservation> {
 	public Map<Room.Category, Integer> getUsedRoomCategoriesBetween(Date begin, Date end) {
 		Map<Room.Category, Integer> categoriesOccurences = new TreeMap<Room.Category, Integer>();
 		
-		for (Reservation r : this) {
+		for (Reservation r : reservations) {
 			for (Reservation.Detail d : r.getDetails()) {
 				Date arrival = d.getArrival();
 				Date departure = d.getDeparture();
@@ -190,18 +196,42 @@ public class Agenda extends ObservableList<Reservation> {
 		return results;
 	}
 	
+    public Reservation getReservationById(int id) {
+        for (Reservation r : reservations)
+            if (r.getId() == id)
+                return r;
+        
+        return null;
+    }
+	
 	public Reservation getReservation(int noConfirmation) {
-		Reservation r = null;
-		for(int i = 0; i < size(); i++) {
-			r = get(i);
-			if (r.getConfirmationNumber() == noConfirmation)
-				return r;
-		}
-		return null;
+	    for (Reservation r : reservations)
+	        if (r.getConfirmationNumber() == noConfirmation)
+	            return r;
+	    
+	    return null;
+	}
+	
+	public List<Room> getUsedRoom(Date first, Date last) {
+	    return new ArrayList<Room>();
+	}
+	
+	public List<Room> getFreeRoom(Date first, Date last) {
+	    List<Room> freeRooms = new ArrayList<Room>();
+	    List<Room> usedRooms = getUsedRoom(first, last);
+	    
+	    for (Room room : Hotel.getInstance().getRooms()) {
+	        if (!usedRooms.contains(room))
+	            freeRooms.add(room);
+	    }
+	    
+	    return freeRooms;
 	}
 	
 	// --------------------------------------------------
 	// Attribute(s)
 
 	private static Agenda instance = new Agenda();
+	private ObservableList<Reservation> reservations = new ObservableList<Reservation>();
+	private ObservableList<Stay> stays = new ObservableList<Stay>();
 }

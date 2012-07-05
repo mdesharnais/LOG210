@@ -9,9 +9,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
+import hotel.Agenda;
 import hotel.Hotel;
 import hotel.Reservation;
+import hotel.ReservationSystem;
 import hotel.Room;
 import hotel.StaySystem;
 import hotel.util.Lang;
@@ -33,9 +39,13 @@ public class ReservationForm
 	/**
      * Creates new form Reservation
      */
-    public ReservationForm() {
+    public ReservationForm(ReservationSystem rs, StaySystem ss) {
+        reservationSystem = rs;
+        staySystem = ss;
+        
     	GUI.initLookAndFeel();
-    	reservationSystem.startNewReservation();
+    	if (reservationSystem != null)
+    	    reservationSystem.startNewReservation();
         initComponents();
     }
 
@@ -102,67 +112,101 @@ public class ReservationForm
         TableColumn column = TableReservation.getColumnModel().getColumn(0);
         TableReservation.getColumnModel().removeColumn(column);
         
-        reservationSystem.addReservationDetailAddedListener(new Observer<Reservation.Detail>() {
-			@Override
-			public void update(Reservation.Detail detail) {
-				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-				
-				model.addRow(new Object[] {detail.getId(), detail.getCategory(), detail.getQuantity(), detail.getArrival(), detail.getDeparture()});
-			}
-        });
+        if (reservationSystem != null) {
+            reservationSystem.addReservationDetailAddedListener(new Observer<Reservation.Detail>() {
+    			@Override
+    			public void update(Reservation.Detail detail) {
+    				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    				
+    				model.addRow(new Object[] {detail.getId(), detail.getCategory(), detail.getQuantity(), detail.getArrival(), detail.getDeparture()});
+    			}
+            });
         
-        reservationSystem.addReservationDetailRemovedListener(new Observer<Reservation.Detail>() {
-			@Override
-			public void update(Reservation.Detail detail) {
-				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-				
-				for (int i = 0; i < model.getRowCount(); ++i) {
-					if (detail.getId() == (Integer) model.getValueAt(i, 0)) {
-						model.removeRow(i);
-						break;
-					}
-				}
-			}
-        });
+            reservationSystem.addReservationDetailRemovedListener(new Observer<Reservation.Detail>() {
+    			@Override
+    			public void update(Reservation.Detail detail) {
+    				DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    				
+    				for (int i = 0; i < model.getRowCount(); ++i) {
+    					if (detail.getId() == (Integer) model.getValueAt(i, 0)) {
+    						model.removeRow(i);
+    						break;
+    					}
+    				}
+    			}
+            });
+        }
 
         jScrollPane1.setViewportView(TableReservation);
         
-        popupMenu = new JPopupMenu();
-        JMenuItem createLinkedStay = new JMenuItem("Créer un séjour lié");
-        createLinkedStay.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
-				form.setVisible(true);
-			}
-        });
-        popupMenu.add(createLinkedStay);
-        
-        
-        TableReservation.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mousePressed(MouseEvent e) {
-                maybeShowPopup(e);
-            }
+        if (staySystem != null) {
+            popupMenu = new JPopupMenu();
+            JMenuItem createLinkedStay = new JMenuItem("Créer un séjour lié");
+            createLinkedStay.addActionListener(new ActionListener() {
+    			@Override
+    			public void actionPerformed(ActionEvent arg0) {
+                    int rowIndex = TableReservation.getSelectedRow();
+                    if (rowIndex != -1) {
+                        DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+                        int id = (Integer) model.getValueAt(rowIndex, 0);
+                        
+                        for (Reservation.Detail detail : reservation.getDetails()) {
+                            if (detail.getId() == id) {
+                                Agenda agenda = Agenda.getInstance();
+                                Date arrival = detail.getArrival();
+                                Date departure = detail.getDeparture();
+                                List<Room> freeRooms = agenda.getFreeRoom(arrival, departure);
+                                
+                                while (freeRooms.isEmpty() && arrival.before(departure)) {
+                                    GregorianCalendar calendar = new GregorianCalendar();
+                                    calendar.setTime(departure);
+                                    calendar.add(Calendar.DATE, -1);
+                                    departure = calendar.getTime();
+                                    freeRooms = agenda.getFreeRoom(arrival, departure);
+                                }
+                                
+                                List<Room> usableRooms = new ArrayList<Room>();
+                                for (Room room : freeRooms) {
+                                    if (room.getCategorie().equals(detail.getCategory())) {
+                                        usableRooms.add(room);
+                                    }
+                                }
 
-        	@Override
-            public void mouseReleased(MouseEvent e) {
-                maybeShowPopup(e);
-            }
+                				SelectRoomForm form = new SelectRoomForm(usableRooms);
+                				form.setVisible(true);
+                            }
+                        }
+                    }
+    			}
+            });
+            popupMenu.add(createLinkedStay);
             
-			public void maybeShowPopup(MouseEvent event) {
-				
-				if (event.isPopupTrigger())
-				{
-					// Select the row under the cursor
-					int rowIndex = TableReservation.rowAtPoint(event.getPoint());
-					TableReservation.setRowSelectionInterval(rowIndex, rowIndex);
-					
-					// Show the popup menu
-					popupMenu.show(event.getComponent(), event.getX(), event.getY());
-				}
-			}
-        });
+            
+            TableReservation.addMouseListener(new MouseAdapter() {
+            	@Override
+            	public void mousePressed(MouseEvent e) {
+                    maybeShowPopup(e);
+                }
+    
+            	@Override
+                public void mouseReleased(MouseEvent e) {
+                    maybeShowPopup(e);
+                }
+                
+    			public void maybeShowPopup(MouseEvent event) {
+    				
+    				if (event.isPopupTrigger())
+    				{
+    					// Select the row under the cursor
+    					int rowIndex = TableReservation.rowAtPoint(event.getPoint());
+    					TableReservation.setRowSelectionInterval(rowIndex, rowIndex);
+    					
+    					// Show the popup menu
+    					popupMenu.show(event.getComponent(), event.getX(), event.getY());
+    				}
+    			}
+            });
+        }
 
         ButtonAdd.setText(Lang.RESERVATION_FORM_ADD.toString());
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -274,7 +318,8 @@ public class ReservationForm
      * @param evt
      */
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-    	ReservationDetailForm.showDialog(this, this, reservationSystem);
+        if (reservationSystem != null)
+            ReservationDetailForm.showDialog(this, this, reservationSystem);
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     /**
@@ -282,12 +327,14 @@ public class ReservationForm
      * @param evt
      */
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-    	int rowIndex = TableReservation.getSelectedRow();
-    	if (rowIndex != -1) {
-    		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-    		int id = (Integer) model.getValueAt(rowIndex, 0);
-    		reservationSystem.removeLine(id);
-    	}
+        if (reservationSystem != null) {
+        	int rowIndex = TableReservation.getSelectedRow();
+        	if (rowIndex != -1) {
+        		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+        		int id = (Integer) model.getValueAt(rowIndex, 0);
+        		reservationSystem.removeLine(id);
+        	}
+        }
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     /**
@@ -295,13 +342,15 @@ public class ReservationForm
      * @param evt
      */
     private void ButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-		try {
-			int reservationNumber = reservationSystem.confirm(TextName.getText(), TextTelephone.getText());
-	        JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_CONFIRMATION.toString() + reservationNumber);
-	        dispose();
-		} catch (ValidationException e) {
-			JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_ERROR.toString());
-		}
+        if (reservationSystem != null) {
+    		try {
+    			int reservationNumber = reservationSystem.confirm(TextName.getText(), TextTelephone.getText());
+    	        JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_CONFIRMATION.toString() + reservationNumber);
+    	        dispose();
+    		} catch (ValidationException e) {
+    			JOptionPane.showMessageDialog(this, Lang.RESERVATION_FORM_ERROR.toString());
+    		}
+        }
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
     /**
@@ -314,6 +363,8 @@ public class ReservationForm
     
 	@Override
 	public void update(Reservation obj) {
+	    reservation = obj;
+	    
 		TextName.setText(obj.getClient().getName());
 		TextName.setEnabled(false);
 		TextTelephone.setText(obj.getClient().getTelephoneNumber());
@@ -338,11 +389,13 @@ public class ReservationForm
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new ReservationForm().setVisible(true);
+                new ReservationForm(new ReservationSystem(), new StaySystem()).setVisible(true);
             }
         });
     }
-    private hotel.ReservationSystem reservationSystem = new hotel.ReservationSystem();
+    private ReservationSystem reservationSystem;
+    private StaySystem staySystem;
+    private Reservation reservation;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAdd;
