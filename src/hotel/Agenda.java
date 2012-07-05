@@ -117,6 +117,10 @@ public class Agenda {
 	    return reservations;
 	}
 	
+	public ObservableList<Stay> getStays() {
+		return stays;
+	}
+	
 	/**
 	 * Ajoute une reservation
 	 * @param value
@@ -126,6 +130,11 @@ public class Agenda {
 		reservations.add(value);
 	}
 	
+	public void save(Stay value)
+	{
+		stays.add(value);
+	}
+	
 	/**
 	 * Enleve une reservation
 	 * @param value
@@ -133,6 +142,11 @@ public class Agenda {
 	public void delete(Reservation value)
 	{
 	    reservations.remove(value);
+	}
+	
+	public void delete(Stay value)
+	{
+		stays.remove(value);
 	}
 	
 	

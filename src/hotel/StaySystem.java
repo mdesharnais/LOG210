@@ -56,7 +56,7 @@ public class StaySystem {
 		if (!found)
 			throw new RoomNotFound();
 		else
-			Agenda.getInstance().addStay(s);
+			Agenda.getInstance().save(s);
 	}
 
 	// --------------------------------------------------

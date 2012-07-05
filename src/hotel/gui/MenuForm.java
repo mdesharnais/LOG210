@@ -88,7 +88,7 @@ public class MenuForm extends javax.swing.JFrame {
 
     private void ButtonReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReservationActionPerformed
     	Agenda.getInstance().init();
-        new ReservationList(Agenda.getInstance()).setVisible(true);
+        new ReservationList(Agenda.getInstance().getReservations()).setVisible(true);
     }//GEN-LAST:event_ButtonReservationActionPerformed
 
     private void ButtonStayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStayActionPerformed

@@ -22,6 +22,7 @@ import hotel.Hotel;
 import hotel.Reservation;
 import hotel.ReservationSystem;
 import hotel.Room;
+import hotel.StaySystem;
 import hotel.util.Lang;
 import hotel.util.Observer;
 import hotel.util.RoomNotFound;
@@ -142,7 +143,7 @@ public class ReservationForm
 
         jScrollPane1.setViewportView(TableReservation);
 
-<<<<<<< HEAD
+
         if (staySystem != null) {
             popupMenu = new JPopupMenu();
             JMenuItem createLinkedStay = new JMenuItem("Créer un séjour lié");
@@ -194,7 +195,7 @@ public class ReservationForm
         popupMenu.add(createLinkedStay);
         
         
-        TableReservation.addMouseListener(new MouseAdapter() {
+        /*TableReservation.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mousePressed(MouseEvent e) {
                 maybeShowPopup(e);
@@ -232,7 +233,7 @@ public class ReservationForm
     					popupMenu.show(event.getComponent(), event.getX(), event.getY());
     				}
     			}
-            });
+            });*/
         }
 
         ButtonAdd.setText(Lang.RESERVATION_FORM_ADD.toString());
@@ -390,12 +391,8 @@ public class ReservationForm
     
 	@Override
 	public void update(Reservation obj) {
-<<<<<<< HEAD
 	    reservation = obj;
-	    
-=======
 		client = obj.getClient();
->>>>>>> 28ebb153ed55f69080c2191008b39e412eb25c9b
 		TextName.setText(obj.getClient().getName());
 		TextName.setEnabled(false);
 		TextTelephone.setText(obj.getClient().getTelephoneNumber());
@@ -424,14 +421,10 @@ public class ReservationForm
             }
         });
     }
-<<<<<<< HEAD
+
     private ReservationSystem reservationSystem;
     private StaySystem staySystem;
     private Reservation reservation;
-=======
-    private hotel.ReservationSystem reservationSystem = new hotel.ReservationSystem();
-    private hotel.StaySystem staySystem = new hotel.StaySystem();
->>>>>>> 28ebb153ed55f69080c2191008b39e412eb25c9b
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAdd;
