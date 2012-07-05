@@ -8,12 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
+import hotel.Client;
 import hotel.Hotel;
 import hotel.Reservation;
 import hotel.Room;
 import hotel.util.Lang;
 import hotel.util.Observer;
+import hotel.util.RoomNotFound;
 import hotel.util.ValidationException;
 
 import javax.swing.JMenuItem;
@@ -130,8 +133,18 @@ public class ReservationForm
         createLinkedStay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
-				form.setVisible(true);
+				int idRoom = SelectRoomForm.showDialog((java.util.List<Room>)Hotel.getInstance().getRooms(), this, this, staySystem);
+				staySystem.startStay((Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), (Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), client);
+				try {
+					staySystem.confirmStay(idRoom);
+				} catch (RoomNotFound e) {
+					JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
+				}
+				
+				// Supprimer la reservation de la liste pour ne pas effectuer un autre sejour a partir de celle-ci?
+				
+				//SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
+				//form.setVisible(true);
 			}
         });
         popupMenu.add(createLinkedStay);
@@ -312,6 +325,7 @@ public class ReservationForm
     
 	@Override
 	public void update(Reservation obj) {
+		client = obj.getClient();
 		TextName.setText(obj.getClient().getName());
 		TextName.setEnabled(false);
 		TextTelephone.setText(obj.getClient().getTelephoneNumber());
@@ -341,6 +355,7 @@ public class ReservationForm
         });
     }
     private hotel.ReservationSystem reservationSystem = new hotel.ReservationSystem();
+    private hotel.StaySystem staySystem = new hotel.StaySystem();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAdd;
@@ -361,4 +376,5 @@ public class ReservationForm
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu popupMenu;
     // End of variables declaration//GEN-END:variables
+    private Client client;
 }

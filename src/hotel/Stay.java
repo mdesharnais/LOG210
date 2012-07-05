@@ -40,6 +40,22 @@ public class Stay {
 	// --------------------------------------------------
 	// Mutators(s)
 	
+	public void setArrivalDate(Date value) {
+		this.arrival = value;
+	}
+	
+	public void setDepartureDate(Date value) {
+		this.departure = value;
+	}
+	
+	public void setRoom(Room value) {
+		this.room = value;
+	}
+	
+	public void setClient(Client value) {
+		this.client = value;
+	}
+	
 	// --------------------------------------------------
 	// Method(s)
 	
