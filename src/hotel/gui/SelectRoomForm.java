@@ -11,16 +11,22 @@
 
 package hotel.gui;
 
+import java.awt.Component;
+import java.awt.Frame;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import hotel.Hotel;
 import hotel.Room;
+import hotel.StaySystem;
 
 public class SelectRoomForm extends javax.swing.JFrame {
 
-    /** Creates new form SelectChamber 
+	private static final long serialVersionUID = 1L;
+	/** Creates new form SelectChamber 
      * @param staySystem */
     public SelectRoomForm(List<Room> rooms) {
     	GUI.initLookAndFeel();
@@ -31,6 +37,28 @@ public class SelectRoomForm extends javax.swing.JFrame {
             model.addRow(new Object[] {room.getCategorie().getName(), room.getRoomNumber()});
         }
     }
+    
+    private SelectRoomForm(List<Room> rooms, Frame frame, Component locationComponent, StaySystem system) {
+    	//super(frame, "Détail de réservation", true);
+    	staySystem = system;
+        setLocationRelativeTo(locationComponent);
+        
+        GUI.initLookAndFeel();
+        initComponents();
+        
+        DefaultTableModel model = (DefaultTableModel) TableRooms.getModel();
+        for (Room room : rooms) {
+            model.addRow(new Object[] {room.getCategorie().getName(), room.getRoomNumber()});
+        }
+    }
+    
+    public static boolean showDialog(List<Room> rooms, Component frameComponent, Component locationComponent, StaySystem system) {
+		Frame frame = JOptionPane.getFrameForComponent(frameComponent);
+		dialog = new SelectRoomForm(rooms, frame, locationComponent, system);
+		dialog.setVisible(true);
+		//return dialog.saved;
+		return true;
+	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -66,6 +94,9 @@ public class SelectRoomForm extends javax.swing.JFrame {
                 return false;
             }
         });
+        
+        TableRooms.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         jScrollPane1.setViewportView(TableRooms);
 
         ButtonCancel.setText("Annuler");
@@ -138,5 +169,7 @@ private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JTable TableRooms;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration
+	private static SelectRoomForm dialog;
+	private StaySystem staySystem;
 
 }

@@ -15,13 +15,16 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import hotel.Agenda;
+import java.util.Date;
+
+import hotel.Client;
 import hotel.Hotel;
 import hotel.Reservation;
 import hotel.ReservationSystem;
 import hotel.Room;
-import hotel.StaySystem;
 import hotel.util.Lang;
 import hotel.util.Observer;
+import hotel.util.RoomNotFound;
 import hotel.util.ValidationException;
 
 import javax.swing.JMenuItem;
@@ -42,7 +45,7 @@ public class ReservationForm
     public ReservationForm(ReservationSystem rs, StaySystem ss) {
         reservationSystem = rs;
         staySystem = ss;
-        
+
     	GUI.initLookAndFeel();
     	if (reservationSystem != null)
     	    reservationSystem.startNewReservation();
@@ -73,7 +76,7 @@ public class ReservationForm
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
-        
+
         try {
             javax.swing.text.MaskFormatter mf = new javax.swing.text.MaskFormatter("### ###-####");
             javax.swing.text.DefaultFormatterFactory factory = new javax.swing.text.DefaultFormatterFactory(mf);
@@ -90,7 +93,7 @@ public class ReservationForm
         TableReservation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] { },
             new String [] { Lang.RESERVATION_FORM_ID.toString(), Lang.RESERVATION_FORM_CATEGORY.toString(), Lang.RESERVATION_FORM_QUANTITY.toString(), Lang.RESERVATION_FORM_DATE_ARRIVAL.toString(), Lang.RESERVATION_FORM_DATE_DEPARTURE.toString()}) {
-        	
+
 
 			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {
@@ -138,25 +141,27 @@ public class ReservationForm
         }
 
         jScrollPane1.setViewportView(TableReservation);
-        
+
+<<<<<<< HEAD
         if (staySystem != null) {
             popupMenu = new JPopupMenu();
             JMenuItem createLinkedStay = new JMenuItem("Créer un séjour lié");
             createLinkedStay.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
+                /*
                     int rowIndex = TableReservation.getSelectedRow();
                     if (rowIndex != -1) {
                         DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
                         int id = (Integer) model.getValueAt(rowIndex, 0);
-                        
+
                         for (Reservation.Detail detail : reservation.getDetails()) {
                             if (detail.getId() == id) {
                                 Agenda agenda = Agenda.getInstance();
                                 Date arrival = detail.getArrival();
                                 Date departure = detail.getDeparture();
                                 List<Room> freeRooms = agenda.getFreeRoom(arrival, departure);
-                                
+
                                 while (freeRooms.isEmpty() && arrival.before(departure)) {
                                     GregorianCalendar calendar = new GregorianCalendar();
                                     calendar.setTime(departure);
@@ -164,14 +169,36 @@ public class ReservationForm
                                     departure = calendar.getTime();
                                     freeRooms = agenda.getFreeRoom(arrival, departure);
                                 }
-                                
+
                                 List<Room> usableRooms = new ArrayList<Room>();
                                 for (Room room : freeRooms) {
                                     if (room.getCategorie().equals(detail.getCategory())) {
                                         usableRooms.add(room);
                                     }
                                 }
-
+                */
+				int idRoom = SelectRoomForm.showDialog((java.util.List<Room>)Hotel.getInstance().getRooms(), this, this, staySystem);
+				staySystem.startStay((Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), (Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), client);
+				try {
+					staySystem.confirmStay(idRoom);
+				} catch (RoomNotFound e) {
+					JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
+				}
+				
+				// Supprimer la reservation de la liste pour ne pas effectuer un autre sejour a partir de celle-ci?
+				
+				//SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
+				//form.setVisible(true);
+			}
+        });
+        popupMenu.add(createLinkedStay);
+        
+        
+        TableReservation.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mousePressed(MouseEvent e) {
+                maybeShowPopup(e);
+            }
                 				SelectRoomForm form = new SelectRoomForm(usableRooms);
                 				form.setVisible(true);
                             }
@@ -363,8 +390,12 @@ public class ReservationForm
     
 	@Override
 	public void update(Reservation obj) {
+<<<<<<< HEAD
 	    reservation = obj;
 	    
+=======
+		client = obj.getClient();
+>>>>>>> 28ebb153ed55f69080c2191008b39e412eb25c9b
 		TextName.setText(obj.getClient().getName());
 		TextName.setEnabled(false);
 		TextTelephone.setText(obj.getClient().getTelephoneNumber());
@@ -393,9 +424,14 @@ public class ReservationForm
             }
         });
     }
+<<<<<<< HEAD
     private ReservationSystem reservationSystem;
     private StaySystem staySystem;
     private Reservation reservation;
+=======
+    private hotel.ReservationSystem reservationSystem = new hotel.ReservationSystem();
+    private hotel.StaySystem staySystem = new hotel.StaySystem();
+>>>>>>> 28ebb153ed55f69080c2191008b39e412eb25c9b
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAdd;
@@ -416,4 +452,5 @@ public class ReservationForm
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu popupMenu;
     // End of variables declaration//GEN-END:variables
+    private Client client;
 }

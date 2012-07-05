@@ -228,6 +228,10 @@ public class Agenda {
 	    return freeRooms;
 	}
 	
+	public Stay getStay() {
+		return new Stay();
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 
