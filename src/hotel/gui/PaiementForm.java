@@ -35,7 +35,7 @@ import hotel.TaxesSystem;
 public class PaiementForm extends javax.swing.JFrame {
 
     /** Creates new form PaiementForm */
-    public PaiementForm(int total, JTable model) {
+    public PaiementForm(double total, JTable model) {
     	GUI.initLookAndFeel();
         initComponents();
         this.total = total;
@@ -158,8 +158,8 @@ public class PaiementForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void updateChange(int cash) {
-    	int due = cash - total;
+    private void updateChange(double cash) {
+    	double due = cash - total;
     	if (due < 0)
     		due = 0;
     	TextChange.setText(due + "$");
@@ -202,9 +202,9 @@ public class PaiementForm extends javax.swing.JFrame {
         	        document.add(new Paragraph(line));
     			}
 
-    	        int subTotal = 0;
+    	        double subTotal = 0;
     			for (int i = 0; i < model.getModel().getRowCount(); ++i) {
-    				subTotal = ((Integer)model.getModel().getValueAt(i, 3)).intValue();
+    				subTotal = ((Double)model.getModel().getValueAt(i, 3)).doubleValue();
     			}
     			
     			document.add(new Paragraph("------------------"));
@@ -231,6 +231,6 @@ public class PaiementForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
-    private int total = 0;
+    private double total = 0;
     private JTable model = null;
 }

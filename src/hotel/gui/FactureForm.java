@@ -292,7 +292,7 @@ public class FactureForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
-    	new PaiementForm(Integer.parseInt(LabelTotal.getText().replace("$", "")), TableChamberList).setVisible(true);
+    	new PaiementForm(Double.parseDouble(LabelTotal.getText().replace("$", "")), TableChamberList).setVisible(true);
     	this.dispose();
     }//GEN-LAST:event_ButtonOkActionPerformed
 
