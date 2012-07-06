@@ -3,6 +3,9 @@ package hotel;
 import hotel.util.ObservableList;
 import hotel.util.ValidationException;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,6 +19,7 @@ public class Hotel {
 		generateRooms();
 		generateClients();
 		generateUsers();
+		generateSeasons();
 	}
 	
 	// --------------------------------------------------
@@ -58,6 +62,15 @@ public class Hotel {
 	
 	public ObservableList<User> getUsers() {
 		return users;
+	}
+	
+	public double getRoomPrice(Room r, Date d) {
+		for (Season s : seasons) {
+			if (s.getStartDate().before(d) && s.getEndDate().after(d))
+				return s.getCategoryPrice(r.getCategorie());
+		}
+		
+		return 42;
 	}
 	
 	// --------------------------------------------------
@@ -125,6 +138,40 @@ public class Hotel {
 		}
 	}
 	
+	private void generateSeasons() {
+        Calendar calendar = new GregorianCalendar();
+		
+		{			
+			calendar.set(2012, 0, 1);
+			Date start = calendar.getTime();
+			calendar.set(2012, 5, 30);
+			Date end = calendar.getTime();
+			Season s = new Season(start, end);
+			
+			int price = 50;
+			for (Room.Category cat : roomCategories) {
+				s.setCategoryPrice(cat, price);
+				price += 10;
+			}
+			seasons.add(s);
+		}
+		
+		{			
+			calendar.set(2012, 6, 1);
+			Date start = calendar.getTime();
+			calendar.set(2012, 11, 30);
+			Date end = calendar.getTime();
+			Season s = new Season(start, end);
+			
+			int price = 100;
+			for (Room.Category cat : roomCategories) {
+				s.setCategoryPrice(cat, price);
+				price += 20;
+			}
+			seasons.add(s);
+		}
+	}
+	
 	// --------------------------------------------------
 	// Attribute(s)
 	
@@ -133,4 +180,5 @@ public class Hotel {
 	private ObservableList<Room>          rooms = new ObservableList<Room>();
 	private ObservableList<Client>        clients = new ObservableList<Client>();
 	private ObservableList<User>          users = new ObservableList<User>();
+	private ObservableList<Season>        seasons = new ObservableList<Season>();
 }

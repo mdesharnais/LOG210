@@ -103,9 +103,9 @@ public class Agenda {
 			}
 			
 			{
-				calendar.set(2012, 2, 1);
+				calendar.set(2012, 6, 1);
                 Date arrivalDate = calendar.getTime();
-                calendar.set(2012, 2, 15);
+                calendar.set(2012, 6, 15);
                 Date departureDate = calendar.getTime();
 				Stay s = new Stay();
 				s.setArrivalDate(arrivalDate);

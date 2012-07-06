@@ -12,6 +12,7 @@
 package hotel.gui;
 
 import hotel.Agenda;
+import hotel.Hotel;
 import hotel.Room;
 import hotel.Stay;
 import hotel.TaxesSystem;
@@ -213,18 +214,18 @@ public class FactureForm extends javax.swing.JFrame {
     
 	private void updateRoomList(Room r, int diffInDays) {
 		DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
-		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, getRoomPrice() * diffInDays});
+		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, getRoomPrice(r) * diffInDays});
 		updateTotal();
 	}
 	
-	private int getRoomPrice() {
-		return 100;
+	private double getRoomPrice(Room r) {
+		return Hotel.getInstance().getRoomPrice(r, new Date());
 	}
 	
 	private void updateTotal() {
-		int subTotal = 0;
+		double subTotal = 0;
 		for (int i = 0; i < TableChamberList.getModel().getRowCount(); ++i) {
-			subTotal = ((Integer)TableChamberList.getModel().getValueAt(i, 3)).intValue();
+			subTotal = ((Double)TableChamberList.getModel().getValueAt(i, 3)).doubleValue();
 		}
 		subTotal = 100;
 		subTotal = Math.abs(subTotal);
@@ -253,10 +254,10 @@ public class FactureForm extends javax.swing.JFrame {
     	for (Stay stay : Agenda.getInstance().getStays()) {
     		if (stay.getRoom().getRoomNumber() == no) {
     			
-    			int day = stay.getDepartureDate().getDay();
+    			int day = stay.getDepartureDate().getDate();
     			int month = stay.getDepartureDate().getMonth();
     			int year = stay.getDepartureDate().getYear();
-    			int currentDay = new Date().getDay();
+    			int currentDay = new Date().getDate();
     			int currentMonth = new Date().getMonth();
     			int currentYear = new Date().getYear();
     			
