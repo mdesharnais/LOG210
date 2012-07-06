@@ -92,7 +92,7 @@ public class FactureForm extends javax.swing.JFrame {
                 try {
 					ButtonAddActionPerformed(evt);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Cette chambre n'existe pas.");
+					JOptionPane.showMessageDialog(null, "Aucun séjour actif n'existe pour cette chambre.");
 				}
             }
         });
@@ -226,12 +226,12 @@ public class FactureForm extends javax.swing.JFrame {
 		for (int i = 0; i < TableChamberList.getModel().getRowCount(); ++i) {
 			subTotal = ((Integer)TableChamberList.getModel().getValueAt(i, 3)).intValue();
 		}
-		subTotal = 100;
+		
 		subTotal = Math.abs(subTotal);
 		LabelSubtotal.setText(subTotal + "$");
-		LabelTPS.setText(TaxesSystem.calculateTPS(subTotal) + "$");
+		LabelTPS.setText(Math.round(TaxesSystem.calculateTPS(subTotal)) + "$");
 		subTotal += TaxesSystem.calculateTPS(subTotal);
-		LabelTVQ.setText(TaxesSystem.calculateTVQ(subTotal) + "$");
+		LabelTVQ.setText(Math.round(TaxesSystem.calculateTVQ(subTotal)) + "$");
 		subTotal += TaxesSystem.calculateTVQ(subTotal);
 		LabelTotal.setText(subTotal + "$");
 	}
@@ -291,6 +291,7 @@ public class FactureForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
+    	new PaiementForm(Integer.parseInt(LabelTotal.getText().replace("$", "")), TableChamberList).setVisible(true);
     	this.dispose();
     }//GEN-LAST:event_ButtonOkActionPerformed
 

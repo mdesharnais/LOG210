@@ -11,7 +11,22 @@
 
 package hotel.gui;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import hotel.Reservation;
+import hotel.TaxesSystem;
 
 /**
  *
@@ -20,9 +35,11 @@ import hotel.Reservation;
 public class PaiementForm extends javax.swing.JFrame {
 
     /** Creates new form PaiementForm */
-    public PaiementForm() {
+    public PaiementForm(int total, JTable model) {
     	GUI.initLookAndFeel();
         initComponents();
+        this.total = total;
+        this.model = model;
     }
 
     /** This method is called from within the constructor to
@@ -53,12 +70,14 @@ public class PaiementForm extends javax.swing.JFrame {
             }
         });
 
-
         jLabel1.setText("Type paiement:");
 
         jLabel2.setText("Montant:");
 
         jLabel3.setText("Monnaie:");
+        
+        TextChange.setEditable(false);
+        TextChange.setText("0$");
 
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +97,13 @@ public class PaiementForm extends javax.swing.JFrame {
         ButtonPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+        
+        SpinnerAmount.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateChange(Integer.parseInt(SpinnerAmount.getValue().toString()));
             }
         });
 
@@ -131,16 +157,29 @@ public class PaiementForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void updateChange(int cash) {
+    	int due = cash - total;
+    	if (due < 0)
+    		due = 0;
+    	TextChange.setText(due + "$");
+    }
 
     private void ComboBoxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxTypeActionPerformed
     	this.dispose();
     }//GEN-LAST:event_ComboBoxTypeActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    	this.dispose();
+    	try {
+    		createPdf();
+    	} catch (Exception e) {
+    		
+    	}
+    	JOptionPane.showMessageDialog(null, "Impression en cours...");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    	JOptionPane.showMessageDialog(null, "Le paiement a bel et bien été effectué.");
     	this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -148,15 +187,37 @@ public class PaiementForm extends javax.swing.JFrame {
     	this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PaiementForm().setVisible(true);
-            }
-        });
+    private void createPdf() throws DocumentException, IOException {
+    	        Document document = new Document();
+    	        PdfWriter.getInstance(document, new FileOutputStream("bill.pdf"));
+    	        document.open();
+    	        
+    	        document.add(new Paragraph(new Date().toString()));
+
+    	        document.add(new Paragraph("No Chambre | Categorie | Nb Jours | Total"));
+    	        for (int i = 0; i < model.getModel().getRowCount(); ++i) {
+    	        	String line = "";
+    	        	for (int j = 0; j < model.getModel().getColumnCount(); ++j)
+    	        		line += model.getModel().getValueAt(i, j).toString() + "                 ";
+        	        document.add(new Paragraph(line));
+    			}
+
+    	        int subTotal = 0;
+    			for (int i = 0; i < model.getModel().getRowCount(); ++i) {
+    				subTotal = ((Integer)model.getModel().getValueAt(i, 3)).intValue();
+    			}
+    			
+    			document.add(new Paragraph("------------------"));
+    			
+    			subTotal = Math.abs(subTotal);
+    			document.add(new Paragraph("Sous-total: " + subTotal + "$"));
+    			document.add(new Paragraph("TPS: " + Math.round(TaxesSystem.calculateTPS(subTotal)) + "$"));
+    			subTotal += TaxesSystem.calculateTPS(subTotal);
+    			document.add(new Paragraph("TVQ: " + Math.round(TaxesSystem.calculateTVQ(subTotal)) + "$"));
+    			subTotal += TaxesSystem.calculateTVQ(subTotal);
+    			document.add(new Paragraph("Total: " + (subTotal + "$")));
+    	        
+    	        document.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -170,5 +231,6 @@ public class PaiementForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
-
+    private int total = 0;
+    private JTable model = null;
 }
