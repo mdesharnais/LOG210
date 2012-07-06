@@ -1,5 +1,6 @@
 package hotel.gui;
 
+import hotel.Agenda;
 import hotel.LoginSystem;
 
 public class Main {
@@ -11,6 +12,7 @@ public class Main {
 			java.awt.EventQueue.invokeLater(new Runnable() {
 
 	            public void run() {
+	            	Agenda.getInstance().init();
 	                new MenuForm().setVisible(true);
 	            }
 	        });

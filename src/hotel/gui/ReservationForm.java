@@ -298,7 +298,7 @@ public class ReservationForm
     }//GEN-LAST:event_ButtonAddActionPerformed
     
 	public void LinkedStayActionPerformed(java.awt.event.ActionEvent evt) {
-		int idRoom = SelectRoomForm.showDialog(this, this, staySystem, (java.util.List<Room>)Hotel.getInstance().getRooms());
+		int idRoom = SelectRoomForm.showDialog(this, this, staySystem, getCategories((Room.Category)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 1)));
 		if (idRoom != -1) {
 			staySystem.startStay((Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), (Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), client);
 			try {
@@ -308,6 +308,17 @@ public class ReservationForm
 				JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
 			}
 		}
+	}
+	
+	private List<Room> getCategories(Room.Category cat) {
+		List<Room> temp = new ArrayList<Room>();
+		
+		for (Room room : Hotel.getInstance().getRooms()) {
+			if (room.getCategorie().getId() == cat.getId())
+				temp.add(room);
+		}
+		
+		return temp;
 	}
 
     /**

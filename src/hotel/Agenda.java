@@ -101,6 +101,19 @@ public class Agenda {
                 reservationSystem.addLine(3, 1, arrivalDate, departureDate);
                 reservationSystem.confirm("Aragorn fils d'Arathorn", "555 111-2222");
 			}
+			
+			{
+				calendar.set(2012, 2, 1);
+                Date arrivalDate = calendar.getTime();
+                calendar.set(2012, 2, 15);
+                Date departureDate = calendar.getTime();
+				Stay s = new Stay();
+				s.setArrivalDate(arrivalDate);
+				s.setDepartureDate(departureDate);
+				s.setRoom(Hotel.getInstance().getRooms().get(0));
+				s.setClient(new Client("Bozo", "555 555-5555"));
+				stays.add(s);
+			}
 		} catch (ValidationException e) {
 			e.printStackTrace();
 		}

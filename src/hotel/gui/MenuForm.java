@@ -5,6 +5,7 @@
 package hotel.gui;
 
 import hotel.Agenda;
+import hotel.StaySystem;
 
 /**
  *
@@ -52,7 +53,7 @@ public class MenuForm extends javax.swing.JFrame {
             }
         });
 
-        ButtonLogoff.setText("Déconnexion");
+        ButtonLogoff.setText("Facturer");
         ButtonLogoff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonLogoffActionPerformed(evt);
@@ -87,16 +88,15 @@ public class MenuForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonReservationActionPerformed
-    	Agenda.getInstance().init();
         new ReservationList(Agenda.getInstance().getReservations()).setVisible(true);
     }//GEN-LAST:event_ButtonReservationActionPerformed
 
     private void ButtonStayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStayActionPerformed
-
+    	new NewStayNoReservationForm(new StaySystem()).setVisible(true);
     }//GEN-LAST:event_ButtonStayActionPerformed
 
     private void ButtonLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLogoffActionPerformed
-        this.dispose();
+        new FactureForm().setVisible(true);
     }//GEN-LAST:event_ButtonLogoffActionPerformed
 
     /**

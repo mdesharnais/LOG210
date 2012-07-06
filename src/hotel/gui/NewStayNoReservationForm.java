@@ -11,6 +11,17 @@
 
 package hotel.gui;
 
+import hotel.Client;
+import hotel.Hotel;
+import hotel.Room;
+import hotel.StaySystem;
+import hotel.util.RoomNotFound;
+import hotel.util.ValidationException;
+
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author AJ86290
@@ -18,9 +29,10 @@ package hotel.gui;
 public class NewStayNoReservationForm extends javax.swing.JFrame {
 
     /** Creates new form NewStayNoReservationForm */
-    public NewStayNoReservationForm() {
+    public NewStayNoReservationForm(StaySystem ss) {
         GUI.initLookAndFeel();
         initComponents();
+        staySystem = ss;
     }
 
     /** This method is called from within the constructor to
@@ -136,12 +148,29 @@ public class NewStayNoReservationForm extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void ButtonStartActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-        this.dispose();
+    	int idRoom = SelectRoomForm.showDialog(this, this, staySystem, (java.util.List<Room>)Hotel.getInstance().getRooms());
+		
+    	Client client = null;
+		try {
+			client = new Client(TextName.getText(), TextTelephone.getText());
+		} catch (ValidationException e1) {
+			e1.printStackTrace();
+		}
+		
+    	if (idRoom != -1) {
+			staySystem.startStay(DateArrival.getDate(), DateDeparture.getDate(), client);
+			try {
+				staySystem.confirmStay(idRoom);
+				JOptionPane.showMessageDialog(null, "Le séjour a été enregistré.");
+			} catch (RoomNotFound e) {
+				JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
+			}
+		}
+    	
+    	this.dispose();
     }                                          
 
     private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // TODO add your handling code here:
         this.dispose();
     }                                            
 
@@ -151,7 +180,7 @@ public class NewStayNoReservationForm extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewStayNoReservationForm().setVisible(true);
+                new NewStayNoReservationForm(new StaySystem()).setVisible(true);
             }
         });
     }
@@ -168,7 +197,7 @@ public class NewStayNoReservationForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration
-
+    private StaySystem staySystem;
     private javax.swing.text.MaskFormatter mask = null;
 }
 

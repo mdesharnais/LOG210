@@ -12,18 +12,15 @@
 package hotel.gui;
 
 import hotel.Agenda;
-import hotel.Hotel;
 import hotel.Room;
 import hotel.Stay;
+import hotel.TaxesSystem;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,8 +35,6 @@ public class FactureForm extends javax.swing.JFrame {
     public FactureForm() {
     	GUI.initLookAndFeel();
         initComponents();
-        stay = Agenda.getInstance().getStay(); // TODO get stay from client
-        //diffInDays = (int)(stay.getDepartureDate().getTime() - stay.getArrivalDate().getTime()) / (1000 * 60 * 60 * 24);
     }
 
     /** This method is called from within the constructor to
@@ -216,16 +211,29 @@ public class FactureForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-	private void updateRoomList(Room r) {
-		DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
-		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, 0});
-		rooms.add(r);
-	}
-	
 	private void updateRoomList(Room r, int diffInDays) {
 		DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
-		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, 0});
-		rooms.add(r);
+		model.addRow(new Object[] {r.getRoomNumber(), r.getCategorie().getName(), diffInDays, getRoomPrice() * diffInDays});
+		updateTotal();
+	}
+	
+	private int getRoomPrice() {
+		return 100;
+	}
+	
+	private void updateTotal() {
+		int subTotal = 0;
+		for (int i = 0; i < TableChamberList.getModel().getRowCount(); ++i) {
+			subTotal = ((Integer)TableChamberList.getModel().getValueAt(i, 3)).intValue();
+		}
+		subTotal = 100;
+		subTotal = Math.abs(subTotal);
+		LabelSubtotal.setText(subTotal + "$");
+		LabelTPS.setText(TaxesSystem.calculateTPS(subTotal) + "$");
+		subTotal += TaxesSystem.calculateTPS(subTotal);
+		LabelTVQ.setText(TaxesSystem.calculateTVQ(subTotal) + "$");
+		subTotal += TaxesSystem.calculateTVQ(subTotal);
+		LabelTotal.setText(subTotal + "$");
 	}
 	
 	private int diffDate(Date older, Date newer) {
@@ -234,32 +242,52 @@ public class FactureForm extends javax.swing.JFrame {
     
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) throws Exception {//GEN-FIRST:event_ButtonAddActionPerformed
     	JTextField roomNo = new JTextField();
-    	com.toedter.calendar.JDateChooser arrivalDate = new com.toedter.calendar.JDateChooser();
     	final JComponent[] inputs = new JComponent[] {
     	                new JLabel("Numéro de la chambre"),
-    	                roomNo,
-    	                new JLabel("Date d'arrivée"),
-    	                arrivalDate
+    	                roomNo
     	};
     	JOptionPane.showMessageDialog(null, inputs, "Ajout de chambre", JOptionPane.PLAIN_MESSAGE);
     	int no = Integer.parseInt(roomNo.getText());
     	boolean found = false;
-    	for (Room room : Hotel.getInstance().getRooms())
-    		if (room.getRoomNumber() == no) {
-    			updateRoomList(room, diffDate(arrivalDate.getDate(), new Date()));
-    			found = true;
-    			break;
+
+    	for (Stay stay : Agenda.getInstance().getStays()) {
+    		if (stay.getRoom().getRoomNumber() == no) {
+    			
+    			int day = stay.getDepartureDate().getDay();
+    			int month = stay.getDepartureDate().getMonth();
+    			int year = stay.getDepartureDate().getYear();
+    			int currentDay = new Date().getDay();
+    			int currentMonth = new Date().getMonth();
+    			int currentYear = new Date().getYear();
+    			
+    			if (!((day == currentDay) && (month == currentMonth) && (year == currentYear))) {
+    				int reply = JOptionPane.showConfirmDialog(null, "Le séjour termine avant la date finale voulez-vous continuez?", "", JOptionPane.YES_NO_OPTION);
+    			    if (reply == JOptionPane.YES_OPTION) {
+    			    	stay.setDepartureDate(new Date());
+    			    	updateRoomList(stay.getRoom(), diffDate(stay.getArrivalDate(), stay.getDepartureDate()));
+    			    }
+    			    found = true;
+    			    break;
+    			}
+    			else {
+    				updateRoomList(stay.getRoom(), diffDate(stay.getArrivalDate(), stay.getDepartureDate()));
+    				found = true;
+    			    break;
+    			}
     		}
+    	}
     	if (!found)
     		throw new Exception();
     }//GEN-LAST:event_ButtonAddActionPerformed
 
     private void ButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteActionPerformed
-    	/*int rowIndex = TableChamberList.getSelectedRow();
+    	int rowIndex = TableChamberList.getSelectedRow();
     	if (rowIndex != -1) {
     		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableChamberList.getModel();
     		int id = (Integer) model.getValueAt(rowIndex, 0);
-    	}*/
+    		model.removeRow(rowIndex);
+    		updateTotal();
+    	}
     }//GEN-LAST:event_ButtonDeleteActionPerformed
 
     private void ButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOkActionPerformed
@@ -298,8 +326,6 @@ public class FactureForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
     
-    private List<Room> rooms = new ArrayList<Room>();
-    private Stay stay = new Stay();
     int diffInDays = 0;
 
 }
