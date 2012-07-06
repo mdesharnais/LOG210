@@ -23,9 +23,17 @@ import hotel.Hotel;
 import hotel.Room;
 import hotel.StaySystem;
 
-public class SelectRoomForm extends javax.swing.JFrame {
+public class SelectRoomForm extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 1L;
+    
+    public static int showDialog(Component frameComponent, Component locationComponent, StaySystem system, List<Room> rooms) {
+		Frame frame = JOptionPane.getFrameForComponent(frameComponent);
+		dialog = new SelectRoomForm(frame, locationComponent, system, rooms);
+		dialog.setVisible(true);
+		return dialog.selectedRoom;
+	}
+    
 	/** Creates new form SelectChamber 
      * @param staySystem */
     public SelectRoomForm(List<Room> rooms) {
@@ -38,8 +46,8 @@ public class SelectRoomForm extends javax.swing.JFrame {
         }
     }
     
-    private SelectRoomForm(List<Room> rooms, Frame frame, Component locationComponent, StaySystem system) {
-    	//super(frame, "Détail de réservation", true);
+    private SelectRoomForm(Frame frame, Component locationComponent, StaySystem system, List<Room> rooms) {
+    	super(frame, "Détail de réservation", true);
     	staySystem = system;
         setLocationRelativeTo(locationComponent);
         
@@ -51,14 +59,6 @@ public class SelectRoomForm extends javax.swing.JFrame {
             model.addRow(new Object[] {room.getCategorie().getName(), room.getRoomNumber()});
         }
     }
-    
-    public static boolean showDialog(List<Room> rooms, Component frameComponent, Component locationComponent, StaySystem system) {
-		Frame frame = JOptionPane.getFrameForComponent(frameComponent);
-		dialog = new SelectRoomForm(rooms, frame, locationComponent, system);
-		dialog.setVisible(true);
-		//return dialog.saved;
-		return true;
-	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -74,11 +74,9 @@ public class SelectRoomForm extends javax.swing.JFrame {
         ButtonCancel = new javax.swing.JButton();
         ButtonSelect = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sélectionner chambre");
         setResizable(false);
-
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         TableRooms.setModel(new DefaultTableModel(
             new Object [][] { },
@@ -145,7 +143,8 @@ public class SelectRoomForm extends javax.swing.JFrame {
     }// </editor-fold>
     
     private void ButtonSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-    	
+    	selectedRoom = ((Integer)TableRooms.getModel().getValueAt(TableRooms.getSelectedRow(), 1)).intValue();
+    	dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
     
 private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
@@ -171,5 +170,6 @@ private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     // End of variables declaration
 	private static SelectRoomForm dialog;
 	private StaySystem staySystem;
+	private int selectedRoom = -1;
 
 }

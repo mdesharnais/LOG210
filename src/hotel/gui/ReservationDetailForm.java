@@ -27,9 +27,6 @@ import javax.swing.SpinnerNumberModel;
 
 public class ReservationDetailForm extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static ReservationDetailForm dialog;
 	private boolean saved = false;

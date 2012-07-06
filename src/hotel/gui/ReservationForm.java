@@ -150,66 +150,11 @@ public class ReservationForm
             createLinkedStay.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-                /*
-                    int rowIndex = TableReservation.getSelectedRow();
-                    if (rowIndex != -1) {
-                        DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-                        int id = (Integer) model.getValueAt(rowIndex, 0);
-
-                        for (Reservation.Detail detail : reservation.getDetails()) {
-                            if (detail.getId() == id) {
-                                Agenda agenda = Agenda.getInstance();
-                                Date arrival = detail.getArrival();
-                                Date departure = detail.getDeparture();
-                                List<Room> freeRooms = agenda.getFreeRoom(arrival, departure);
-
-                                while (freeRooms.isEmpty() && arrival.before(departure)) {
-                                    GregorianCalendar calendar = new GregorianCalendar();
-                                    calendar.setTime(departure);
-                                    calendar.add(Calendar.DATE, -1);
-                                    departure = calendar.getTime();
-                                    freeRooms = agenda.getFreeRoom(arrival, departure);
-                                }
-
-                                List<Room> usableRooms = new ArrayList<Room>();
-                                for (Room room : freeRooms) {
-                                    if (room.getCategorie().equals(detail.getCategory())) {
-                                        usableRooms.add(room);
-                                    }
-                                }
-                */
-				int idRoom = SelectRoomForm.showDialog((java.util.List<Room>)Hotel.getInstance().getRooms(), this, this, staySystem);
-				staySystem.startStay((Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), (Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), client);
-				try {
-					staySystem.confirmStay(idRoom);
-				} catch (RoomNotFound e) {
-					JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
-				}
-				
-				// Supprimer la reservation de la liste pour ne pas effectuer un autre sejour a partir de celle-ci?
-				
-				//SelectRoomForm form = new SelectRoomForm(Hotel.getInstance().getRooms());
-				//form.setVisible(true);
+    				LinkedStayActionPerformed(arg0);
 			}
         });
         popupMenu.add(createLinkedStay);
-        
-        
-        /*TableReservation.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mousePressed(MouseEvent e) {
-                maybeShowPopup(e);
-            }
-                				SelectRoomForm form = new SelectRoomForm(usableRooms);
-                				form.setVisible(true);
-                            }
-                        }
-                    }
-    			}
-            });
-            popupMenu.add(createLinkedStay);
-            
-            
+
             TableReservation.addMouseListener(new MouseAdapter() {
             	@Override
             	public void mousePressed(MouseEvent e) {
@@ -233,8 +178,10 @@ public class ReservationForm
     					popupMenu.show(event.getComponent(), event.getX(), event.getY());
     				}
     			}
-            });*/
+            });
         }
+        
+        
 
         ButtonAdd.setText(Lang.RESERVATION_FORM_ADD.toString());
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -349,6 +296,19 @@ public class ReservationForm
         if (reservationSystem != null)
             ReservationDetailForm.showDialog(this, this, reservationSystem);
     }//GEN-LAST:event_ButtonAddActionPerformed
+    
+	public void LinkedStayActionPerformed(java.awt.event.ActionEvent evt) {
+		int idRoom = SelectRoomForm.showDialog(this, this, staySystem, (java.util.List<Room>)Hotel.getInstance().getRooms());
+		if (idRoom != -1) {
+			staySystem.startStay((Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), (Date)TableReservation.getModel().getValueAt(TableReservation.getSelectedRow(), 3), client);
+			try {
+				staySystem.confirmStay(idRoom);
+				JOptionPane.showMessageDialog(null, "Le séjour a été enregistré.");
+			} catch (RoomNotFound e) {
+				JOptionPane.showMessageDialog(null, "La chambre sélectionné n'a pas été trouvé.");
+			}
+		}
+	}
 
     /**
      * Code qui permet la gestion du bouton supprimer
