@@ -1,0 +1,18 @@
+Contrat d'operation CO02 - entrerChambre(numéroChambre : entier)
+
+Référence :
+ - Cas d'utilisation « CU03 - Transférer un séjour de chambre »
+
+Préconditions :
+ - Un séjour doit être en cours de modification.
+ - Il y a au moins une chambre de disponible dans le système.
+
+Postconditions :
+ - L'état de la chambre choisie passe à « Occupé ».
+ - L'état de l'ancienne chambre du séjour passe à « Libre ».
+ - La date de départ du DétailSéjour correspondant à l'ancienne chambre est changé à la date courante.
+ - Une instance x de DétailSéjour est créée.
+ - La date d'arrivé de x est définie à la date courante.
+ - La date de départ de x est définie à l'ancienne date de départ du DétailSéjour correspondant à l'ancienne chambre.
+ - x est associé à la chambre choisie.
+ - x est associé au séjour.
