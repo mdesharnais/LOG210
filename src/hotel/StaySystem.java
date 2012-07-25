@@ -33,7 +33,7 @@ public class StaySystem {
 	
 	public void startStay(Date arrivalDate, Date departureDate, Client client) {
 		arrival = arrivalDate;
-		departure = departure;
+		this.departure = departure;
 		this.client = client;
 	}
 	
