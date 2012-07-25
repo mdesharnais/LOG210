@@ -260,8 +260,8 @@ public class Agenda {
 		return freeRooms;
 	}
 	
-	public Set<Room> getFreeRoom(Date first, Date last) {
-	    Set<Room> freeRooms = new TreeSet<Room>();
+	public List<Room> getFreeRoom(Date first, Date last) {
+	    List<Room> freeRooms = new ArrayList<Room>();
 	    Set<Room> usedRooms = getUsedRoom(first, last);
 	    
 	    for (Room room : Hotel.getInstance().getRooms()) {
@@ -272,8 +272,8 @@ public class Agenda {
 	    return freeRooms;
 	}
 	
-	public Set<Room> getFreeRoom(Room.Category cat, Date first, Date last) {
-	    Set<Room> freeRooms = new TreeSet<Room>();
+	public List<Room> getFreeRoom(Room.Category cat, Date first, Date last) {
+	    List<Room> freeRooms = new ArrayList<Room>();
 	    Set<Room> usedRooms = getUsedRoom(first, last);
 	    
 	    for (Room room : Hotel.getInstance().getRooms()) {
