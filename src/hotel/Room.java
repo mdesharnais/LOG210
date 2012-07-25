@@ -3,7 +3,7 @@ package hotel;
 import hotel.util.Identifiable;
 import hotel.util.Observable;
 
-public class Room {
+public class Room implements Comparable<Room> {
 	
 	// --------------------------------------------------
 	// Constructor(s)
@@ -22,6 +22,16 @@ public class Room {
 	
 	public int getRoomNumber() {
 		return roomNumber;
+	}
+	
+	@Override
+	public int compareTo(Room other) {
+		if (roomNumber < other.roomNumber)
+			return -1;
+		else if (roomNumber > other.roomNumber)
+			return 1;
+		else
+			return 0;
 	}
 	
 	// --------------------------------------------------
