@@ -238,12 +238,15 @@ public class StayTransfertForm extends javax.swing.JFrame {
     
 	private void LinkedStayActionPerformed(ActionEvent arg0) {
 		javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
-		List<Room> r = Agenda.getInstance().getFreeRoom((Room.Category)model.getValueAt(TableReservation.getSelectedRow(), 1), (Date)model.getValueAt(TableReservation.getSelectedRow(), 3), (Date)model.getValueAt(TableReservation.getSelectedRow(), 4));
-		int noChambre;
+		
+		Date first = new Date();
+		Date last = (Date)model.getValueAt(TableReservation.getSelectedRow(), 4);
+		List<Room> r = Agenda.getInstance().getFreeRoom((Room.Category)model.getValueAt(TableReservation.getSelectedRow(), 1), first, last);
+		
 		if (r.isEmpty())
-			noChambre = SelectRoomForm.showDialog(this, this, staySystem, Agenda.getInstance().getFreeRoom((Date)model.getValueAt(TableReservation.getSelectedRow(), 3), (Date)model.getValueAt(TableReservation.getSelectedRow(), 4)));
-		else
-			noChambre = SelectRoomForm.showDialog(this, this, staySystem, Agenda.getInstance().getFreeRoom((Room.Category)model.getValueAt(TableReservation.getSelectedRow(), 1), (Date)model.getValueAt(TableReservation.getSelectedRow(), 3), (Date)model.getValueAt(TableReservation.getSelectedRow(), 4)));
+			r = Agenda.getInstance().getFreeRoom(first, last);
+		
+		int noChambre = SelectRoomForm.showDialog(this, this, staySystem, r);
 		
 		Stay.Detail d = new Stay.Detail(Hotel.getInstance().getRoomByNumber(noChambre), new Date(), (Date) model.getValueAt(model.getRowCount() - 1, 4));
 		try {

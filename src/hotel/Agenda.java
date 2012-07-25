@@ -240,7 +240,7 @@ public class Agenda {
 	}
 	
 	public Set<Room> getUsedRoom(Date first, Date last) {
-		Set<Room> freeRooms = new TreeSet<Room>();
+		Set<Room> usedRooms = new TreeSet<Room>();
 		
 		for (Stay s : stays) {
 			for (Stay.Detail d : s.getDetails()) {
@@ -252,12 +252,12 @@ public class Agenda {
 						|| arrival.after(first) && arrival.before(last) && departure.after(first) && departure.before(last)
 						|| arrival.after(first) && arrival.before(last) && departure.after(last)) {
 					
-					freeRooms.add(d.getRoom());
+					usedRooms.add(d.getRoom());
 				}	
 			}
 		}
 		
-		return freeRooms;
+		return usedRooms;
 	}
 	
 	public List<Room> getFreeRoom(Date first, Date last) {
