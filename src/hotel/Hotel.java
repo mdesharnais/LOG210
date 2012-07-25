@@ -56,6 +56,15 @@ public class Hotel {
 	    return rooms;
 	}
 	
+	public Room getRoomById(int id) {
+		for (Room r : rooms) {
+			if (r.getId() == id)
+				return r;
+		}
+		
+		return null;
+	}
+	
 	public ObservableList<Client> getClients() {
 		return clients;
 	}

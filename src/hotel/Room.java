@@ -3,18 +3,24 @@ package hotel;
 import hotel.util.Identifiable;
 import hotel.util.Observable;
 
-public class Room implements Comparable<Room> {
+public class Room implements Comparable<Room>, Identifiable {
 	
 	// --------------------------------------------------
 	// Constructor(s)
 	
 	public Room (int roomNumber, Category category) {
+		this.id = ++s_lastId;
 		this.roomNumber = roomNumber;
 		this.category = category;
 	}
 	
 	// --------------------------------------------------
 	// Accessor(s)
+	
+	@Override
+	public int getId() {
+		return id;
+	}
 	
 	public Category getCategorie() {
 		return category;
@@ -47,8 +53,10 @@ public class Room implements Comparable<Room> {
 	// --------------------------------------------------
 	// Attribute(s)
 	
-	private Category category;
-	private int roomNumber;
+	private Category   category;
+	private int        roomNumber;
+	private int        id;
+	private static int s_lastId = 0;
 	
 	// --------------------------------------------------	
 	// Inner class
