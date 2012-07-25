@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Agenda {
 	
@@ -237,16 +239,45 @@ public class Agenda {
 	    return null;
 	}
 	
-	public List<Room> getUsedRoom(Date first, Date last) {
-	    return new ArrayList<Room>();
+	public Set<Room> getUsedRoom(Date first, Date last) {
+		Set<Room> freeRooms = new TreeSet<Room>();
+		
+		for (Stay s : stays) {
+			for (Stay.Detail d : s.getDetails()) {
+				Date arrival = d.getArrivalDate();
+				Date departure = d.getDepartureDate();
+				
+				if (arrival.before(first) && departure.after(first)
+						|| arrival.before(first) && departure.after(last)
+						|| arrival.after(first) && arrival.before(last) && departure.after(first) && departure.before(last)
+						|| arrival.after(first) && arrival.before(last) && departure.after(last)) {
+					
+					freeRooms.add(d.getRoom());
+				}	
+			}
+		}
+		
+		return freeRooms;
 	}
 	
-	public List<Room> getFreeRoom(Date first, Date last) {
-	    List<Room> freeRooms = new ArrayList<Room>();
-	    List<Room> usedRooms = getUsedRoom(first, last);
+	public Set<Room> getFreeRoom(Date first, Date last) {
+	    Set<Room> freeRooms = new TreeSet<Room>();
+	    Set<Room> usedRooms = getUsedRoom(first, last);
 	    
 	    for (Room room : Hotel.getInstance().getRooms()) {
 	        if (!usedRooms.contains(room))
+	            freeRooms.add(room);
+	    }
+	    
+	    return freeRooms;
+	}
+	
+	public Set<Room> getFreeRoom(Room.Category cat, Date first, Date last) {
+	    Set<Room> freeRooms = new TreeSet<Room>();
+	    Set<Room> usedRooms = getUsedRoom(first, last);
+	    
+	    for (Room room : Hotel.getInstance().getRooms()) {
+	        if (room.getCategorie().equals(cat) && !usedRooms.contains(room))
 	            freeRooms.add(room);
 	    }
 	    
