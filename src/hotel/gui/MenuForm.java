@@ -107,7 +107,7 @@ public class MenuForm extends javax.swing.JFrame {
     		String result = JOptionPane.showInputDialog("Entrez le numéro de la chambre actuelle:");
     		if (result != null) {
     			Stay s = Agenda.getInstance().getOpenStayByRoomNumber(Integer.parseInt(result));
-    			if (s != null)
+    			if (s != null)  
     				new StayTransfertForm(new StaySystem(), Agenda.getInstance().getStays().get(0)).setVisible(true);
     			else
     				JOptionPane.showMessageDialog(null, "Aucun séjour actif ne correspond à ce numéro de chambre.");

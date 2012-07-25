@@ -56,9 +56,9 @@ public class Hotel {
 	    return rooms;
 	}
 	
-	public Room getRoomById(int id) {
+	public Room getRoomByNumber(int roomNumber) {
 		for (Room r : rooms) {
-			if (r.getId() == id)
+			if (r.getRoomNumber() == roomNumber)
 				return r;
 		}
 		
