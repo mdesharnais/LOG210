@@ -5,10 +5,11 @@ import hotel.LoginSystem;
 
 public class Main {
 	public static void main(String[] args) {
+		/*
 		LoginSystem loginSystem = new LoginSystem();
 		LoginForm.showDialog(null, null, loginSystem);
 		
-		if (loginSystem.isConnected()) {
+		if (loginSystem.isConnected()) {*/
 			java.awt.EventQueue.invokeLater(new Runnable() {
 
 	            public void run() {
@@ -16,6 +17,6 @@ public class Main {
 	                new MenuForm().setVisible(true);
 	            }
 	        });
-		}
+		//}
 	}
 }
