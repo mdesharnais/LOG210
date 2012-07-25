@@ -4,17 +4,48 @@
  */
 package hotel.gui;
 
-/**
- *
- * @author Marc-Andre
- */
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import hotel.Agenda;
+import hotel.Client;
+import hotel.Room;
+import hotel.Stay;
+import hotel.StaySystem;
+import hotel.util.Lang;
+import hotel.util.ValidationException;
+
 public class StayTransfertForm extends javax.swing.JFrame {
 
-    /**
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form Reservation
      */
-    public StayTransfertForm() {
+    public StayTransfertForm(StaySystem ss, Stay s) {
+    	staySystem = ss;
+    	
+    	GUI.initLookAndFeel();
         initComponents();
+        
+    	TextName.setText(s.getClient().getName());
+    	TextTelephone.setText(s.getClient().getTelephoneNumber());
+    	TextName.setEditable(false);
+    	TextTelephone.setEditable(false);
+    	
+    	populateTable(s);
+    }
+    
+    private void populateTable(Stay s) {
+    	DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    	for (int i = 0; i < s.getDetails().size(); ++i) 
+    	{
+    		Stay.Detail d = s.getDetails().get(i);
+    		model.addRow(new Object[] {d.getId(), d.getRoom().getCategorie(), d.getRoom().getRoomNumber(), d.getArrivalDate(), d.getDepartureDate()});
+    	}
     }
 
     /**
@@ -45,7 +76,7 @@ public class StayTransfertForm extends javax.swing.JFrame {
             jSeparator4 = new javax.swing.JSeparator();
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-            setTitle("R�servation");
+            setTitle("Transfert de séjour");
             setResizable(false);
 
             TableReservation.setModel(new javax.swing.table.DefaultTableModel(
@@ -53,11 +84,11 @@ public class StayTransfertForm extends javax.swing.JFrame {
 
                 },
                 new String [] {
-                    "Cat�gorie", "Chambre", "Date d'arriv�", "Date de d�part"
+                    "ID", "Catégorie", "Chambre", "Date d'arrivé", "Date de départ"
                 }
             ) {
                 Class[] types = new Class [] {
-                    java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                		Integer.class, Room.Category.class, Room.class, Object.class, Object.class
                 };
                 boolean[] canEdit = new boolean [] {
                     false, false, true, false
@@ -71,6 +102,10 @@ public class StayTransfertForm extends javax.swing.JFrame {
                     return canEdit [columnIndex];
                 }
             });
+            TableReservation.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            TableColumn column = TableReservation.getColumnModel().getColumn(0);
+            TableReservation.getColumnModel().removeColumn(column);
+            
             jScrollPane1.setViewportView(TableReservation);
 
             ButtonClose.setText("Fermer");
@@ -87,17 +122,14 @@ public class StayTransfertForm extends javax.swing.JFrame {
                 }
             });
 
-            jLabel2.setText("Nom:");
-
-            jLabel3.setText("Telephone:");
-
             TextTelephone.setFormatterFactory(factory);
         } catch (java.text.ParseException pe) {
             pe.printStackTrace();
         }
 
-        jLabel1.setText("D�tails du s�jour");
-
+        jLabel1.setText("Détails du séjour");
+        jLabel2.setText("Nom:");
+        jLabel3.setText("Telephone:");
         jLabel4.setText("Client");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,11 +200,21 @@ public class StayTransfertForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCloseActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_ButtonCloseActionPerformed
 
     private void ButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStartActionPerformed
-        // TODO add your handling code here:
+    	if (staySystem != null) {
+    		try {
+    			javax.swing.table.DefaultTableModel model = (DefaultTableModel) TableReservation.getModel();
+    			staySystem.startStay((Date) model.getValueAt(model.getRowCount() - 1, 3), (Date) model.getValueAt(model.getRowCount() - 1, 4), new Client(TextName.getText(), TextTelephone.getText()));
+    			staySystem.confirmStay((Integer) model.getValueAt(model.getRowCount() - 1, 2));
+    			JOptionPane.showMessageDialog(this, "Le transfert de chambre à été effectué.");
+    	        dispose();
+    		} catch (ValidationException e) {
+    			JOptionPane.showMessageDialog(this, "Le transfert de chambre n'à pas pu être effectué.");
+    		}
+        }
     }//GEN-LAST:event_ButtonStartActionPerformed
 
     /**
@@ -212,10 +254,12 @@ public class StayTransfertForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new StayTransfertForm().setVisible(true);
+            		Agenda.getInstance().init();
+					new StayTransfertForm(new StaySystem(), Agenda.getInstance().getStays().get(0)).setVisible(true);
             }
         });
     }
+    private StaySystem staySystem;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonClose;
     private javax.swing.JButton ButtonStart;
