@@ -108,9 +108,7 @@ public class Agenda {
                 calendar.set(2012, 6, 30);
                 Date departureDate = calendar.getTime();
 				Stay s = new Stay();
-				s.setArrivalDate(arrivalDate);
-				s.setDepartureDate(departureDate);
-				s.setRoom(Hotel.getInstance().getRooms().get(0));
+				s.getDetails().add(new Stay.Detail(Hotel.getInstance().getRooms().get(0), arrivalDate, departureDate));
 				s.setClient(new Client("Bozo", "555 555-5555"));
 				stays.add(s);
 			}

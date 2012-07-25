@@ -264,7 +264,8 @@ public class FactureForm extends javax.swing.JFrame {
     			if (!((day == currentDay) && (month == currentMonth) && (year == currentYear))) {
     				int reply = JOptionPane.showConfirmDialog(null, "Le séjour termine avant la date finale voulez-vous continuez?", "", JOptionPane.YES_NO_OPTION);
     			    if (reply == JOptionPane.YES_OPTION) {
-    			    	stay.setDepartureDate(new Date());
+    			    	Stay.Detail detail = stay.getDetails().get(stay.getDetails().size() - 1);
+    			    	detail.setArrivalAndDepartureDates(detail.getArrivalDate(), new Date());
     			    	updateRoomList(stay.getRoom(), diffDate(stay.getArrivalDate(), stay.getDepartureDate()));
     			    }
     			    found = true;

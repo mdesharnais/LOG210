@@ -32,10 +32,9 @@ public class StaySystem {
 	}
 	
 	public void startStay(Date arrivalDate, Date departureDate, Client client) {
-		s = new Stay();
-		s.setArrivalDate(arrivalDate);
-		s.setDepartureDate(departureDate);
-		s.setClient(client);
+		arrival = arrivalDate;
+		departure = departure;
+		this.client = client;
 	}
 	
 	public void enterRoomCategory(int roomCategoryId) {
@@ -44,23 +43,30 @@ public class StaySystem {
 	
 	public void confirmStay(int roomId) throws RoomNotFound {
 		boolean found = false;
+		Room room = null;
 		
-		for (Room room : Hotel.getInstance().getRooms()) {
-			if (room.getRoomNumber() == roomId) {
-				s.setRoom(room);
-				found = true;
+		for (Room r : Hotel.getInstance().getRooms()) {
+			if (r.getRoomNumber() == roomId) {
+				room = r;
 				break;
 			}
 		}
 		
-		if (!found)
+		if (room == null)
 			throw new RoomNotFound();
-		else
+		else {
+			s = new Stay();
+			s.setClient(client);
+			s.getDetails().add(new Stay.Detail(room, arrival, departure));
 			Agenda.getInstance().save(s);
+		}
 	}
 
 	// --------------------------------------------------
 	// Attribute(s)
 	
 	private Stay s;
+	private Date arrival;
+	private Date departure;
+	private Client client;
 }

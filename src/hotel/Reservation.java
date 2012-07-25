@@ -64,7 +64,7 @@ public class Reservation extends Observable<Reservation> implements Identifiable
 	private static int s_lastId = 0;
 
 	// --------------------------------------------------
-	// Attribute(s)
+	// Inner type(s)
 
 	public static class Detail extends Observable<Detail> implements Identifiable {
 
