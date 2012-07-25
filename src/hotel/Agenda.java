@@ -105,7 +105,7 @@ public class Agenda {
 			{
 				calendar.set(2012, 6, 1);
                 Date arrivalDate = calendar.getTime();
-                calendar.set(2012, 6, 15);
+                calendar.set(2012, 6, 30);
                 Date departureDate = calendar.getTime();
 				Stay s = new Stay();
 				s.setArrivalDate(arrivalDate);
@@ -253,6 +253,15 @@ public class Agenda {
 	    }
 	    
 	    return freeRooms;
+	}
+	
+	public Stay getOpenStayByRoomNumber(int roomNumber) {
+		for (Stay s : stays) {
+			if (s.getArrivalDate().before(new Date()) && s.getDepartureDate().after(new Date()) && s.getRoom().getRoomNumber() == roomNumber)
+				return s;
+		}
+		
+		return null;
 	}
 	
 	public Stay getStay() {
