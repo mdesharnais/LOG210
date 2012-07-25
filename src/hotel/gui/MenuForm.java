@@ -4,6 +4,10 @@
  */
 package hotel.gui;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+
 import hotel.Agenda;
 import hotel.StaySystem;
 
@@ -92,7 +96,19 @@ public class MenuForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonReservationActionPerformed
 
     private void ButtonStayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStayActionPerformed
-    	new NewStayNoReservationForm(new StaySystem()).setVisible(true);
+    	Object[] options = new Object[]{"Ajouter un séjour", "Transférer un séjour"};
+    	int i = JOptionPane.showOptionDialog(null, "Quelle opération voulez-vous effectuer?", "Séjour", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    	switch(i) {
+    	case 0:
+    		new NewStayNoReservationForm(new StaySystem()).setVisible(true);
+    		break;
+    	case 1:
+    		String result = JOptionPane.showInputDialog("Entrez le numéro de la chambre actuelle:");
+    		if (result != null) {
+    			new StayTransfertForm().setVisible(true);
+    		}
+    	}
+    	
     }//GEN-LAST:event_ButtonStayActionPerformed
 
     private void ButtonLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLogoffActionPerformed
