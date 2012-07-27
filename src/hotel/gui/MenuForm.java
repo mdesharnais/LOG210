@@ -44,14 +44,14 @@ public class MenuForm extends javax.swing.JFrame {
         setTitle("Menu");
         setResizable(false);
 
-        ButtonReservation.setText("Réservation");
+        ButtonReservation.setText("Rï¿½servation");
         ButtonReservation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonReservationActionPerformed(evt);
             }
         });
 
-        ButtonStay.setText("Séjours");
+        ButtonStay.setText("Sï¿½jours");
         ButtonStay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonStayActionPerformed(evt);
@@ -97,20 +97,24 @@ public class MenuForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonReservationActionPerformed
 
     private void ButtonStayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStayActionPerformed
-    	Object[] options = new Object[]{"Ajouter un séjour", "Transférer un séjour"};
-    	int i = JOptionPane.showOptionDialog(null, "Quelle opération voulez-vous effectuer?", "Séjour", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    	Object[] options = new Object[]{"Ajouter un sï¿½jour", "Transfï¿½rer un sï¿½jour"};
+    	int i = JOptionPane.showOptionDialog(null, "Quelle opï¿½ration voulez-vous effectuer?", "Sï¿½jour", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
     	switch(i) {
     	case 0:
     		new NewStayNoReservationForm(new StaySystem()).setVisible(true);
     		break;
     	case 1:
-    		String result = JOptionPane.showInputDialog("Entrez le numéro de la chambre actuelle:");
+    		String result = JOptionPane.showInputDialog("Entrez le numï¿½ro de la chambre actuelle:");
     		if (result != null) {
-    			Stay s = Agenda.getInstance().getOpenStayByRoomNumber(Integer.parseInt(result));
-    			if (s != null)  
-    				new StayTransfertForm(new StaySystem(), Agenda.getInstance().getStays().get(0)).setVisible(true);
-    			else
-    				JOptionPane.showMessageDialog(null, "Aucun séjour actif ne correspond à ce numéro de chambre.");
+    			try {
+	    			Stay s = Agenda.getInstance().getOpenStayByRoomNumber(Integer.parseInt(result));
+	    			if (s != null)  
+	    				new StayTransfertForm(new StaySystem(), Agenda.getInstance().getStays().get(0)).setVisible(true);
+	    			else
+	    				throw new Exception();
+    			} catch (Exception e) {
+    				JOptionPane.showMessageDialog(null, "Aucun sï¿½jour actif ne correspond ï¿½ ce numï¿½ro de chambre.");
+    			}
     		}
     	}
     	
